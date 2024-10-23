@@ -1,9 +1,21 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
-
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <div></div>
 </template>
+
+<script>
+import { useFoodStore } from '@/stores/foodDataStore.js'
+
+export default {
+  data() {
+    return {
+      foodData: [],
+    }
+  },
+  created() {
+    const foodStore = useFoodStore()
+    foodStore.fetchFoods().then(() => {
+      this.foodData = foodStore.updateKeyData
+    })
+  },
+}
+</script>
