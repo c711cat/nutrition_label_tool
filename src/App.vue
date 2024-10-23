@@ -1,14 +1,7 @@
-<script></script>
-
 <template>
-  <header>
-    <RouterLink to="/">Home</RouterLink> |
-    <RouterLink to="/about"> About</RouterLink>
-  </header>
-
   <RouterView />
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/all.scss';
 </style>
