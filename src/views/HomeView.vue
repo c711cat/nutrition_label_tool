@@ -12,7 +12,7 @@
       <label for="searchInput">請輸入食物成分搜尋</label>
     </div>
     <div class="col-12 justify-content-between row m-0">
-      <div class="col-2 ps-0 foodDataContainer">
+      <div class="col-4 col-xl-2 ps-0 foodDataContainer">
         <div class="list-group rounded foodDataContainer overflow-y-auto">
           <button
             v-for="item in updateKeyData"
@@ -29,14 +29,14 @@
         </div>
       </div>
 
-      <div class="p-0 col-10">
+      <div class="p-0 col-8 col-xl-10">
         <div class="mb-3 col-12">
-          <label for="productName" class="form-label fw-bold ps-1 col-3">
+          <label for="productName" class="form-label fw-bold ps-1">
             商品名稱
           </label>
           <input
             type="text"
-            class="form-control col-4"
+            class="form-control"
             id="productName"
             placeholder="請輸入商品名稱"
           />
@@ -45,43 +45,47 @@
         <p class="mb-1 pb-1 ps-1 fw-bold">
           從左邊資料庫點選成分，並填入各欄位所需資料
         </p>
-        <ul class="col-12 list-group list-group-horizontal-lg">
+        <ul
+          class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl"
+        >
           <li
-            class="list-group-item col-3 d-flex flex-column justify-content-center"
+            class="list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
           >
-            <span>樣品名</span>
+            <span class="pe-3">樣品名j樣品名c樣品名樣品名樣品名</span>
             <span>俗名</span>
           </li>
           <li
-            class="list-group-item col-4 d-flex flex-column justify-content-center"
+            class="list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
           >
             <input
               type="text"
               name=""
               id=""
-              placeholder="請輸入欲呈現於外包裝的成分"
+              placeholder="輸入欲呈現於外包裝成分"
               class="form-control"
             />
           </li>
           <li
-            class="list-group-item col-4 d-flex flex-column justify-content-center"
+            class="list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
           >
             <input
               type="number"
               name=""
               id=""
               min="1"
-              placeholder="請輸入該成分的總克數"
+              placeholder="輸入該成分的總克數"
               class="form-control"
             />
           </li>
           <li
-            class="list-group-item col-1 d-flex align-items-center justify-content-center"
+            class="d-none d-xl-block list-group-item col-1 align-content-center"
           >
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-sm border border-white"
-            >
+            <button type="button" class="btn btn-outline-danger btn-sm d-block">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </li>
+          <li class="d-block d-xl-none position-absolute delBtn-xs list-group">
+            <button type="button" class="btn btn-outline-danger btn-sm">
               <i class="bi bi-x-lg"></i>
             </button>
           </li>
@@ -127,10 +131,19 @@ export default {
 }
 
 ul.list-group {
-  // --bs-list-group-border-width: none;
+  --bs-list-group-border-width: none;
 }
 
 .foodDataContainer {
   height: 600px;
+}
+
+.delBtn-xs {
+  top: 2%;
+  right: -2%;
+}
+
+.btn-outline-danger {
+  border-color: rgba(255, 255, 255, 0) !important;
 }
 </style>
