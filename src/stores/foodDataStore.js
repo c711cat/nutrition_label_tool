@@ -117,10 +117,34 @@ export const useFoodStore = defineStore('foodDataStore', {
     headerObj: [],
     updateKeyData: [],
     forSearchData: [],
+    product: {
+      id: '',
+      title: '',
+      ingredients: [
+        {
+          id: '',
+          sample_name: '',
+          foodName: '',
+          grams: '',
+        },
+      ],
+      numberOfCopy: '',
+      netWeightInformation: { netWeight: '', unit: 'g' },
+      productQty: '',
+      manufacturer: '',
+      origin: '',
+      validDaysInformation: { validDaysStatus: 'text', validDays: '' },
+      validDateInformation: { validDateStatus: 'text', validDate: '' },
+      geneticallyModified: { GMFStatus: 'no', GMFs: [] },
+      allergenInformation: { allergenStatus: 'no', allergens: [] },
+    },
   }),
   getters: {
     updateFoodData: ({ updateKeyData }) => {
       return updateKeyData
+    },
+    productLabeledMatters: ({ product }) => {
+      return product
     },
   },
   actions: {
