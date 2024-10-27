@@ -75,8 +75,7 @@
                 <input
                   v-model="item.foodName"
                   type="text"
-                  name=""
-                  id=""
+                  :id="'foodName' + index"
                   placeholder="輸入欲示於外包裝成分"
                   class="form-control"
                   required
@@ -89,14 +88,13 @@
                 <input
                   v-model="item.grams"
                   type="number"
-                  name=""
-                  id=""
+                  :id="'grams' + index"
                   min="1"
                   placeholder="輸入該成分『 總克數 』"
                   class="form-control"
                   required
                 />
-                <div class="invalid-feedback">此欄位為必填</div>
+                <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
               </li>
               <li
                 class="d-none d-xl-block list-group-item col-1 align-content-center"

@@ -15,13 +15,14 @@
         <input
           v-model="product.numberOfCopy"
           type="number"
+          min="1"
           class="form-control"
           id="number_of_copies"
           placeholder="輸入共可製成幾份成品"
           required
         />
 
-        <div class="invalid-feedback">此欄位為必填</div>
+        <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
       </section>
       <section class="col-xl-4 d-flex">
         <div class="col-12">
@@ -36,12 +37,13 @@
               <input
                 v-model="product.netWeightInformation.netWeight"
                 type="number"
+                min="1"
                 class="form-control me-3"
                 id="net_weight"
                 placeholder="輸入淨重"
                 required
               />
-              <div class="invalid-feedback">此欄位為必填</div>
+              <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
             </div>
             <div class="ms-3 mt-2 col-12 col-xl-6">
               <div class="form-check form-check-inline">
@@ -78,12 +80,13 @@
         <input
           v-model="product.productQty"
           type="number"
+          min="1"
           class="form-control"
           id="product_quantity"
           placeholder="輸入本包裝含幾份成品"
           required
         />
-        <div class="invalid-feedback">此欄位為必填</div>
+        <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
       </section>
       <section class="col-xl-4">
         <label for="manufacturer" class="form-label fw-bold ps-1 d-flex">
@@ -158,12 +161,13 @@
           v-model="product.validDaysInformation.validDays"
           :disabled="product.validDaysInformation.validDaysStatus === 'text'"
           type="number"
+          min="1"
           class="form-control"
           id="valid_days"
           placeholder="輸入有效天數"
           required
         />
-        <div class="invalid-feedback">此欄位為必填</div>
+        <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
       </section>
       <section class="col-xl-4">
         <span class="fw-bold ps-1 mb-2 d-flex">
@@ -392,6 +396,6 @@ export default {
 
 <style lang="scss" scoped>
 * {
-  border: 1px solid;
+  // border: 1px solid;
 }
 </style>
