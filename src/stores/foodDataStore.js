@@ -169,11 +169,9 @@ export const useFoodStore = defineStore('foodDataStore', {
             newItem[this.headerMap[key]] = item[key]
           }
         }
-
         return newItem
       })
     },
-
     searchFood(food) {
       const copyData = [...this.originalFoodData]
       this.updateKeyData = copyData.map(item => {
@@ -193,6 +191,14 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.updateKeyData = searchResult
       console.log(this.updateKeyData)
       console.log(searchResult)
+    },
+    submitForm(e) {
+      const form = e.target
+      if (!form.checkValidity()) {
+        // 若表單無效，添加樣式提示
+        form.classList.add('was-validated')
+        return
+      }
     },
   },
 })

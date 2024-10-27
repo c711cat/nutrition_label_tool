@@ -1,5 +1,9 @@
 <template>
-  <main class="container mb-5">
+  <form
+    @submit.prevent="submitForm"
+    class="container mb-5 needs-validation"
+    novalidate
+  >
     <div class="bg-light rounded row m-0 g-5 pb-5">
       <section class="col-xl-4">
         <label for="number_of_copies" class="form-label fw-bold ps-1 d-flex">
@@ -14,7 +18,10 @@
           class="form-control"
           id="number_of_copies"
           placeholder="輸入共可製成幾份成品"
+          required
         />
+
+        <div class="invalid-feedback">此欄位為必填</div>
       </section>
       <section class="col-xl-4 d-flex">
         <div class="col-12">
@@ -24,33 +31,39 @@
             </div>
             每一份成品淨重？
           </label>
-          <div class="col-12 d-flex align-items-center">
-            <input
-              v-model="product.netWeightInformation.netWeight"
-              type="number"
-              class="form-control me-3"
-              id="net_weight"
-              placeholder="輸入淨重"
-            />
-            <div class="form-check form-check-inline col-3">
+          <div class="col-12 d-flex flex-wrap">
+            <div class="col-12 col-xl-5">
               <input
-                v-model="product.netWeightInformation.unit"
-                class="form-check-input"
-                type="radio"
-                id="gram"
-                value="g"
+                v-model="product.netWeightInformation.netWeight"
+                type="number"
+                class="form-control me-3"
+                id="net_weight"
+                placeholder="輸入淨重"
+                required
               />
-              <label class="form-check-label" for="gram">公克</label>
+              <div class="invalid-feedback">此欄位為必填</div>
             </div>
-            <div class="form-check form-check-inline col-3">
-              <input
-                v-model="product.netWeightInformation.unit"
-                class="form-check-input"
-                type="radio"
-                id="milliliter"
-                value="ml"
-              />
-              <label class="form-check-label" for="milliliter">毫升</label>
+            <div class="ms-3 mt-2 col-12 col-xl-6">
+              <div class="form-check form-check-inline">
+                <input
+                  v-model="product.netWeightInformation.unit"
+                  class="form-check-input"
+                  type="radio"
+                  id="gram"
+                  value="g"
+                />
+                <label class="form-check-label" for="gram">公克</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  v-model="product.netWeightInformation.unit"
+                  class="form-check-input"
+                  type="radio"
+                  id="milliliter"
+                  value="ml"
+                />
+                <label class="form-check-label" for="milliliter">毫升</label>
+              </div>
             </div>
           </div>
         </div>
@@ -68,7 +81,9 @@
           class="form-control"
           id="product_quantity"
           placeholder="輸入本包裝含幾份成品"
+          required
         />
+        <div class="invalid-feedback">此欄位為必填</div>
       </section>
       <section class="col-xl-4">
         <label for="manufacturer" class="form-label fw-bold ps-1 d-flex">
@@ -83,7 +98,9 @@
           class="form-control"
           id="manufacturer"
           placeholder="輸入製造商名稱"
+          required
         />
+        <div class="invalid-feedback">此欄位為必填</div>
       </section>
       <section class="col-xl-4">
         <label for="country_of_origin" class="form-label fw-bold ps-1 d-flex">
@@ -98,7 +115,9 @@
           class="form-control"
           id="country_of_origin"
           placeholder="輸入原產地"
+          required
         />
+        <div class="invalid-feedback">此欄位為必填</div>
       </section>
       <section class="col-xl-4">
         <span class="fw-bold ps-1 mb-2 d-flex">
@@ -114,7 +133,9 @@
             type="radio"
             id="vali_days_on_outer_packaging"
             value="text"
+            required
           />
+          <div class="invalid-feedback">此欄位為必填</div>
           <label class="form-check-label" for="vali_days_on_outer_packaging">
             以『 標示於外包裝 』標示
           </label>
@@ -126,6 +147,7 @@
             type="radio"
             id="days"
             value="number"
+            required
           />
           <label class="form-check-label" for="days"> 以下方日期標示 </label>
         </div>
@@ -139,7 +161,9 @@
           class="form-control"
           id="valid_days"
           placeholder="輸入有效天數"
+          required
         />
+        <div class="invalid-feedback">此欄位為必填</div>
       </section>
       <section class="col-xl-4">
         <span class="fw-bold ps-1 mb-2 d-flex">
@@ -155,6 +179,7 @@
             type="radio"
             id="marked_on_outer_packaging"
             value="text"
+            required
           />
           <label class="form-check-label" for="marked_on_outer_packaging">
             以『 標示於外包裝 』標示
@@ -167,6 +192,7 @@
             type="radio"
             id="choose_date"
             value="date"
+            required
           />
           <label class="form-check-label" for="choose_date">
             以下方日期標示
@@ -181,7 +207,9 @@
           type="date"
           class="form-control"
           id="valid_date"
+          required
         />
+        <div class="invalid-feedback">此欄位為必填</div>
       </section>
       <section class="col-xl-4">
         <span class="fw-bold ps-1 mb-2 d-flex">
@@ -199,6 +227,7 @@
             name="exampleRadios"
             id="exampleRadios1"
             value="no"
+            required
           />
           <label class="form-check-label" for="exampleRadios1">
             本產品不含有基因改造食品
@@ -212,6 +241,7 @@
             name="exampleRadios"
             id="exampleRadios2"
             value="yes"
+            required
           />
           <label class="form-check-label" for="exampleRadios2">
             本產品含有基因改造食品
@@ -232,6 +262,10 @@
             type="checkbox"
             :id="'GMF' + index"
             :value="item"
+            :required="
+              product.geneticallyModified.GMFStatus === 'yes' &&
+              product.geneticallyModified.GMFs.length === 0
+            "
           />
           <label class="form-check-label" :for="'GMF' + index">
             {{ item }}
@@ -253,6 +287,7 @@
             name="flexRadioDefault"
             id="allergen_free"
             value="no"
+            required
           />
           <label class="form-check-label" for="allergen_free"> 無 </label>
         </div>
@@ -264,6 +299,7 @@
             name="flexRadioDefault"
             id="allergens_present"
             value="yes"
+            required
           />
           <label class="form-check-label" for="allergens_present"> 有 </label>
         </div>
@@ -281,6 +317,10 @@
             name="exampleRadios"
             :id="'allergen' + index"
             :value="item"
+            :required="
+              product.allergenInformation.allergenStatus === 'yes' &&
+              product.allergenInformation.allergens.length === 0
+            "
           />
           <label class="form-check-label" :for="'allergen' + index">
             {{ item }}
@@ -288,12 +328,17 @@
         </div>
       </section>
     </div>
-  </main>
+    <div class="col-12">
+      <button class="btn btn-primary" id="submit" type="submit">
+        Submit form
+      </button>
+    </div>
+  </form>
 </template>
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
@@ -329,9 +374,11 @@ export default {
         '魚類及其製品。但由魚類取得之明膠，並作為製備維生素或類胡蘿蔔素製劑之載體或酒類之澄清用途者，不在此限',
         '使用亞硫酸鹽類等，其終產品以二氧化硫殘留量計每公斤十毫克以上之製品',
       ],
+      forms: '',
     }
   },
   methods: {
+    ...mapActions(useFoodStore, ['submitForm']),
     keyin() {
       console.log(this.product)
     },
@@ -339,11 +386,12 @@ export default {
   computed: {
     ...mapState(useFoodStore, ['product']),
   },
+  created() {},
 }
 </script>
 
 <style lang="scss" scoped>
 * {
-  // border: 1px solid;
+  border: 1px solid;
 }
 </style>
