@@ -12,9 +12,9 @@
       <label for="searchInput">請輸入食物成分搜尋</label>
     </section>
     <div>
-      <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-4">
+      <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-5">
         <section class="col-4 col-xl-2 px-0 me-1">
-          <div class="list-group rounded databaseVisibleHeight overflow-y-auto">
+          <div class="list-group rounded visibleHeight overflow-y-auto">
             <button
               v-for="item in updateKeyData"
               :key="item.id"
@@ -34,7 +34,7 @@
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 g-3 align-content-start col-8 col-xl databaseVisibleHeight overflow-y-auto"
+          class="row m-0 g-3 align-content-start col-8 col-xl visibleHeight overflow-y-auto"
           novalidate
         >
           <section class="col-12 col-xl-6">
@@ -234,7 +234,7 @@
           type="submit"
           class="col-12 col-xl-10 btn btn-primary"
         >
-          確認以上資料
+          送出以上資料
         </button>
       </div>
     </div>
@@ -296,19 +296,15 @@ export default {
 
 <style lang="scss" scoped>
 * {
-  border: 1px solid;
+  // border: 1px solid;
 }
 
 ul.list-group {
   --bs-list-group-border-width: none;
 }
 
-.databaseVisibleHeight {
+.visibleHeight {
   height: 80vh;
-}
-
-.ingredientsVisibleHeight {
-  height: 50vh;
 }
 
 .delBtn-xs {
