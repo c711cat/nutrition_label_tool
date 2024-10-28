@@ -378,8 +378,21 @@ export default {
         '魚類及其製品。但由魚類取得之明膠，並作為製備維生素或類胡蘿蔔素製劑之載體或酒類之澄清用途者，不在此限',
         '使用亞硫酸鹽類等，其終產品以二氧化硫殘留量計每公斤十毫克以上之製品',
       ],
-      forms: '',
+      validItemsInput: '',
     }
+  },
+  watch: {
+    'product.validDaysInformation.validDaysStatus'(status) {
+      if (status === 'text') {
+        this.product.validDaysInformation.validDays = this.validItemsInput
+      }
+    },
+    'product.validDateInformation.validDateStatus'(status) {
+      console.log(status)
+      if (status === 'text') {
+        this.product.validDateInformation.validDate = this.validItemsInput
+      }
+    },
   },
   methods: {
     ...mapActions(useFoodStore, ['submitForm']),
