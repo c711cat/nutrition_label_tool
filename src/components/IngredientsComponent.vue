@@ -164,7 +164,7 @@
               class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
             >
               <li
-                class="list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
+                class="px-1 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
               >
                 <p class="mb-0">{{ index + 1 }}. {{ item.sample_name }}</p>
                 <p v-if="item.common_name" class="ps-3 mb-0">
