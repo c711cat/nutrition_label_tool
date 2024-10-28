@@ -96,7 +96,7 @@
           製造廠商名稱
         </label>
         <input
-          v-model="product.manufacturer"
+          v-model.trim="product.manufacturer"
           type="text"
           class="form-control"
           id="manufacturer"
@@ -113,7 +113,7 @@
           原產地
         </label>
         <input
-          v-model="product.origin"
+          v-model.trim="product.origin"
           type="text"
           class="form-control"
           id="country_of_origin"

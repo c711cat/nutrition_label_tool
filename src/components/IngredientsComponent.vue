@@ -40,7 +40,7 @@
               商品名稱
             </label>
             <input
-              v-model="product.title"
+              v-model.trim="product.title"
               type="text"
               class="form-control"
               id="productName"
@@ -73,7 +73,7 @@
                 class="list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
               >
                 <input
-                  v-model="item.foodName"
+                  v-model.trim="item.foodName"
                   type="text"
                   :id="'foodName' + index"
                   placeholder="輸入欲示於外包裝成分"
