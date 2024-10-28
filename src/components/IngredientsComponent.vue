@@ -1,7 +1,7 @@
 <template>
   <main class="container mt-4">
     <h3 class="text-center mb-4">食品外包裝營養標示製作</h3>
-    <section class="form-floating mb-3">
+    <section class="form-floating mb-5">
       <input
         @change="e => searchFood(e.target.value)"
         type="search"
@@ -11,10 +11,10 @@
       />
       <label for="searchInput">請輸入食物成分搜尋</label>
     </section>
-    <form @submit.prevent="submitForm" novalidate>
-      <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-2">
+    <div>
+      <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-4">
         <section class="col-4 col-xl-2 px-0 me-1">
-          <div class="list-group rounded visibleHeight overflow-y-auto">
+          <div class="list-group rounded databaseVisibleHeight overflow-y-auto">
             <button
               v-for="item in updateKeyData"
               :key="item.id"
@@ -31,9 +31,17 @@
           </div>
         </section>
 
-        <section class="py-0 pe-0 col-8 col-xl">
-          <div class="mb-3 col-12">
-            <label for="productName" class="form-label fw-bold ps-1 d-flex">
+        <form
+          id="form_id"
+          @submit.prevent="submitForm"
+          class="row m-0 g-3 align-content-start col-8 col-xl databaseVisibleHeight overflow-y-auto"
+          novalidate
+        >
+          <section class="col-12 col-xl-6">
+            <label
+              for="productName"
+              class="form-label fw-bold ps-1 d-flex justify-content-start"
+            >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
               </div>
@@ -48,29 +56,123 @@
               required
             />
             <div class="invalid-feedback">此欄位為必填</div>
-          </div>
-          <p
-            class="border-start border-top border-end rounded-top mb-0 py-2 ps-1 fw-bold"
-          >
-            <span class="text-danger">＊</span>
-            從左邊資料庫點選成分，並填入各欄位所需資料
-          </p>
-          <div
-            class="border-start border-end border-bottom rounded-bottom ingredientsVisibleHeight overflow-y-auto mb-2"
-          >
+          </section>
+          <section class="col-12 col-xl-6">
+            <label
+              for="number_of_copies"
+              class="form-label fw-bold ps-1 d-flex justify-content-start"
+            >
+              <div class="pe-1 d-flex align-items-center">
+                <i class="text-danger fst-normal">＊</i>
+              </div>
+              以下食材總量共可製成幾份成品？
+            </label>
+            <input
+              v-model="product.numberOfCopy"
+              type="number"
+              min="1"
+              class="form-control"
+              id="number_of_copies"
+              placeholder="輸入共可製成幾份成品"
+              required
+            />
+
+            <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
+          </section>
+          <section class="col-12 col-xl-6 d-flex">
+            <div class="col-12">
+              <label
+                for="net_weight"
+                class="form-label fw-bold ps-1 d-flex justify-content-start col-12"
+              >
+                <div class="pe-1 d-flex align-items-center">
+                  <i class="text-danger fst-normal">＊</i>
+                </div>
+                每一份成品淨重？
+              </label>
+              <div class="col-12 d-flex flex-wrap justify-content-between">
+                <div class="col-12 col-xl-6">
+                  <input
+                    v-model="product.netWeightInformation.netWeight"
+                    type="number"
+                    min="1"
+                    class="form-control me-3"
+                    id="net_weight"
+                    placeholder="輸入淨重"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    此欄位為必填，且需大於等於 1
+                  </div>
+                </div>
+                <div class="mt-2 col-12 col-xl-5 text-xl-center">
+                  <div class="form-check form-check-inline">
+                    <input
+                      v-model="product.netWeightInformation.unit"
+                      class="form-check-input"
+                      type="radio"
+                      id="gram"
+                      value="g"
+                    />
+                    <label class="form-check-label" for="gram">公克</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      v-model="product.netWeightInformation.unit"
+                      class="form-check-input"
+                      type="radio"
+                      id="milliliter"
+                      value="ml"
+                    />
+                    <label class="form-check-label" for="milliliter">
+                      毫升
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="col-12 col-xl-6">
+            <label
+              for="product_quantity"
+              class="form-label fw-bold ps-1 d-flex justify-content-start"
+            >
+              <div class="pe-1 d-flex align-items-center">
+                <i class="text-danger fst-normal">＊</i>
+              </div>
+              本包裝含幾份成品？
+            </label>
+            <input
+              v-model="product.productQty"
+              type="number"
+              min="1"
+              class="form-control"
+              id="product_quantity"
+              placeholder="輸入本包裝含幾份成品"
+              required
+            />
+            <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
+          </section>
+          <section class="col-12">
+            <p class="mb-0 py-2 ms-1 fw-bold">
+              <span class="text-danger">＊</span>
+              從左邊資料庫點選成分，並填入各欄位所需資料
+            </p>
             <ul
               v-for="(item, index) in product.ingredients"
               :key="item.id"
-              class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl"
+              class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
             >
               <li
-                class="list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
+                class="px-1 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
               >
                 <span class=""> {{ index + 1 }}. {{ item.sample_name }} </span>
-                <span v-if="item.common_name">俗名:{{ item.common_name }}</span>
+                <span v-if="item.common_name" class="ps-3"
+                  >俗名:{{ item.common_name }}</span
+                >
               </li>
               <li
-                class="list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
+                class="px-0 list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
               >
                 <input
                   v-model.trim="item.foodName"
@@ -83,7 +185,7 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </li>
               <li
-                class="list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
+                class="px-0 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
               >
                 <input
                   v-model="item.grams"
@@ -114,7 +216,7 @@
                 </button>
               </li>
             </ul>
-            <div class="my-3 col-12 d-flex justify-content-center px-2">
+            <div class="my-3 col-12">
               <button
                 type="button"
                 class="btn btn-outline-primary w-100"
@@ -123,15 +225,19 @@
                 新增欄位
               </button>
             </div>
-          </div>
-          <div class="col-12 text-end mb-4">
-            <button type="submit" class="col-12 btn btn-primary">
-              確認以上資料
-            </button>
-          </div>
-        </section>
+          </section>
+        </form>
       </div>
-    </form>
+      <div class="col-12 text-end mb-4 px-1">
+        <button
+          form="form_id"
+          type="submit"
+          class="col-12 col-xl-10 btn btn-primary"
+        >
+          確認以上資料
+        </button>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -190,19 +296,19 @@ export default {
 
 <style lang="scss" scoped>
 * {
-  // border: 1px solid;
+  border: 1px solid;
 }
 
 ul.list-group {
   --bs-list-group-border-width: none;
 }
 
-.visibleHeight {
-  height: 680px;
+.databaseVisibleHeight {
+  height: 80vh;
 }
 
 .ingredientsVisibleHeight {
-  height: 500px;
+  height: 50vh;
 }
 
 .delBtn-xs {
