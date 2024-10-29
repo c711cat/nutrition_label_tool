@@ -132,6 +132,8 @@ export const useFoodStore = defineStore('foodDataStore', {
       netWeightInformation: { netWeight: '', unit: 'g' },
       productQty: '',
       manufacturer: '',
+      manufacturerAddress: '',
+      manufacturerPhone: '',
       origin: '',
       validDaysInformation: { validDaysStatus: 'text', validDays: '' },
       validDateInformation: { validDateStatus: 'text', validDate: '' },
@@ -189,8 +191,6 @@ export const useFoodStore = defineStore('foodDataStore', {
           (item.common_name && item.common_name.match(food)),
       )
       this.updateKeyData = searchResult
-      console.log(this.updateKeyData)
-      console.log(searchResult)
     },
     submitForm(e) {
       const form = e.target
