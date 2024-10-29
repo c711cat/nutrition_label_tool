@@ -129,7 +129,7 @@ export const useFoodStore = defineStore('foodDataStore', {
         },
       ],
       numberOfCopy: '',
-      netWeightInformation: { netWeight: '', unit: 'g' },
+      netWeightInformation: { netWeight: '', unit: '公克' },
       productQty: '',
       manufacturer: '',
       manufacturerAddress: '',
@@ -140,6 +140,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       geneticallyModified: { GMFStatus: 'no', GMFs: [] },
       allergenInformation: { allergenStatus: 'no', allergens: [] },
     },
+    myProductList: [],
   }),
   getters: {
     updateFoodData: ({ updateKeyData }) => {
@@ -147,6 +148,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     productLabeledMatters: ({ product }) => {
       return product
+    },
+    localStorageData: ({ myProductList }) => {
+      return myProductList
     },
   },
   actions: {
@@ -199,6 +203,13 @@ export const useFoodStore = defineStore('foodDataStore', {
         form.classList.add('was-validated')
         return
       }
+    },
+    getMyProductList() {
+      this.myProductList = JSON.parse(localStorage.getItem('myFoodData')) || []
+    },
+    addMyProduct(product) {
+      this.myProductList.push(product)
+      localStorage.setItem('myFoodData', JSON.stringify(this.myProductList))
     },
   },
 })

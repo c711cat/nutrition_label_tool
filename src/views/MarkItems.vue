@@ -299,7 +299,7 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
@@ -336,7 +336,6 @@ export default {
         '使用亞硫酸鹽類等，其終產品以二氧化硫殘留量計每公斤十毫克以上之製品',
       ],
       validItemsInput: '',
-      myProductList: [],
     }
   },
   watch: {
@@ -351,7 +350,11 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapState(useFoodStore, ['product', 'myProductList']),
+  },
   methods: {
+    ...mapActions(useFoodStore, ['getMyProductList', 'addMyProduct']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -360,20 +363,11 @@ export default {
         return
       }
       this.product.id = Date.now()
-      this.addMyProduct()
-    },
-    getMyProductList() {
-      this.myProductList = JSON.parse(localStorage.getItem('myFoodData')) || []
-      console.log(this.myProductList)
-    },
-    addMyProduct() {
-      this.myProductList.push(this.product)
-      localStorage.setItem('myFoodData', JSON.stringify(this.myProductList))
+      this.addMyProduct(this.product)
+      this.$router.push('/product_list')
     },
   },
-  computed: {
-    ...mapState(useFoodStore, ['product']),
-  },
+
   created() {
     this.getMyProductList()
   },

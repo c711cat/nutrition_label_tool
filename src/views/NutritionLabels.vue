@@ -112,7 +112,7 @@
                       class="form-check-input"
                       type="radio"
                       id="gram"
-                      value="g"
+                      value="公克"
                     />
                     <label class="form-check-label" for="gram">公克</label>
                   </div>
@@ -122,7 +122,7 @@
                       class="form-check-input"
                       type="radio"
                       id="milliliter"
-                      value="ml"
+                      value="毫升"
                     />
                     <label class="form-check-label" for="milliliter">
                       毫升
@@ -251,6 +251,9 @@ export default {
       foodData: [],
     }
   },
+  computed: {
+    ...mapState(useFoodStore, ['updateKeyData', 'product']),
+  },
   methods: {
     ...mapActions(useFoodStore, ['searchFood']),
     getFoodData() {
@@ -290,9 +293,7 @@ export default {
       this.$router.push('/mark_items')
     },
   },
-  computed: {
-    ...mapState(useFoodStore, ['updateKeyData', 'product']),
-  },
+
   created() {
     this.getFoodData()
   },
