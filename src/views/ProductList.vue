@@ -1,63 +1,79 @@
 <template>
   <div class="container my-4">
     <h3 class="text-center mb-5">營養標示列表</h3>
-    <div class="row m-0">
+    <div v-for="item in myProductList" :key="item.id" class="row m-0 my-5">
       <section class="col-12 col-xl-9 markItemsContainer">
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
           <i class="fst-normal">：</i>
-          <p class="col">南瓜蔬菜粥</p>
+          <p class="col">{{ item.title }}</p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">成分</p>
           <i class="fst-normal">：</i>
-          <p class="col">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab laborum
-            ad itaque illo accusantium ratione ut ullam, fugiat vero quisquam
-            facere. Officiis blanditiis laboriosam nostrum, dignissimos nulla
-            nihil dicta reprehenderit.
+          <p v-for="food in item.ingredients" :key="food.id" class="col-1">
+            {{ food.foodName }}
           </p>
         </div>
 
-        <div class="d-flex">
+        <div
+          v-if="item.allergenInformation.allergenStatus === 'yes'"
+          class="d-flex"
+        >
           <p class="markItemsTitle">過敏原資訊</p>
           <i class="fst-normal">：</i>
-          <p class="col">本產品含有海鮮製品</p>
+          <p class="col">
+            {{ item.allergenInformation.allergens }}
+          </p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">淨重</p>
           <i class="fst-normal">：</i>
-          <p class="col">250 公克</p>
+          <p class="col">
+            {{ item.netWeightInformation.netWeight }}
+            {{ item.netWeightInformation.unit }}
+          </p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">保存期限</p>
           <i class="fst-normal">：</i>
-          <p class="col">300 天</p>
+
+          <p v-if="item.validDaysInformation.validDays" class="col">
+            {{ item.validDaysInformation.validDays }} 天
+          </p>
+          <p v-else class="col">
+            {{ item.validDaysInformation.validDaysStatus }}
+          </p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">有效日期</p>
           <i class="fst-normal">：</i>
-          <p class="col">標示於外包裝</p>
+          <p v-if="item.validDateInformation.validDate" class="col">
+            {{ item.validDateInformation.validDate }}
+          </p>
+          <p v-else class="col">
+            {{ item.validDateInformation.validDateStatus }}
+          </p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">原產地</p>
           <i class="fst-normal">：</i>
-          <p class="col">台灣</p>
+          <p class="col">{{ item.origin }}</p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">廠商名稱</p>
           <i class="fst-normal">：</i>
-          <p class="col">寶寶粥</p>
+          <p class="col">{{ item.manufacturer }}</p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">廠商地址</p>
           <i class="fst-normal">：</i>
-          <p class="col">新北市淡水區新市一路一段100號</p>
+          <p class="col">{{ item.manufacturerAddress }}</p>
         </div>
         <div class="d-flex">
           <p class="markItemsTitle">廠商電話</p>
           <i class="fst-normal">：</i>
-          <p class="col">0987654321</p>
+          <p class="col">{{ item.manufacturerPhone }}</p>
         </div>
       </section>
       <section class="col-12 col-xl-3">
@@ -127,6 +143,26 @@
     </div>
   </div>
 </template>
+
+<script>
+import { useFoodStore } from '@/stores/foodDataStore.js'
+import { mapState, mapActions } from 'pinia'
+export default {
+  data() {
+    return {}
+  },
+  computed: {
+    ...mapState(useFoodStore, ['myProductList']),
+  },
+  methods: {
+    ...mapActions(useFoodStore, ['getMyProductList']),
+  },
+  created() {
+    this.getMyProductList()
+    console.log(this.myProductList)
+  },
+}
+</script>
 
 <style lang="scss" scoped>
 * {
