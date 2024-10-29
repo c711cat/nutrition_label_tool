@@ -202,6 +202,7 @@
                 class="d-none d-xl-block list-group-item col-1 align-content-center"
               >
                 <button
+                  @click="delField(item)"
                   type="button"
                   class="btn btn-outline-danger btn-sm d-block"
                 >
@@ -211,7 +212,11 @@
               <li
                 class="d-block d-xl-none position-absolute delBtn-xs list-group"
               >
-                <button type="button" class="btn btn-outline-danger btn-sm">
+                <button
+                  @click="delField(item)"
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                >
                   <i class="bi bi-x-lg"></i>
                 </button>
               </li>
@@ -282,6 +287,10 @@ export default {
         grams: '',
       }
       this.product.ingredients.push(newIngredient)
+    },
+    delField(data) {
+      const index = this.product.ingredients.indexOf(data)
+      this.product.ingredients.splice(index, 1)
     },
     submitForm(e) {
       const form = e.target
