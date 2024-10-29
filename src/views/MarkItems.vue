@@ -92,7 +92,7 @@
             class="form-check-input"
             type="radio"
             id="vali_days_on_outer_packaging"
-            value="text"
+            value="標示於外包裝"
             required
           />
           <div class="invalid-feedback">此欄位為必填</div>
@@ -116,7 +116,9 @@
         </label>
         <input
           v-model="product.validDaysInformation.validDays"
-          :disabled="product.validDaysInformation.validDaysStatus === 'text'"
+          :disabled="
+            product.validDaysInformation.validDaysStatus === '標示於外包裝'
+          "
           type="number"
           min="1"
           class="form-control"
@@ -139,7 +141,7 @@
             class="form-check-input"
             type="radio"
             id="marked_on_outer_packaging"
-            value="text"
+            value="標示於外包裝"
             required
           />
           <label class="form-check-label" for="marked_on_outer_packaging">
@@ -164,7 +166,9 @@
         </label>
         <input
           v-model="product.validDateInformation.validDate"
-          :disabled="product.validDateInformation.validDateStatus === 'text'"
+          :disabled="
+            product.validDateInformation.validDateStatus === '標示於外包裝'
+          "
           type="date"
           class="form-control"
           id="valid_date"
@@ -187,7 +191,7 @@
             type="radio"
             name="exampleRadios"
             id="exampleRadios1"
-            value="no"
+            value="本產品不含有基因改造食品"
             required
           />
           <label class="form-check-label" for="exampleRadios1">
@@ -218,7 +222,10 @@
         >
           <input
             v-model="product.geneticallyModified.GMFs"
-            :disabled="product.geneticallyModified.GMFStatus === 'no'"
+            :disabled="
+              product.geneticallyModified.GMFStatus ===
+              '本產品不含有基因改造食品'
+            "
             class="form-check-input"
             type="checkbox"
             :id="'GMF' + index"
