@@ -8,6 +8,7 @@
           <i class="fst-normal">：</i>
           <p class="col">{{ item.title }}</p>
         </div>
+        <!-- 成分 -->
         <div class="d-flex">
           <p class="markItemsTitle">成分</p>
           <i class="fst-normal">：</i>
@@ -15,7 +16,15 @@
             {{ sorted(item.ingredients) }}
           </p>
         </div>
-
+        <!-- 基因改造食品 -->
+        <div v-if="item.geneticallyModified.GMFStatus === 'yes'" class="d-flex">
+          <p class="markItemsTitle">過敏原資訊</p>
+          <i class="fst-normal">：</i>
+          <p class="col">
+            {{ item.geneticallyModified.GMFs.join('、') }}
+          </p>
+        </div>
+        <!-- 過敏原資訊 -->
         <div
           v-if="item.allergenInformation.allergenStatus === 'yes'"
           class="d-flex"
@@ -23,9 +32,10 @@
           <p class="markItemsTitle">過敏原資訊</p>
           <i class="fst-normal">：</i>
           <p class="col">
-            {{ item.allergenInformation.allergens }}
+            {{ item.allergenInformation.allergens.join('、') }}
           </p>
         </div>
+        <!-- 淨重 -->
         <div class="d-flex">
           <p class="markItemsTitle">淨重</p>
           <i class="fst-normal">：</i>
@@ -34,6 +44,7 @@
             {{ item.netWeightInformation.unit }}
           </p>
         </div>
+        <!-- 保存天數 -->
         <div class="d-flex">
           <p class="markItemsTitle">保存期限</p>
           <i class="fst-normal">：</i>
@@ -45,6 +56,7 @@
             {{ item.validDaysInformation.validDaysStatus }}
           </p>
         </div>
+        <!-- 有效日期 -->
         <div class="d-flex">
           <p class="markItemsTitle">有效日期</p>
           <i class="fst-normal">：</i>
@@ -55,11 +67,13 @@
             {{ item.validDateInformation.validDateStatus }}
           </p>
         </div>
+        <!-- 原產地 -->
         <div class="d-flex">
           <p class="markItemsTitle">原產地</p>
           <i class="fst-normal">：</i>
           <p class="col">{{ item.origin }}</p>
         </div>
+        <!-- 廠商相關 -->
         <div class="d-flex">
           <p class="markItemsTitle">廠商名稱</p>
           <i class="fst-normal">：</i>
