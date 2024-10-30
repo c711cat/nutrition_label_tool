@@ -126,6 +126,7 @@ export const useFoodStore = defineStore('foodDataStore', {
           sample_name: '',
           foodName: '',
           grams: '',
+          details: {},
         },
       ],
       numberOfCopy: '',

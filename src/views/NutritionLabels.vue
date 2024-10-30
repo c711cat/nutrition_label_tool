@@ -273,6 +273,7 @@ export default {
       })
       if (empty) {
         empty.id = Date.now()
+        empty.details = chooseItem
         empty.sample_name = chooseItem.sample_name
         if (chooseItem.common_name) {
           empty.common_name = chooseItem.common_name
