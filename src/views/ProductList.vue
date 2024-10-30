@@ -11,8 +11,8 @@
         <div class="d-flex">
           <p class="markItemsTitle">成分</p>
           <i class="fst-normal">：</i>
-          <p v-for="food in item.ingredients" :key="food.id" class="col-1">
-            {{ food.foodName }}
+          <p class="col">
+            {{ sorted(item.ingredients) }}
           </p>
         </div>
 
@@ -156,6 +156,12 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['getMyProductList']),
+    sorted(ingredients) {
+      return ingredients
+        .sort((a, b) => b.grams - a.grams)
+        .map(itemName => `${itemName.foodName}`)
+        .join('、')
+    },
   },
   created() {
     this.getMyProductList()
