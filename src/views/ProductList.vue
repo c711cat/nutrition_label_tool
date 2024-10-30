@@ -123,56 +123,72 @@
             <tr class="lh-1">
               <th class="fw-normal ps-2">熱量</th>
               <td class="text-end pe-2">{{ calculateCalories(item) }}大卡</td>
-              <td class="text-end pe-2">大卡</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100gCalories(item) }}大卡
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">蛋白質</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'protein') }}公克
               </td>
-              <td class="text-end pe-2">{{}} 公克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'protein') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">脂肪</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'fat') }} 公克
               </td>
-              <td class="text-end pe-2">公克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'fat') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">飽和脂肪</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'saturated_fat') }}公克
               </td>
-              <td class="text-end pe-2">公克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'saturated_fat') }}公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">反式脂肪</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'trans_fat') }}公克
               </td>
-              <td class="text-end pe-2">公克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'trans_fat') }}公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">碳水化合物</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'total_carbohydrates') }}公克
               </td>
-              <td class="text-end pe-2">公克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'total_carbohydrates') }}公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">糖</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'total_sugar') }}公克
               </td>
-              <td class="text-end pe-2">公克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'total_sugar') }}公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">鈉</th>
               <td class="text-end pe-2">
                 {{ calculateNutrients(item, 'sodium') }}毫克
               </td>
-              <td class="text-end pe-2">毫克</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'sodium') }}毫克
+              </td>
             </tr>
           </tbody>
         </table>
@@ -212,6 +228,25 @@ export default {
       const fat = parseFloat(this.calculateNutrients(item, 'fat'))
       const carbohydrates = parseFloat(
         this.calculateNutrients(item, 'total_carbohydrates'),
+      )
+      return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+    },
+    calculatePer100g(item, nutrient) {
+      const data = item.ingredients.reduce((total, ingredient) => {
+        const gramsRatio = ingredient.grams / 100
+        const nutrientValue = ingredient.details[`${nutrient}`] || 0
+        return total + nutrientValue * gramsRatio
+      }, 0)
+      return (
+        (data / (item.netWeightInformation.netWeight * item.numberOfCopy)) *
+        100
+      ).toFixed(1)
+    },
+    calculatePer100gCalories(item) {
+      const protein = parseFloat(this.calculatePer100g(item, 'protein'))
+      const fat = parseFloat(this.calculatePer100g(item, 'fat'))
+      const carbohydrates = parseFloat(
+        this.calculatePer100g(item, 'total_carbohydrates'),
       )
       return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
     },
