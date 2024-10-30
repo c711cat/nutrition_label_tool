@@ -1,8 +1,14 @@
 <template>
   <div class="container my-4">
     <h3 class="text-center mb-5">營養標示列表</h3>
-    <div v-for="item in myProductList" :key="item.id" class="row m-0 my-5">
-      <section class="col-12 col-xl-9 markItemsContainer">
+    <div
+      v-for="item in myProductList"
+      :key="item.id"
+      class="border rounded row m-0 my-5"
+    >
+      <section
+        class="bg-light p-3 rounded col-12 col-xl-8 col-xxl-9 markItemsContainer"
+      >
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
           <i class="fst-normal">：</i>
@@ -90,8 +96,8 @@
           <p class="col">{{ item.manufacturerPhone }}</p>
         </div>
       </section>
-      <section class="col-12 col-xl-3">
-        <table class="table table-sm table-borderless border border-black">
+      <section class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 p-3">
+        <table class="table table-sm table-borderless border border-black mb-0">
           <thead>
             <tr class="lh-sm border-bottom border-black">
               <th colspan="3" class="text-center fw-normal">營養標示</th>
@@ -108,11 +114,11 @@
             </tr>
             <tr class="lh-sm border-bottom border-black">
               <th></th>
-              <td class="text-end pe-2 col-3">每份</td>
-              <td class="text-end pe-2 col-3">每 100 公克</td>
+              <td class="text-end pe-2">每份</td>
+              <td class="text-end pe-2">每 100 公克</td>
             </tr>
             <tr class="lh-1">
-              <th class="fw-normal col-3 ps-2">熱量</th>
+              <th class="fw-normal ps-2">熱量</th>
               <td class="text-end pe-2">300 大卡</td>
               <td class="text-end pe-2">150 大卡</td>
             </tr>
