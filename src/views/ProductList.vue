@@ -106,11 +106,14 @@
           <tbody>
             <tr>
               <th class="fw-normal ps-2 lh-sm">每一份量</th>
-              <td colspan="2" class="lh-sm">250 公克</td>
+              <td colspan="2" class="lh-sm">
+                {{ item.netWeightInformation.netWeight }}
+                {{ item.netWeightInformation.unit }}
+              </td>
             </tr>
             <tr class="lh-1 border-bottom border-black">
               <th class="fw-normal ps-2">本包裝含</th>
-              <td colspan="2">1 份</td>
+              <td colspan="2">{{ item.productQty }} 份</td>
             </tr>
             <tr class="lh-sm border-bottom border-black">
               <th></th>
@@ -119,43 +122,57 @@
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">熱量</th>
-              <td class="text-end pe-2">300 大卡</td>
-              <td class="text-end pe-2">150 大卡</td>
+              <td class="text-end pe-2">{{ calculateCalories(item) }}大卡</td>
+              <td class="text-end pe-2">大卡</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">蛋白質</th>
-              <td class="text-end pe-2">30 公克</td>
-              <td class="text-end pe-2">15 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'protein') }}公克
+              </td>
+              <td class="text-end pe-2">{{}} 公克</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">脂肪</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'fat') }} 公克
+              </td>
+              <td class="text-end pe-2">公克</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">飽和脂肪</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'saturated_fat') }}公克
+              </td>
+              <td class="text-end pe-2">公克</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">反式脂肪</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'trans_fat') }}公克
+              </td>
+              <td class="text-end pe-2">公克</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">碳水化合物</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'total_carbohydrates') }}公克
+              </td>
+              <td class="text-end pe-2">公克</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">糖</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'total_sugar') }}公克
+              </td>
+              <td class="text-end pe-2">公克</td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">鈉</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">10 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'sodium') }}毫克
+              </td>
+              <td class="text-end pe-2">毫克</td>
             </tr>
           </tbody>
         </table>
@@ -182,9 +199,26 @@ export default {
         .map(itemName => `${itemName.foodName}`)
         .join('、')
     },
+    calculateNutrients(item, nutrient) {
+      const data = item.ingredients.reduce((total, ingredient) => {
+        const gramsRatio = ingredient.grams / 100
+        const nutrientValue = ingredient.details[`${nutrient}`] || 0
+        return total + nutrientValue * gramsRatio
+      }, 0)
+      return (data / item.numberOfCopy).toFixed(1)
+    },
+    calculateCalories(item) {
+      const protein = parseFloat(this.calculateNutrients(item, 'protein'))
+      const fat = parseFloat(this.calculateNutrients(item, 'fat'))
+      const carbohydrates = parseFloat(
+        this.calculateNutrients(item, 'total_carbohydrates'),
+      )
+      return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+    },
   },
   created() {
     this.getMyProductList()
+
     console.log(this.myProductList)
   },
 }
@@ -192,7 +226,7 @@ export default {
 
 <style lang="scss" scoped>
 * {
-  border: 1px solid;
+  // border: 1px solid;
 }
 .markItemsContainer p {
   margin-bottom: 0px;
