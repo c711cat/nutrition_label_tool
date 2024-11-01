@@ -193,22 +193,33 @@
           </tbody>
         </table>
       </section>
+      <div class="my-3">
+        <button @click="openModal" type="button" class="btn btn-primary">
+          新增其他營養素
+        </button>
+      </div>
     </div>
+    <AddNutrientsModal ref="addNutrientsModal" />
   </div>
 </template>
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
+import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 export default {
   data() {
     return {}
   },
+  components: { AddNutrientsModal },
   computed: {
     ...mapState(useFoodStore, ['myProductList']),
   },
   methods: {
     ...mapActions(useFoodStore, ['getMyProductList']),
+    openModal() {
+      this.$refs.addNutrientsModal.showModal()
+    },
     sorted(ingredients) {
       return ingredients
         .sort((a, b) => b.grams - a.grams)

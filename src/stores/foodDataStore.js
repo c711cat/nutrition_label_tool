@@ -142,6 +142,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       allergenInformation: { allergenStatus: 'no', allergens: [] },
     },
     myProductList: [],
+    headerChineseAndEnglish: {},
   }),
   getters: {
     updateFoodData: ({ updateKeyData }) => {
@@ -152,6 +153,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     localStorageData: ({ myProductList }) => {
       return myProductList
+    },
+    headerData: ({ headerChineseAndEnglish }) => {
+      return headerChineseAndEnglish
     },
   },
   actions: {
@@ -169,6 +173,8 @@ export const useFoodStore = defineStore('foodDataStore', {
     updateData() {
       const copyData = [...this.originalFoodData]
       this.headerObj = copyData.shift()
+      console.log('headerObj', this.headerObj)
+      console.log(this.headerMap)
       this.updateKeyData = copyData.map(item => {
         const newItem = {}
         for (const key in this.headerMap) {
@@ -178,7 +184,17 @@ export const useFoodStore = defineStore('foodDataStore', {
         }
         return newItem
       })
+      this.createHeaderChineseAndEnglish()
     },
+    createHeaderChineseAndEnglish() {
+      const newData = {}
+      for (const [originKey, newKey] of Object.entries(this.headerMap)) {
+        newData[newKey] = this.headerObj[originKey]
+      }
+      this.headerChineseAndEnglish = newData
+      console.log(this.headerChineseAndEnglish)
+    },
+
     searchFood(food) {
       const copyData = [...this.originalFoodData]
       this.updateKeyData = copyData.map(item => {
