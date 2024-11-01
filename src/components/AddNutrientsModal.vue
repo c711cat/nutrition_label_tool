@@ -14,7 +14,7 @@
         <div class="modal-body">
           <div class="list-group">
             <button
-              v-for="item in headerChineseAndEnglish"
+              v-for="item in updateHeaderChineseAndEnglish"
               :key="item"
               type="button"
               class="list-group-item list-group-item-action"
@@ -53,6 +53,31 @@ export default {
   },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
+    updateHeaderChineseAndEnglish() {
+      console.log(this.headerChineseAndEnglish)
+      const data = { ...this.headerChineseAndEnglish }
+      ;[
+        'id',
+        'category',
+        'sample_name',
+        'common_name',
+        'content_description',
+        'scrap_rate',
+        'calories',
+        'corrected_calories',
+        'protein',
+        'fat',
+        'saturated_fat',
+        'total_carbohydrates',
+        'total_sugar',
+        'sodium',
+        'trans_fat',
+      ].forEach(ele => {
+        delete data[ele]
+      })
+      console.log(data)
+      return data
+    },
   },
   methods: {
     ...mapActions(useFoodStore, ['fetchFoods']),
