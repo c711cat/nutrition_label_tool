@@ -347,12 +347,12 @@ export default {
   },
   watch: {
     'product.validDaysInformation.validDaysStatus'(status) {
-      if (status === 'text') {
+      if (status === '標示於外包裝') {
         this.product.validDaysInformation.validDays = this.validItemsInput
       }
     },
     'product.validDateInformation.validDateStatus'(status) {
-      if (status === 'text') {
+      if (status === '標示於外包裝') {
         this.product.validDateInformation.validDate = this.validItemsInput
       }
     },
