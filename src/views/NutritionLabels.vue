@@ -16,7 +16,7 @@
         <section class="col-4 col-xl-2 px-0 me-1">
           <div class="list-group rounded visibleHeight overflow-y-auto">
             <button
-              v-for="item in updateKeyData"
+              v-for="item in filteredData"
               :key="item.id"
               @click="chooseSample(item)"
               type="button"
@@ -248,24 +248,29 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapActions, mapState } from 'pinia'
+import { mapState } from 'pinia'
 
 export default {
   data() {
     return {
-      foodData: [],
+      filteredData: [],
     }
   },
   computed: {
-    ...mapState(useFoodStore, ['updateKeyData', 'product']),
+    ...mapState(useFoodStore, ['newKeyFoodData', 'product']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['searchFood']),
-    getFoodData() {
-      const foodStore = useFoodStore()
-      foodStore.fetchFoods().then(() => {
-        this.foodData = foodStore.updateKeyData
+    searchFood(food) {
+      const data = []
+      this.newKeyFoodData.filter(item => {
+        if (
+          (item.sample_name && item.sample_name.match(food)) ||
+          (item.common_name && item.common_name.match(food))
+        ) {
+          data.push(item)
+        }
       })
+      this.filteredData = data
     },
     chooseSample(chooseItem) {
       const empty = this.product.ingredients.find(item => {
@@ -305,7 +310,7 @@ export default {
   },
 
   created() {
-    this.getFoodData()
+    this.filteredData = this.newKeyFoodData
   },
 }
 </script>
