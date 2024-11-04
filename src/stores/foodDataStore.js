@@ -203,9 +203,8 @@ export const useFoodStore = defineStore('foodDataStore', {
         return b.id - a.id
       })
     },
-    addMyProduct(product) {
-      this.myProductList.push(product)
-      localStorage.setItem('myFoodData', JSON.stringify(this.myProductList))
+    addMyProduct(productList) {
+      localStorage.setItem('myFoodData', JSON.stringify(productList))
     },
   },
 })

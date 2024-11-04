@@ -29,6 +29,7 @@
             <button
               v-for="item in filteredNutrients"
               :key="item"
+              @click="chooseNutrient(item)"
               type="button"
               class="list-group-item list-group-item-action"
               aria-current="true"
@@ -45,7 +46,9 @@
           >
             取消
           </button>
-          <button type="button" class="btn btn-primary">新增</button>
+          <button @click="addNTs" type="button" class="btn btn-primary">
+            新增
+          </button>
         </div>
       </div>
     </div>
@@ -55,7 +58,7 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
@@ -63,12 +66,17 @@ export default {
       modal: null,
       nutrients: [],
       filteredNutrients: [],
+      addNutrients: [],
+      product: null,
+      productList: null,
     }
   },
+
   computed: {
-    ...mapState(useFoodStore, ['headerChineseAndEnglish']),
+    ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
   },
   methods: {
+    ...mapActions(useFoodStore, ['addMyProduct']),
     searchNutrient(nutrient) {
       const data = []
       Object.values(this.nutrients).filter(item => {
@@ -102,7 +110,21 @@ export default {
       this.filteredNutrients = data
       this.nutrients = data
     },
-    showModal() {
+    chooseNutrient(nutrient) {
+      this.addNutrients.push(nutrient)
+      this.product.addNutrients = this.addNutrients
+      this.productList.forEach(item => {
+        if (item.id === this.product.id) {
+          item.addNutrients = this.addNutrients
+        }
+      })
+    },
+    addNTs() {
+      this.addMyProduct(this.productList)
+      this.hideModal()
+    },
+    showModal(item) {
+      this.product = { ...item }
       this.modal.show()
     },
     hideModal() {
@@ -111,6 +133,7 @@ export default {
   },
   created() {
     this.updateFilterData()
+    this.productList = this.myProductList
   },
   mounted() {
     this.modal = new Modal(this.$refs.nutrientsModal)

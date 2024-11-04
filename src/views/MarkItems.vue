@@ -343,6 +343,7 @@ export default {
         '使用亞硫酸鹽類等，其終產品以二氧化硫殘留量計每公斤十毫克以上之製品',
       ],
       validItemsInput: '',
+      productList: [],
     }
   },
   watch: {
@@ -361,7 +362,7 @@ export default {
     ...mapState(useFoodStore, ['product', 'myProductList']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['getMyProductList', 'addMyProduct']),
+    ...mapActions(useFoodStore, ['addMyProduct']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -370,13 +371,14 @@ export default {
         return
       }
       this.product.id = Date.now()
-      this.addMyProduct(this.product)
+      this.productList.push(this.product)
+      this.addMyProduct(this.productList)
       this.$router.push('/product_list')
     },
   },
 
   created() {
-    this.getMyProductList()
+    this.productList = this.myProductList
   },
 }
 </script>
