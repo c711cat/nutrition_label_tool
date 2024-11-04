@@ -2,7 +2,7 @@
   <div ref="nutrientsModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-header flex-column">
+        <div class="modal-header flex-column align-items-start">
           <div class="w-100 mb-3 p-2 d-flex justify-content-between">
             <h5 class="modal-title">新增其他營養素</h5>
             <button
@@ -23,19 +23,35 @@
             />
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
-        </div>
-        <div class="modal-body">
-          <div class="list-group">
-            <button
-              v-for="item in filteredNutrients"
+          <div
+            class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
+          >
+            <span class="ms-1">已新增營養素：</span>
+            <span
+              v-for="item in addNutrients"
               :key="item"
-              @click="chooseNutrient(item)"
-              type="button"
-              class="list-group-item list-group-item-action"
-              aria-current="true"
+              class="border badge text-bg-light fs-6 m-1"
             >
               {{ item }}
-            </button>
+            </span>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div
+            v-for="item in filteredNutrients"
+            :key="item"
+            class="form-check px-4 py-1 ms-2"
+          >
+            <input
+              v-model="addNutrients"
+              class="form-check-input"
+              type="checkbox"
+              :id="item"
+              :value="item"
+            />
+            <label class="form-check-label" :for="item">
+              {{ item }}
+            </label>
           </div>
         </div>
         <div class="modal-footer">
@@ -110,21 +126,22 @@ export default {
       this.filteredNutrients = data
       this.nutrients = data
     },
-    chooseNutrient(nutrient) {
-      this.addNutrients.push(nutrient)
-      this.product.addNutrients = this.addNutrients
+
+    addNTs() {
       this.productList.forEach(item => {
         if (item.id === this.product.id) {
           item.addNutrients = this.addNutrients
         }
       })
-    },
-    addNTs() {
       this.addMyProduct(this.productList)
       this.hideModal()
     },
     showModal(item) {
       this.product = { ...item }
+      if (item.addNutrients) {
+        this.addNutrients = item.addNutrients
+      }
+
       this.modal.show()
     },
     hideModal() {
