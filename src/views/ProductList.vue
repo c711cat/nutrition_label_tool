@@ -118,7 +118,9 @@
             <tr class="lh-sm border-bottom border-black">
               <th></th>
               <td class="text-end pe-2">每份</td>
-              <td class="text-end pe-2">每 100 公克</td>
+              <td class="text-end pe-2">
+                每 100 {{ item.netWeightInformation.unit }}
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">熱量</th>
