@@ -194,7 +194,7 @@
         </table>
       </section>
       <div class="my-3">
-        <button @click="openModal" type="button" class="btn btn-primary">
+        <button @click="openModal(item)" type="button" class="btn btn-primary">
           新增其他營養素
         </button>
       </div>
@@ -217,8 +217,8 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['getMyProductList']),
-    openModal() {
-      this.$refs.addNutrientsModal.showModal()
+    openModal(item) {
+      this.$refs.addNutrientsModal.showModal(item)
     },
     sorted(ingredients) {
       return ingredients
