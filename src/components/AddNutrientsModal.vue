@@ -24,6 +24,7 @@
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
           <div
+            v-if="addNutrients.length > 0"
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
