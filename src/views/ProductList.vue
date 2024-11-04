@@ -190,6 +190,17 @@
                 {{ calculatePer100g(item, 'sodium') }} 毫克
               </td>
             </tr>
+            <tr
+              v-for="nutrient in item.addNutrients"
+              :key="nutrient"
+              class="lh-1"
+            >
+              <th class="fw-normal ps-2">
+                {{ nutrient.replace(/\(.*\)/, '') }}
+              </th>
+              <td class="text-end pe-2">？ {{ transUnitText(nutrient) }}</td>
+              <td class="text-end pe-2">？ {{ transUnitText(nutrient) }}</td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -209,7 +220,9 @@ import { mapState, mapActions } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 export default {
   data() {
-    return {}
+    return {
+      addNutrients: [],
+    }
   },
   components: { AddNutrientsModal },
   computed: {
@@ -260,6 +273,21 @@ export default {
         this.calculatePer100g(item, 'total_carbohydrates'),
       )
       return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+    },
+    transUnitText(unit) {
+      const unitMapping = {
+        g: '公克',
+        ug: '微克',
+        mg: '毫克',
+        IU: '國際單位',
+        '': '',
+      }
+      const text = unit.match(/\((g|ug|mg|IU)\)/)
+      if (text === null) {
+        return ''
+      } else {
+        return unitMapping[text[1]]
+      }
     },
   },
   created() {
