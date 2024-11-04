@@ -1,20 +1,33 @@
 <template>
   <div ref="nutrientsModal" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">新增其他營養素</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+        <div class="modal-header flex-column">
+          <div class="w-100 mb-3 p-2 d-flex justify-content-between">
+            <h5 class="modal-title">新增其他營養素</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <section class="w-100 form-floating">
+            <input
+              @change="e => searchNutrient(e.target.value)"
+              type="search"
+              class="form-control"
+              id="searchInput"
+              placeholder="請輸入欲新增營養素搜尋"
+            />
+            <label for="searchInput">請輸入營養素搜尋</label>
+          </section>
         </div>
         <div class="modal-body">
           <div class="list-group">
             <button
-              v-for="item in updateHeaderChineseAndEnglish"
+              v-for="item in filteredNutrients"
               :key="item"
               type="button"
               class="list-group-item list-group-item-action"
@@ -42,19 +55,30 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
-import { mapActions, mapState } from 'pinia'
+import { mapState } from 'pinia'
 
 export default {
   data() {
     return {
       modal: null,
-      nutrients: {},
+      nutrients: [],
+      filteredNutrients: [],
     }
   },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
-    updateHeaderChineseAndEnglish() {
-      console.log(this.headerChineseAndEnglish)
+  },
+  methods: {
+    searchNutrient(nutrient) {
+      const data = []
+      Object.values(this.nutrients).filter(item => {
+        if (item.match(nutrient)) {
+          data.push(item)
+        }
+      })
+      this.filteredNutrients = data
+    },
+    updateFilterData() {
       const data = { ...this.headerChineseAndEnglish }
       ;[
         'id',
@@ -75,12 +99,9 @@ export default {
       ].forEach(ele => {
         delete data[ele]
       })
-      console.log(data)
-      return data
+      this.filteredNutrients = data
+      this.nutrients = data
     },
-  },
-  methods: {
-    ...mapActions(useFoodStore, ['fetchFoods']),
     showModal() {
       this.modal.show()
     },
@@ -89,7 +110,7 @@ export default {
     },
   },
   created() {
-    this.fetchFoods()
+    this.updateFilterData()
   },
   mounted() {
     this.modal = new Modal(this.$refs.nutrientsModal)
