@@ -33,7 +33,7 @@
               :key="item"
               class="border badge text-bg-light fs-6 m-1"
             >
-              {{ filteredNutrients[item] }}
+              {{ nutrients[item] }}
             </span>
           </div>
         </div>
