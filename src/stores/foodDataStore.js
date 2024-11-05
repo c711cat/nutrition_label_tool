@@ -205,7 +205,8 @@ export const useFoodStore = defineStore('foodDataStore', {
         return
       }
     },
-    addMyProduct(productList) {
+
+    setMyProducts(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
     },
   },

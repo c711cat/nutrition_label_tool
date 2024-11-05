@@ -362,7 +362,7 @@ export default {
     ...mapState(useFoodStore, ['product', 'myProductList']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['addMyProduct']),
+    ...mapActions(useFoodStore, ['setMyProducts']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -372,7 +372,7 @@ export default {
       }
       this.product.id = Date.now()
       this.productList.push(this.product)
-      this.addMyProduct(this.productList)
+      this.setMyProducts(this.productList)
       this.$router.push('/product_list')
     },
   },
