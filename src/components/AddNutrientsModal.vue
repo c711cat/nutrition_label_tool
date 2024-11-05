@@ -96,13 +96,11 @@ export default {
   methods: {
     ...mapActions(useFoodStore, ['addMyProduct']),
     searchNutrient(nutrient) {
-      const data = []
-      Object.values(this.nutrients).filter(item => {
-        if (item.match(nutrient)) {
-          data.push(item)
-        }
-      })
-      this.filteredNutrients = data
+      this.filteredNutrients = Object.fromEntries(
+        Object.entries(this.nutrients).filter(([, value]) => {
+          return value.match(nutrient)
+        }),
+      )
     },
     updateFilterData() {
       const data = { ...this.headerChineseAndEnglish }
