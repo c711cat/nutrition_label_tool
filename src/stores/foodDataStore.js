@@ -136,10 +136,18 @@ function createHeaderChineseAndEnglish() {
   return newData
 }
 
+function getMyProductList() {
+  const data = JSON.parse(localStorage.getItem('myFoodData')) || []
+  data.sort((a, b) => {
+    return b.id - a.id
+  })
+  return data
+}
+
 const headerObj = getHearder()
 const newKeyFoodData = updateKeyFoodData()
 const headerChineseAndEnglish = createHeaderChineseAndEnglish()
-
+const localStorageData = getMyProductList()
 export const useFoodStore = defineStore('foodDataStore', {
   state: () => ({
     foodData: foodData,
@@ -147,6 +155,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     newKeyFoodData: newKeyFoodData,
     headerChineseAndEnglish: headerChineseAndEnglish,
     headerMap: headerMap,
+    myProductList: localStorageData,
     forSearchData: [],
     product: {
       id: '',
@@ -172,7 +181,6 @@ export const useFoodStore = defineStore('foodDataStore', {
       geneticallyModified: { GMFStatus: '本產品不含有基因改造食品', GMFs: [] },
       allergenInformation: { allergenStatus: 'no', allergens: [] },
     },
-    myProductList: [],
   }),
   getters: {
     updateKeyFoodData: ({ newKeyFoodData }) => {
@@ -196,12 +204,6 @@ export const useFoodStore = defineStore('foodDataStore', {
         form.classList.add('was-validated')
         return
       }
-    },
-    getMyProductList() {
-      this.myProductList = JSON.parse(localStorage.getItem('myFoodData')) || []
-      this.myProductList.sort((a, b) => {
-        return b.id - a.id
-      })
     },
     addMyProduct(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))

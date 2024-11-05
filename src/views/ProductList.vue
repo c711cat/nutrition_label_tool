@@ -226,7 +226,7 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapState, mapActions } from 'pinia'
+import { mapState } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 export default {
   data() {
@@ -239,7 +239,6 @@ export default {
     ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['getMyProductList']),
     openModal(item) {
       this.$refs.addNutrientsModal.showModal(item)
     },
@@ -300,9 +299,7 @@ export default {
       }
     },
   },
-  created() {
-    this.getMyProductList()
-  },
+  created() {},
 }
 </script>
 
