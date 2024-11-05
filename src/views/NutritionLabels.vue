@@ -14,7 +14,10 @@
     <div>
       <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-5">
         <section class="col-4 col-xl-2 px-0 me-1">
-          <div class="list-group rounded visibleHeight overflow-y-auto">
+          <div v-if="filteredData.length === 0" class="py-5">
+            <p class="mb-0 text-center fw-bold">無相符品項</p>
+          </div>
+          <div v-else class="list-group rounded visibleHeight overflow-y-auto">
             <button
               v-for="item in filteredData"
               :key="item.id"
