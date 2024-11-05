@@ -138,10 +138,10 @@ export default {
     },
     showModal(item) {
       this.product = { ...item }
+      this.addNutrients = []
       if (item.addNutrients) {
         this.addNutrients = item.addNutrients
       }
-
       this.modal.show()
     },
     hideModal() {
