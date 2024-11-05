@@ -198,10 +198,16 @@
               class="lh-1"
             >
               <th class="fw-normal ps-2">
-                {{ nutrient.replace(/\(.*\)/, '') }}
+                {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
-              <td class="text-end pe-2">？ {{ transUnitText(nutrient) }}</td>
-              <td class="text-end pe-2">？ {{ transUnitText(nutrient) }}</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -228,7 +234,7 @@ export default {
   },
   components: { AddNutrientsModal },
   computed: {
-    ...mapState(useFoodStore, ['myProductList']),
+    ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
   methods: {
     ...mapActions(useFoodStore, ['getMyProductList']),

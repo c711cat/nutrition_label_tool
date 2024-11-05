@@ -33,25 +33,26 @@
               :key="item"
               class="border badge text-bg-light fs-6 m-1"
             >
-              {{ item }}
+              {{ filteredNutrients[item] }}
             </span>
           </div>
         </div>
+
         <div class="modal-body">
           <div
-            v-for="item in filteredNutrients"
-            :key="item"
+            v-for="(value, key) in filteredNutrients"
+            :key="key"
             class="form-check px-4 py-1 ms-2"
           >
             <input
               v-model="addNutrients"
               class="form-check-input"
               type="checkbox"
-              :id="item"
-              :value="item"
+              :id="value"
+              :value="key"
             />
-            <label class="form-check-label" :for="item">
-              {{ item }}
+            <label class="form-check-label" :for="value">
+              {{ value }}
             </label>
           </div>
         </div>
