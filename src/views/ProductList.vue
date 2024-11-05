@@ -7,7 +7,7 @@
       class="border rounded row m-0 my-5"
     >
       <section
-        class="bg-light p-3 rounded col-12 col-xl-8 col-xxl-9 markItemsContainer"
+        class="bg-light p-3 rounded col-12 col-xl-7 col-xxl-8 markItemsContainer"
       >
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
@@ -96,7 +96,7 @@
           <p class="col">{{ item.manufacturerPhone }}</p>
         </div>
       </section>
-      <section class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 p-3">
+      <section class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3">
         <table class="table table-sm table-borderless border border-black mb-0">
           <thead>
             <tr class="lh-sm border-bottom border-black">
