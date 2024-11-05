@@ -7,7 +7,7 @@
       class="border rounded row m-0 my-5"
     >
       <section
-        class="bg-light p-3 rounded col-12 col-xl-8 col-xxl-9 markItemsContainer"
+        class="bg-light p-3 rounded col-12 col-xl-7 col-xxl-8 markItemsContainer"
       >
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
@@ -96,7 +96,9 @@
           <p class="col">{{ item.manufacturerPhone }}</p>
         </div>
       </section>
-      <section class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3 p-3">
+      <section
+        class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3"
+      >
         <table class="table table-sm table-borderless border border-black mb-0">
           <thead>
             <tr class="lh-sm border-bottom border-black">
@@ -106,94 +108,205 @@
           <tbody>
             <tr>
               <th class="fw-normal ps-2 lh-sm">每一份量</th>
-              <td colspan="2" class="lh-sm">250 公克</td>
+              <td colspan="2" class="lh-sm">
+                {{ item.netWeightInformation.netWeight }}
+                {{ item.netWeightInformation.unit }}
+              </td>
             </tr>
             <tr class="lh-1 border-bottom border-black">
               <th class="fw-normal ps-2">本包裝含</th>
-              <td colspan="2">1 份</td>
+              <td colspan="2">{{ item.productQty }} 份</td>
             </tr>
             <tr class="lh-sm border-bottom border-black">
               <th></th>
               <td class="text-end pe-2">每份</td>
-              <td class="text-end pe-2">每 100 公克</td>
+              <td class="text-end pe-2">
+                每 100 {{ item.netWeightInformation.unit }}
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">熱量</th>
-              <td class="text-end pe-2">300 大卡</td>
-              <td class="text-end pe-2">150 大卡</td>
+              <td class="text-end pe-2">{{ calculateCalories(item) }} 大卡</td>
+              <td class="text-end pe-2">
+                {{ calculatePer100gCalories(item) }} 大卡
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">蛋白質</th>
-              <td class="text-end pe-2">30 公克</td>
-              <td class="text-end pe-2">15 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'protein') }} 公克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'protein') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">脂肪</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'fat') }} 公克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'fat') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">飽和脂肪</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'saturated_fat') }} 公克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'saturated_fat') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">反式脂肪</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'trans_fat') }} 公克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'trans_fat') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">碳水化合物</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'total_carbohydrates') }} 公克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'total_carbohydrates') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">糖</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">5 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'total_sugar') }} 公克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'total_sugar') }} 公克
+              </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">鈉</th>
-              <td class="text-end pe-2">10 公克</td>
-              <td class="text-end pe-2">10 公克</td>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, 'sodium') }} 毫克
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, 'sodium') }} 毫克
+              </td>
+            </tr>
+            <tr
+              v-for="nutrient in item.addNutrients"
+              :key="nutrient"
+              class="lh-1"
+            >
+              <th class="fw-normal ps-2">
+                {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
+              </th>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
             </tr>
           </tbody>
         </table>
       </section>
+      <div class="my-3">
+        <button @click="openModal(item)" type="button" class="btn btn-primary">
+          新增其他營養素
+        </button>
+      </div>
     </div>
+    <AddNutrientsModal ref="addNutrientsModal" />
   </div>
 </template>
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
+import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 export default {
   data() {
-    return {}
+    return {
+      addNutrients: [],
+    }
   },
+  components: { AddNutrientsModal },
   computed: {
-    ...mapState(useFoodStore, ['myProductList']),
+    ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
   methods: {
     ...mapActions(useFoodStore, ['getMyProductList']),
+    openModal(item) {
+      this.$refs.addNutrientsModal.showModal(item)
+    },
     sorted(ingredients) {
       return ingredients
         .sort((a, b) => b.grams - a.grams)
         .map(itemName => `${itemName.foodName}`)
         .join('、')
     },
+    calculateNutrients(item, nutrient) {
+      const data = item.ingredients.reduce((total, ingredient) => {
+        const gramsRatio = ingredient.grams / 100
+        const nutrientValue = ingredient.details[`${nutrient}`] || 0
+        return total + nutrientValue * gramsRatio
+      }, 0)
+      return (data / item.numberOfCopy).toFixed(1)
+    },
+    calculateCalories(item) {
+      const protein = parseFloat(this.calculateNutrients(item, 'protein'))
+      const fat = parseFloat(this.calculateNutrients(item, 'fat'))
+      const carbohydrates = parseFloat(
+        this.calculateNutrients(item, 'total_carbohydrates'),
+      )
+      return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+    },
+    calculatePer100g(item, nutrient) {
+      const data = item.ingredients.reduce((total, ingredient) => {
+        const gramsRatio = ingredient.grams / 100
+        const nutrientValue = ingredient.details[`${nutrient}`] || 0
+        return total + nutrientValue * gramsRatio
+      }, 0)
+      return (
+        (data / (item.netWeightInformation.netWeight * item.numberOfCopy)) *
+        100
+      ).toFixed(1)
+    },
+    calculatePer100gCalories(item) {
+      const protein = parseFloat(this.calculatePer100g(item, 'protein'))
+      const fat = parseFloat(this.calculatePer100g(item, 'fat'))
+      const carbohydrates = parseFloat(
+        this.calculatePer100g(item, 'total_carbohydrates'),
+      )
+      return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+    },
+    transUnitText(unit) {
+      const unitMapping = {
+        g: '公克',
+        ug: '微克',
+        mg: '毫克',
+        IU: '國際單位',
+        '': '',
+      }
+      const text = unit.match(/\((g|ug|mg|IU)\)/)
+      if (text === null) {
+        return ''
+      } else {
+        return unitMapping[text[1]]
+      }
+    },
   },
   created() {
     this.getMyProductList()
-    console.log(this.myProductList)
   },
 }
 </script>
 
 <style lang="scss" scoped>
-* {
-  border: 1px solid;
-}
 .markItemsContainer p {
   margin-bottom: 0px;
 }
