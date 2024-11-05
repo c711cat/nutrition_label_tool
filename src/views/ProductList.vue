@@ -307,9 +307,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-  border: 1px solid;
-}
 .markItemsContainer p {
   margin-bottom: 0px;
 }
