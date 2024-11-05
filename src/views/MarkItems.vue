@@ -376,15 +376,10 @@ export default {
       this.$router.push('/product_list')
     },
   },
-
   created() {
     this.productList = this.myProductList
   },
 }
 </script>
 
-<style lang="scss" scoped>
-* {
-  // border: 1px solid;
-}
-</style>
+<style lang="scss" scoped></style>

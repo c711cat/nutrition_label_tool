@@ -96,7 +96,9 @@
           <p class="col">{{ item.manufacturerPhone }}</p>
         </div>
       </section>
-      <section class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3">
+      <section
+        class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3"
+      >
         <table class="table table-sm table-borderless border border-black mb-0">
           <thead>
             <tr class="lh-sm border-bottom border-black">
@@ -300,15 +302,13 @@ export default {
   },
   created() {
     this.getMyProductList()
-
-    console.log(this.myProductList)
   },
 }
 </script>
 
 <style lang="scss" scoped>
 * {
-  // border: 1px solid;
+  border: 1px solid;
 }
 .markItemsContainer p {
   margin-bottom: 0px;
