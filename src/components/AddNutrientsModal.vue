@@ -39,7 +39,11 @@
         </div>
 
         <div class="modal-body">
+          <div v-if="Object.values(filteredNutrients).length === 0">
+            <p class="mb-0 text-center fw-bold">查無相符品項</p>
+          </div>
           <div
+            v-else
             v-for="(value, key) in filteredNutrients"
             :key="key"
             class="form-check px-4 py-1 ms-2"
