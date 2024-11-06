@@ -2,7 +2,7 @@
   <div class="container my-4">
     <h3 class="text-center mb-5">營養標示列表</h3>
     <div
-      v-for="item in myProductList"
+      v-for="(item, index) in myProductList"
       :key="item.id"
       class="border rounded row m-0 my-5"
     >
@@ -214,10 +214,31 @@
           </tbody>
         </table>
       </section>
-      <div class="my-3">
-        <button @click="openModal(item)" type="button" class="btn btn-primary">
+      <div class="d-flex flex-wrap justify-content-between pe-4">
+        <button
+          @click="openModal(item)"
+          type="button"
+          class="btn btn-primary my-3"
+        >
           新增其他營養素
         </button>
+        <div class="my-3">
+          <router-link
+            to="/nutrition_label"
+            @click="edit(item)"
+            type="button"
+            class="btn btn-outline-primary me-3"
+          >
+            編輯
+          </router-link>
+          <button
+            @click="del(index)"
+            type="button"
+            class="btn btn-outline-danger"
+          >
+            刪除
+          </button>
+        </div>
       </div>
     </div>
     <AddNutrientsModal ref="addNutrientsModal" />
@@ -226,12 +247,13 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 export default {
   data() {
     return {
       addNutrients: [],
+      productList: [],
     }
   },
   components: { AddNutrientsModal },
@@ -239,6 +261,7 @@ export default {
     ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
   methods: {
+    ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
     openModal(item) {
       this.$refs.addNutrientsModal.showModal(item)
     },
@@ -298,8 +321,19 @@ export default {
         return unitMapping[text[1]]
       }
     },
+    del(index) {
+      this.productList.splice(index, 1)
+      this.setMyProducts(this.productList)
+    },
+    sortItems() {
+      this.productList = this.myProductList
+      this.productList.sort((a, b) => b.id - a.id)
+      window.scrollTo(0, 0)
+    },
   },
-  created() {},
+  created() {
+    this.sortItems()
+  },
 }
 </script>
 

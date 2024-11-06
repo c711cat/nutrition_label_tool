@@ -362,7 +362,7 @@ export default {
     ...mapState(useFoodStore, ['product', 'myProductList']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['addMyProduct']),
+    ...mapActions(useFoodStore, ['setMyProducts', 'clearInput']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -370,10 +370,16 @@ export default {
         form.classList.add('was-validated')
         return
       }
-      this.product.id = Date.now()
-      this.productList.push(this.product)
-      this.addMyProduct(this.productList)
+      if (!this.product.id) {
+        this.product.id = Date.now()
+        this.productList.push(this.product)
+      }
+
+      this.setMyProducts(this.productList)
       this.$router.push('/product_list')
+      setTimeout(() => {
+        this.clearInput()
+      }, 5000)
     },
   },
   created() {

@@ -111,6 +111,30 @@ const headerMap = {
   Column108: 'Trp',
   Column109: 'amount_of_alcohol',
 }
+const nullInput = {
+  id: '',
+  title: '',
+  ingredients: [
+    {
+      id: '',
+      sample_name: '',
+      foodName: '',
+      grams: '',
+      details: {},
+    },
+  ],
+  numberOfCopy: '',
+  netWeightInformation: { netWeight: '', unit: '公克' },
+  productQty: '',
+  manufacturer: '',
+  manufacturerAddress: '',
+  manufacturerPhone: '',
+  origin: '',
+  validDaysInformation: { validDaysStatus: '標示於外包裝', validDays: '' },
+  validDateInformation: { validDateStatus: '標示於外包裝', validDate: '' },
+  geneticallyModified: { GMFStatus: '本產品不含有基因改造食品', GMFs: [] },
+  allergenInformation: { allergenStatus: 'no', allergens: [] },
+}
 
 function getHearder() {
   return foodData.shift()
@@ -137,11 +161,7 @@ function createHeaderChineseAndEnglish() {
 }
 
 function getMyProductList() {
-  const data = JSON.parse(localStorage.getItem('myFoodData')) || []
-  data.sort((a, b) => {
-    return b.id - a.id
-  })
-  return data
+  return JSON.parse(localStorage.getItem('myFoodData')) || []
 }
 
 const headerObj = getHearder()
@@ -181,6 +201,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       geneticallyModified: { GMFStatus: '本產品不含有基因改造食品', GMFs: [] },
       allergenInformation: { allergenStatus: 'no', allergens: [] },
     },
+    nullInput: nullInput,
   }),
   getters: {
     updateKeyFoodData: ({ newKeyFoodData }) => {
@@ -205,8 +226,16 @@ export const useFoodStore = defineStore('foodDataStore', {
         return
       }
     },
-    addMyProduct(productList) {
+
+    setMyProducts(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
+    },
+    clearInput() {
+      this.product = this.nullInput
+    },
+
+    edit(item) {
+      this.product = item
     },
   },
 })
