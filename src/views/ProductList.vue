@@ -325,9 +325,14 @@ export default {
       this.productList.splice(index, 1)
       this.setMyProducts(this.productList)
     },
+    sortItems() {
+      this.productList = this.myProductList
+      this.productList.sort((a, b) => b.id - a.id)
+      window.scrollTo(0, 0)
+    },
   },
   created() {
-    this.productList = this.myProductList
+    this.sortItems()
   },
 }
 </script>

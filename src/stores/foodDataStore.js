@@ -161,11 +161,7 @@ function createHeaderChineseAndEnglish() {
 }
 
 function getMyProductList() {
-  const data = JSON.parse(localStorage.getItem('myFoodData')) || []
-  data.sort((a, b) => {
-    return b.id - a.id
-  })
-  return data
+  return JSON.parse(localStorage.getItem('myFoodData')) || []
 }
 
 const headerObj = getHearder()
