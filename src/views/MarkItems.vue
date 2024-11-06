@@ -370,8 +370,11 @@ export default {
         form.classList.add('was-validated')
         return
       }
-      this.product.id = Date.now()
-      this.productList.push(this.product)
+      if (!this.product.id) {
+        this.product.id = Date.now()
+        this.productList.push(this.product)
+      }
+
       this.setMyProducts(this.productList)
       this.$router.push('/product_list')
       setTimeout(() => {

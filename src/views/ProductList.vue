@@ -223,13 +223,14 @@
           新增其他營養素
         </button>
         <div class="my-3">
-          <button
+          <router-link
+            to="/nutrition_label"
             @click="edit(item)"
             type="button"
             class="btn btn-outline-primary me-3"
           >
             編輯
-          </button>
+          </router-link>
           <button
             @click="del(index)"
             type="button"
@@ -260,7 +261,7 @@ export default {
     ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['setMyProducts']),
+    ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
     openModal(item) {
       this.$refs.addNutrientsModal.showModal(item)
     },

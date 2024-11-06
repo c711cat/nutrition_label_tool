@@ -237,5 +237,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     clearInput() {
       this.product = this.nullInput
     },
+
+    edit(item) {
+      this.product = item
+    },
   },
 })
