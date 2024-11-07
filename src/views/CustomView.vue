@@ -35,7 +35,7 @@
           <div class="invalid-feedback">此欄位為必填</div>
           <label for="content_description" class="">
             <i class="text-danger fst-normal">＊</i>
-            成分 （ 填入相同於包裝上的成分 ）
+            成分 （ 填入相同於包裝上的成分，順序也必須相同 ）
           </label>
         </div>
       </div>
@@ -87,12 +87,12 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapState } from 'pinia'
+import { useCustomStore } from '@/stores/customStore.js'
+import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
     return {
-      unit: { grams: '公克', mililiter: '毫升' },
       header: [],
       filteredHeader: [],
       nutrients: {
@@ -110,8 +110,10 @@ export default {
   },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
+    ...mapState(useCustomStore, ['customDataList']),
   },
   methods: {
+    ...mapActions(useCustomStore, ['setCustomData']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
       ;[
@@ -136,6 +138,7 @@ export default {
       this.header = data
       this.filteredHeader = data
     },
+
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -143,6 +146,10 @@ export default {
         form.classList.add('was-validated')
         return
       }
+      this.customFood.id = Date.now()
+      this.customFood.category = '自定義'
+      this.customDataList.push(this.customFood)
+      this.setCustomData(this.customDataList)
       this.$router.push('/custom_list')
     },
   },
