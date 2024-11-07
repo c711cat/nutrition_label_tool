@@ -6,6 +6,8 @@
     <router-link to="/product_list" class="btn btn-primary me-3">
       標示列表
     </router-link>
-    <button type="button" class="btn btn-primary">新增自定義食物</button>
+    <router-link to="/custom_list" class="btn btn-primary">
+      自定義食物
+    </router-link>
   </div>
 </template>

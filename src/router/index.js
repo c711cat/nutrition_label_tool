@@ -19,6 +19,14 @@ const router = createRouter({
           path: 'mark_items',
           component: () => import('@/views/MarkItems.vue'),
         },
+        {
+          path: 'custom_list',
+          component: () => import('@/views/CustomList.vue'),
+        },
+        {
+          path: 'custom',
+          component: () => import('@/views/CustomView.vue'),
+        },
       ],
     },
   ],
