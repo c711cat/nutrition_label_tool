@@ -109,7 +109,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
+    ...mapState(useFoodStore, [
+      'headerChineseAndEnglish',
+      'myProductList',
+      'newKeyFoodData',
+    ]),
     ...mapState(useCustomStore, ['customDataList']),
   },
   methods: {
@@ -149,6 +153,7 @@ export default {
       this.customFood.id = Date.now()
       this.customFood.category = '自定義'
       this.customDataList.push(this.customFood)
+      this.newKeyFoodData.push(this.customFood)
       this.setCustomData(this.customDataList)
       this.$router.push('/custom_list')
     },
