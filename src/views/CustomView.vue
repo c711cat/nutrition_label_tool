@@ -1,35 +1,47 @@
 <template>
-  <div class="container mt-4">
+  <div class="container col-lg-9 mt-4">
     <h3 class="text-center py-3">新增自訂義食材</h3>
-    <div class="row m-0">
-      <div class="py-3 col-12 col-lg-6">
+    <form
+      @submit.prevent="submitForm"
+      class="row m-0 justify-content-between"
+      novalidate
+    >
+      <div class="py-3 col-12 col-lg">
         <div class="form-floating mb-3">
           <input
-            v-model="customFood.sample_name"
+            v-model.trim="customFood.sample_name"
             type="text"
             class="form-control"
             id="sample_name"
             placeholder="食材名稱"
+            required
           />
-          <label for="sample_name" class="">食材名稱</label>
+          <div class="invalid-feedback">此欄位為必填</div>
+          <label for="sample_name" class="">
+            <i class="text-danger fst-normal">＊</i>
+            食材名稱
+          </label>
         </div>
         <div class="form-floating">
           <textarea
             style="height: 200px"
-            v-model="customFood.content_description"
+            v-model.trim="customFood.content_description"
             type="text"
             class="form-control"
             id="content_description"
             placeholder="成分 （ 填入相同於包裝上顯示的成分 ）"
+            required
           />
+          <div class="invalid-feedback">此欄位為必填</div>
           <label for="content_description" class="">
+            <i class="text-danger fst-normal">＊</i>
             成分 （ 填入相同於包裝上的成分 ）
           </label>
         </div>
       </div>
 
-      <div class="py-3 col-12 col-lg-6">
-        <table class="my-0 mx-auto">
+      <div class="py-3 col-12 col-lg-auto">
+        <table class="">
           <thead>
             <tr>
               <th colspan="2" class="px-3 fs-5">
@@ -43,21 +55,33 @@
               <td class="py-2">每 100 公克 / 毫升</td>
             </tr>
             <tr v-for="(value, key) in nutrients" :key="value">
-              <th class="fw-normal px-3">{{ value }}</th>
-              <td>
+              <th class="fw-normal px-3">
+                <i class="text-danger fst-normal">＊</i>
+                {{ value }}
+              </th>
+              <td class="col-6 col-sm-auto">
                 <input
                   v-model="customFood[key]"
                   type="number"
                   :name="key"
                   :id="key"
                   class="form-control text-center"
+                  required
+                  min="0"
+                  step="0.0001"
                 />
+                <div class="invalid-feedback">此欄位為必填</div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+      <div class="text-end py-4">
+        <button type="submit" class="col-12 col-lg-auto btn btn-primary">
+          送出資料
+        </button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -111,18 +135,25 @@ export default {
       })
       this.header = data
       this.filteredHeader = data
-      console.log(this.header)
+    },
+    submitForm(e) {
+      const form = e.target
+      if (!form.checkValidity()) {
+        // 若表單無效，添加樣式提示
+        form.classList.add('was-validated')
+        return
+      }
+      this.$router.push('/custom_list')
     },
   },
 
   created() {
     this.getHeader()
-    console.log(this.headerChineseAndEnglish)
   },
 }
 </script>
 <style lang="scss" scoped>
 * {
-  border: 1px solid;
+  // border: 1px solid;
 }
 </style>
