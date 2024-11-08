@@ -10,6 +10,7 @@ export const useCustomStore = defineStore('customStore', {
   state: () => ({
     customDataList: localStorageCustomData,
     addOthersNutrients: [],
+    customFood: {},
   }),
   getters: {
     localStorageData: ({ customDataList }) => {
@@ -18,10 +19,16 @@ export const useCustomStore = defineStore('customStore', {
     addOthersNts: ({ addOthersNutrients }) => {
       return addOthersNutrients
     },
+    customFoodInStore: ({ customFood }) => {
+      return customFood
+    },
   },
   actions: {
     setCustomData(data) {
       localStorage.setItem('myCustomData', JSON.stringify(data))
+    },
+    clearCustomFood() {
+      this.customFood = {}
     },
   },
 })

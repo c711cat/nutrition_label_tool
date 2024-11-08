@@ -130,7 +130,6 @@ export default {
         total_sugar: '糖(g)',
         sodium: '鈉(mg)',
       },
-      customFood: {},
     }
   },
   components: { AddNutrientsModal },
@@ -140,10 +139,14 @@ export default {
       'myProductList',
       'baseFoodData',
     ]),
-    ...mapState(useCustomStore, ['customDataList', 'addOthersNutrients']),
+    ...mapState(useCustomStore, [
+      'customDataList',
+      'addOthersNutrients',
+      'customFood',
+    ]),
   },
   methods: {
-    ...mapActions(useCustomStore, ['setCustomData']),
+    ...mapActions(useCustomStore, ['setCustomData', 'clearCustomFood']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
       ;[
@@ -182,6 +185,7 @@ export default {
       this.baseFoodData.push(this.customFood)
       this.setCustomData(this.customDataList)
       this.$router.push('/custom_list')
+      this.clearCustomFood()
     },
     openModal() {
       this.$refs.addNutrientsModal.showCustomModal(this.customFood)
