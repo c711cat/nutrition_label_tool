@@ -9,10 +9,14 @@ const localStorageCustomData = getCustomData()
 export const useCustomStore = defineStore('customStore', {
   state: () => ({
     customDataList: localStorageCustomData,
+    addOthersNutrients: [],
   }),
   getters: {
     localStorageData: ({ customDataList }) => {
       return customDataList
+    },
+    addOthersNts: ({ addOthersNutrients }) => {
+      return addOthersNutrients
     },
   },
   actions: {
