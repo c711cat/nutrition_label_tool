@@ -37,7 +37,16 @@
               <td class="px-2">每 100 公克 / 毫升</td>
             </tr>
             <tr v-for="(value, key) in item.nutritionLabels" :key="key">
-              <th class="px-2 fw-normal">
+              <th
+                class="px-2 fw-normal"
+                :class="{
+                  'ps-4': [
+                    'trans_fat',
+                    'total_sugar',
+                    'saturated_fat',
+                  ].includes(key),
+                }"
+              >
                 {{ transText(key) }}
               </th>
               <td class="text-end px-2">
