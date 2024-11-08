@@ -40,8 +40,8 @@
         </div>
       </div>
 
-      <div class="py-3 col-12 col-lg-auto">
-        <table class="">
+      <div class="py-3 col-12 col-lg-auto mb-5">
+        <table class="mb-4">
           <thead>
             <tr>
               <th colspan="2" class="px-3 fs-5">
@@ -73,8 +73,31 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </td>
             </tr>
+            <tr v-for="item in addOthersNutrients[0]" :key="item">
+              <th class="fw-normal px-3">{{ header[item] }}</th>
+              <td>
+                <input
+                  v-model="customFood[item]"
+                  type="number"
+                  :name="item"
+                  :id="item"
+                  class="form-control text-center"
+                  min="0"
+                  step="0.0001"
+                />
+              </td>
+            </tr>
           </tbody>
         </table>
+        <div>
+          <button
+            @click="openModal()"
+            type="button"
+            class="btn btn-outline-primary col-12"
+          >
+            新增其他營養素
+          </button>
+        </div>
       </div>
       <div class="text-end py-4">
         <button type="submit" class="col-12 col-lg-auto btn btn-primary">
@@ -82,6 +105,7 @@
         </button>
       </div>
     </form>
+    <AddNutrientsModal ref="addNutrientsModal" />
   </div>
 </template>
 
@@ -89,6 +113,7 @@
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { useCustomStore } from '@/stores/customStore.js'
 import { mapState, mapActions } from 'pinia'
+import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 
 export default {
   data() {
@@ -108,13 +133,14 @@ export default {
       customFood: {},
     }
   },
+  components: { AddNutrientsModal },
   computed: {
     ...mapState(useFoodStore, [
       'headerChineseAndEnglish',
       'myProductList',
       'newKeyFoodData',
     ]),
-    ...mapState(useCustomStore, ['customDataList']),
+    ...mapState(useCustomStore, ['customDataList', 'addOthersNutrients']),
   },
   methods: {
     ...mapActions(useCustomStore, ['setCustomData']),
@@ -156,6 +182,9 @@ export default {
       this.newKeyFoodData.push(this.customFood)
       this.setCustomData(this.customDataList)
       this.$router.push('/custom_list')
+    },
+    openModal() {
+      this.$refs.addNutrientsModal.showCustomModal(this.customFood)
     },
   },
 
