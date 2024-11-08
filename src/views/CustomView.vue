@@ -33,7 +33,7 @@
             required
           />
           <div class="invalid-feedback">此欄位為必填</div>
-          <label for="content_description" class="">
+          <label for="content_description" class="text-wrap">
             <i class="text-danger fst-normal">＊</i>
             成分 （ 填入相同於包裝上的成分，順序也必須相同 ）
           </label>
