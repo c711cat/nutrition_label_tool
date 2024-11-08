@@ -138,7 +138,7 @@ export default {
     ...mapState(useFoodStore, [
       'headerChineseAndEnglish',
       'myProductList',
-      'newKeyFoodData',
+      'baseFoodData',
     ]),
     ...mapState(useCustomStore, ['customDataList', 'addOthersNutrients']),
   },
@@ -179,7 +179,7 @@ export default {
       this.customFood.id = Date.now()
       this.customFood.category = '自定義'
       this.customDataList.push(this.customFood)
-      this.newKeyFoodData.push(this.customFood)
+      this.baseFoodData.push(this.customFood)
       this.setCustomData(this.customDataList)
       this.$router.push('/custom_list')
     },

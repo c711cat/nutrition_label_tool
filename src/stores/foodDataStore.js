@@ -152,6 +152,12 @@ function updateKeyFoodData() {
   })
 }
 
+function addCustomData(data) {
+  const customData = JSON.parse(localStorage.getItem('myCustomData')) || []
+  data.push(...customData)
+  return data
+}
+
 function createHeaderChineseAndEnglish() {
   const newData = []
   for (const [originKey, newKey] of Object.entries(headerMap)) {
@@ -165,14 +171,18 @@ function getMyProductList() {
 }
 
 const headerObj = getHearder()
-const newKeyFoodData = updateKeyFoodData()
+
+let baseFoodData = []
+baseFoodData = updateKeyFoodData()
+baseFoodData = addCustomData(baseFoodData)
+
 const headerChineseAndEnglish = createHeaderChineseAndEnglish()
 const localStorageData = getMyProductList()
 export const useFoodStore = defineStore('foodDataStore', {
   state: () => ({
     foodData: foodData,
     header: headerObj,
-    newKeyFoodData: newKeyFoodData,
+    baseFoodData: baseFoodData,
     headerChineseAndEnglish: headerChineseAndEnglish,
     headerMap: headerMap,
     myProductList: localStorageData,
@@ -204,8 +214,8 @@ export const useFoodStore = defineStore('foodDataStore', {
     nullInput: nullInput,
   }),
   getters: {
-    updateKeyFoodData: ({ newKeyFoodData }) => {
-      return newKeyFoodData
+    updateKeyFoodData: ({ baseFoodData }) => {
+      return baseFoodData
     },
     productLabeledMatters: ({ product }) => {
       return product
