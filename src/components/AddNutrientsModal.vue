@@ -68,8 +68,21 @@
           >
             取消
           </button>
-          <button @click="addNTs" type="button" class="btn btn-primary">
+          <button
+            v-if="addNTsBtb"
+            @click="addNTs"
+            type="button"
+            class="btn btn-primary"
+          >
             新增
+          </button>
+          <button
+            v-else
+            @click="addCustomFoodNTs"
+            type="button"
+            class="btn btn-primary"
+          >
+            新增自訂義食材營養素
           </button>
         </div>
       </div>
@@ -80,6 +93,7 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
+import { useCustomStore } from '@/stores/customStore'
 import { mapState, mapActions } from 'pinia'
 
 export default {
@@ -91,14 +105,16 @@ export default {
       addNutrients: [],
       product: null,
       productList: null,
+      addNTsBtb: true,
     }
   },
 
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
+    ...mapState(useCustomStore, ['addOthersNutrients']),
   },
   methods: {
-    ...mapActions(useFoodStore, ['addMyProduct']),
+    ...mapActions(useFoodStore, ['setMyProducts']),
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
         Object.entries(this.nutrients).filter(([, value]) => {
@@ -137,16 +153,25 @@ export default {
           item.addNutrients = this.addNutrients
         }
       })
-      this.addMyProduct(this.productList)
+      this.setMyProducts(this.productList)
       this.hideModal()
     },
     showModal(item) {
+      this.addNTsBtb = true
       this.product = { ...item }
       this.addNutrients = []
       if (item.addNutrients) {
         this.addNutrients = item.addNutrients
       }
       this.modal.show()
+    },
+    showCustomModal() {
+      this.modal.show()
+      this.addNTsBtb = false
+    },
+    addCustomFoodNTs() {
+      this.addOthersNutrients.push(this.addNutrients)
+      this.hideModal()
     },
     hideModal() {
       this.modal.hide()

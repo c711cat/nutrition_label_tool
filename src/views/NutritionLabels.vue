@@ -260,12 +260,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(useFoodStore, ['newKeyFoodData', 'product']),
+    ...mapState(useFoodStore, ['baseFoodData', 'product']),
   },
   methods: {
     searchFood(food) {
       const data = []
-      this.newKeyFoodData.filter(item => {
+      this.baseFoodData.filter(item => {
         if (
           (item.sample_name && item.sample_name.match(food)) ||
           (item.common_name && item.common_name.match(food))
@@ -313,7 +313,7 @@ export default {
   },
 
   created() {
-    this.filteredData = this.newKeyFoodData
+    this.filteredData = this.baseFoodData
   },
 }
 </script>
