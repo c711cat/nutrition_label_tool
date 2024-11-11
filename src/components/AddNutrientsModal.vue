@@ -158,9 +158,10 @@ export default {
     addNTs() {
       this.productList.forEach(item => {
         if (item.id === this.product.id) {
-          item.addNutrients = this.addNutrients
+          item.addNutrients = this.addOthersNutrients
         }
       })
+
       this.setMyProducts(this.productList)
       this.hideModal()
     },
@@ -169,7 +170,7 @@ export default {
       this.product = { ...item }
       this.addNutrients = []
       if (item.addNutrients) {
-        this.addNutrients = item.addNutrients
+        this.localAddOthersNutrients = item.addNutrients
       }
       this.modal.show()
     },
