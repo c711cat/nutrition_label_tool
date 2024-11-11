@@ -312,7 +312,6 @@ export default {
         ug: '微克',
         mg: '毫克',
         IU: '國際單位',
-        '': '',
       }
       const text = unit.match(/\((g|ug|mg|IU)\)/)
       if (text === null) {

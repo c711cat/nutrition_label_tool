@@ -30,5 +30,9 @@ export const useCustomStore = defineStore('customStore', {
     clearCustomFood() {
       this.customFood = {}
     },
+    addCustomNutrients(nts) {
+      this.addOthersNutrients = [...nts]
+      console.log(this.addOthersNutrients)
+    },
   },
 })

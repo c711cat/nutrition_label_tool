@@ -73,7 +73,7 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </td>
             </tr>
-            <tr v-for="item in addOthersNutrients[0]" :key="item">
+            <tr v-for="item in addOthersNutrients" :key="item">
               <th class="fw-normal px-3">{{ header[item] }}</th>
               <td>
                 <input
@@ -83,7 +83,7 @@
                   :id="item"
                   class="form-control text-center"
                   min="0"
-                  step="0.0001"
+                  step="0.01"
                 />
               </td>
             </tr>
