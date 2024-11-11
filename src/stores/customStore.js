@@ -101,5 +101,9 @@ export const useCustomStore = defineStore('customStore', {
     clearAddOtherNts() {
       this.addOthersNutrients = []
     },
+    delItemOfCustomList(index) {
+      this.customDataList.splice(index, 1)
+      this.setCustomData(this.customDataList)
+    },
   },
 })

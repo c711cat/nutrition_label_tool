@@ -8,7 +8,7 @@
     </div>
 
     <div
-      v-for="item in updateCustomData"
+      v-for="(item, index) in updateCustomData"
       :key="item"
       class="border rounded row m-0 my-5 justify-content-between"
     >
@@ -65,7 +65,13 @@
         >
           編輯
         </router-link>
-        <button type="button" class="btn btn-outline-danger me-1">刪除</button>
+        <button
+          @click="delItem(index)"
+          type="button"
+          class="btn btn-outline-danger me-1"
+        >
+          刪除
+        </button>
       </div>
     </div>
   </div>
@@ -87,7 +93,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(useCustomStore, ['editCustomFood']),
+    ...mapActions(useCustomStore, ['editCustomFood', 'delItemOfCustomList']),
     updateData() {
       this.updateCustomData = this.customDataList.map(
         ({
@@ -135,6 +141,10 @@ export default {
     },
     edit(item) {
       this.editCustomFood(item)
+    },
+    delItem(index) {
+      this.delItemOfCustomList(index)
+      location.reload()
     },
   },
   created() {
