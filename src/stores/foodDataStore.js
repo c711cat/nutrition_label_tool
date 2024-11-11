@@ -109,7 +109,8 @@ const headerMap = {
   Column106: 'His',
   Column107: 'Arg',
   Column108: 'Trp',
-  Column109: 'amount_of_alcohol',
+  Column109: 'cholesterol',
+  Column110: 'alcohol',
 }
 const nullInput = {
   id: '',
