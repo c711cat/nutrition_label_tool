@@ -73,7 +73,7 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </td>
             </tr>
-            <tr v-for="item in addOthersNutrients[0]" :key="item">
+            <tr v-for="item in addOthersNutrients" :key="item">
               <th class="fw-normal px-3">{{ header[item] }}</th>
               <td>
                 <input
@@ -83,7 +83,7 @@
                   :id="item"
                   class="form-control text-center"
                   min="0"
-                  step="0.0001"
+                  step="0.01"
                 />
               </td>
             </tr>
@@ -130,7 +130,6 @@ export default {
         total_sugar: '糖(g)',
         sodium: '鈉(mg)',
       },
-      customFood: {},
     }
   },
   components: { AddNutrientsModal },
@@ -140,10 +139,19 @@ export default {
       'myProductList',
       'baseFoodData',
     ]),
-    ...mapState(useCustomStore, ['customDataList', 'addOthersNutrients']),
+    ...mapState(useCustomStore, [
+      'customDataList',
+      'addOthersNutrients',
+      'customFood',
+    ]),
   },
   methods: {
-    ...mapActions(useCustomStore, ['setCustomData']),
+    ...mapActions(useCustomStore, [
+      'setCustomData',
+      'clearCustomFood',
+      'updateList',
+      'clearAddOtherNts',
+    ]),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
       ;[
@@ -176,12 +184,18 @@ export default {
         form.classList.add('was-validated')
         return
       }
-      this.customFood.id = Date.now()
-      this.customFood.category = '自定義'
-      this.customDataList.push(this.customFood)
-      this.baseFoodData.push(this.customFood)
-      this.setCustomData(this.customDataList)
+      if (!this.customFood.id) {
+        this.customFood.id = Date.now()
+        this.customFood.category = '自定義'
+        this.customDataList.push(this.customFood)
+        this.baseFoodData.push(this.customFood)
+        this.setCustomData(this.customDataList)
+      } else {
+        this.updateList()
+      }
       this.$router.push('/custom_list')
+      this.clearCustomFood()
+      this.clearAddOtherNts()
     },
     openModal() {
       this.$refs.addNutrientsModal.showCustomModal(this.customFood)
