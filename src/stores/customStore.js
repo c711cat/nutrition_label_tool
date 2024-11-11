@@ -30,9 +30,38 @@ export const useCustomStore = defineStore('customStore', {
     clearCustomFood() {
       this.customFood = {}
     },
+    editCustomFood(item) {
+      this.customFood = { ...item, ...item.nutritionLabels }
+      const excludeKey = [
+        'calories',
+        'protein',
+        'fat',
+        'saturated_fat',
+        'trans_fat',
+        'total_carbohydrates',
+        'total_sugar',
+        'sodium',
+      ]
+      this.addOthersNutrients = []
+      Object.keys(this.customFood.nutritionLabels).filter(key => {
+        if (!excludeKey.includes(key)) {
+          this.addOthersNutrients.push(key)
+        }
+      })
+      delete this.customFood.nutritionLabels
+    },
+    updateList() {
+      this.customDataList = this.customDataList.map(item => {
+        if (item.id === this.customFood.id) {
+          return (item = this.customFood)
+        } else {
+          return item
+        }
+      })
+      this.setCustomData(this.customDataList)
+    },
     addCustomNutrients(nts) {
       this.addOthersNutrients = [...nts]
-      console.log(this.addOthersNutrients)
     },
   },
 })

@@ -146,7 +146,11 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions(useCustomStore, ['setCustomData', 'clearCustomFood']),
+    ...mapActions(useCustomStore, [
+      'setCustomData',
+      'clearCustomFood',
+      'updateList',
+    ]),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
       ;[
@@ -179,11 +183,15 @@ export default {
         form.classList.add('was-validated')
         return
       }
-      this.customFood.id = Date.now()
-      this.customFood.category = '自定義'
-      this.customDataList.push(this.customFood)
-      this.baseFoodData.push(this.customFood)
-      this.setCustomData(this.customDataList)
+      if (!this.customFood.id) {
+        this.customFood.id = Date.now()
+        this.customFood.category = '自定義'
+        this.customDataList.push(this.customFood)
+        this.baseFoodData.push(this.customFood)
+        this.setCustomData(this.customDataList)
+      } else {
+        this.updateList()
+      }
       this.$router.push('/custom_list')
       this.clearCustomFood()
     },

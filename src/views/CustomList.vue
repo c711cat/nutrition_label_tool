@@ -56,11 +56,22 @@
           </tbody>
         </table>
       </section>
+      <div class="text-end my-3">
+        <router-link
+          @click="edit(item)"
+          to="/custom"
+          type="button"
+          class="btn btn-outline-primary me-3"
+        >
+          編輯
+        </router-link>
+        <button type="button" class="btn btn-outline-danger me-1">刪除</button>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 import { useCustomStore } from '@/stores/customStore'
 import { useFoodStore } from '@/stores/foodDataStore'
 
@@ -71,11 +82,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(useCustomStore, ['customDataList']),
+    ...mapState(useCustomStore, ['customDataList', 'customFood']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
 
   methods: {
+    ...mapActions(useCustomStore, ['editCustomFood']),
     updateData() {
       this.updateCustomData = this.customDataList.map(
         ({
@@ -120,6 +132,9 @@ export default {
       } else {
         return unitMapping[text[1]]
       }
+    },
+    edit(item) {
+      this.editCustomFood(item)
     },
   },
   created() {
