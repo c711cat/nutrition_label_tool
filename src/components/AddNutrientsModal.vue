@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts']),
-    ...mapActions(useCustomStore, ['addCustomNutrients']),
+    ...mapActions(useCustomStore, ['addCustomNutrients', 'clearAddOtherNts']),
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
         Object.entries(this.nutrients).filter(([, value]) => {
@@ -164,6 +164,7 @@ export default {
 
       this.setMyProducts(this.productList)
       this.hideModal()
+      this.clearAddOtherNts()
     },
     showModal(item) {
       this.addNTsBtb = true

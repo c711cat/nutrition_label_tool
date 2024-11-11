@@ -150,6 +150,7 @@ export default {
       'setCustomData',
       'clearCustomFood',
       'updateList',
+      'clearAddOtherNts',
     ]),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
@@ -194,6 +195,7 @@ export default {
       }
       this.$router.push('/custom_list')
       this.clearCustomFood()
+      this.clearAddOtherNts()
     },
     openModal() {
       this.$refs.addNutrientsModal.showCustomModal(this.customFood)

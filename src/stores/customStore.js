@@ -98,5 +98,8 @@ export const useCustomStore = defineStore('customStore', {
     addCustomNutrients(nts) {
       this.addOthersNutrients = [...nts]
     },
+    clearAddOtherNts() {
+      this.addOthersNutrients = []
+    },
   },
 })
