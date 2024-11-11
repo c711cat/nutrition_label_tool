@@ -24,12 +24,12 @@
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
           <div
-            v-if="addNutrients.length > 0"
+            v-if="addOthersNutrients.length > 0"
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
             <span
-              v-for="item in addNutrients"
+              v-for="item in localAddOthersNutrients"
               :key="item"
               class="border badge text-bg-light fs-6 m-1"
             >
@@ -49,7 +49,7 @@
             class="form-check px-4 py-1 ms-2"
           >
             <input
-              v-model="addNutrients"
+              v-model="localAddOthersNutrients"
               class="form-check-input"
               type="checkbox"
               :id="value"
@@ -98,6 +98,7 @@ import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
+    const customStore = useCustomStore()
     return {
       modal: null,
       nutrients: [],
@@ -106,12 +107,18 @@ export default {
       product: null,
       productList: null,
       addNTsBtb: true,
+      localAddOthersNutrients: [...customStore.addOthersNutrients],
     }
   },
 
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
     ...mapState(useCustomStore, ['addOthersNutrients']),
+  },
+  watch: {
+    localAddOthersNutrients(newVal) {
+      useCustomStore().addOthersNutrients = newVal
+    },
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts']),
@@ -171,7 +178,7 @@ export default {
       this.addNTsBtb = false
     },
     addCustomFoodNTs() {
-      this.addCustomNutrients(this.addNutrients)
+      this.addCustomNutrients(this.localAddOthersNutrients)
       this.hideModal()
     },
     hideModal() {
