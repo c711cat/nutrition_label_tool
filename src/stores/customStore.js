@@ -51,6 +51,40 @@ export const useCustomStore = defineStore('customStore', {
       delete this.customFood.nutritionLabels
     },
     updateList() {
+      const keepKeys = [
+        'sample_name',
+        'content_description',
+        'category',
+        'id',
+        'calories',
+        'protein',
+        'fat',
+        'saturated_fat',
+        'trans_fat',
+        'total_carbohydrates',
+        'total_sugar',
+        'sodium',
+      ]
+      const keepKeysOfCustomFood = {}
+      const othersNutrients = {}
+      Object.keys(this.customFood).forEach(key => {
+        if (keepKeys.includes(key)) {
+          keepKeysOfCustomFood[key] = this.customFood[key]
+        } else {
+          othersNutrients[key] = this.customFood[key]
+        }
+      })
+
+      const filterNts = {}
+      this.addOthersNutrients.forEach(ele => {
+        Object.keys(othersNutrients).forEach(key => {
+          if (ele === key) {
+            filterNts[key] = othersNutrients[key]
+          }
+        })
+      })
+
+      this.customFood = { ...keepKeysOfCustomFood, ...filterNts }
       this.customDataList = this.customDataList.map(item => {
         if (item.id === this.customFood.id) {
           return (item = this.customFood)
@@ -60,6 +94,7 @@ export const useCustomStore = defineStore('customStore', {
       })
       this.setCustomData(this.customDataList)
     },
+
     addCustomNutrients(nts) {
       this.addOthersNutrients = [...nts]
     },
