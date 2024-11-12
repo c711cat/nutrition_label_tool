@@ -289,11 +289,15 @@ export default {
           empty.common_name = chooseItem.common_name
         }
         if (empty.details.category === '自定義') {
-          empty.foodName =
-            chooseItem.sample_name +
-            ' ( ' +
-            chooseItem.content_description +
-            ' ) '
+          if (chooseItem.sample_name === chooseItem.content_description) {
+            empty.foodName = chooseItem.sample_name
+          } else {
+            empty.foodName =
+              chooseItem.sample_name +
+              ' ( ' +
+              chooseItem.content_description +
+              ' ) '
+          }
         }
       }
     },
