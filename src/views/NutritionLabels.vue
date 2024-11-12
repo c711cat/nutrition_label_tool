@@ -196,12 +196,13 @@
                   v-model="item.grams"
                   type="number"
                   :id="'grams' + index"
-                  min="1"
+                  min="0.1"
+                  step="0.1"
                   placeholder="輸入該成分『 總克數 』"
                   class="form-control"
                   required
                 />
-                <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
+                <div class="invalid-feedback">此欄位為必填，且需大於 0</div>
               </li>
               <li
                 class="d-none d-xl-block list-group-item col-1 align-content-center"
