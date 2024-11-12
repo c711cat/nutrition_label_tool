@@ -297,8 +297,18 @@
       </section>
     </div>
     <div class="col-12 text-end">
-      <button class="col-12 col-xl-2 btn btn-primary" id="submit" type="submit">
-        送出表單
+      <button
+        :disabled="loadingStatus"
+        class="col-12 col-xl-2 btn btn-primary"
+        id="submit"
+        type="submit"
+      >
+        <span v-if="!loadingStatus">送出表單</span>
+        <span
+          v-else
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
       </button>
     </div>
   </form>
@@ -344,6 +354,7 @@ export default {
       ],
       validItemsInput: '',
       productList: [],
+      loadingStatus: false,
     }
   },
   watch: {
@@ -370,6 +381,7 @@ export default {
         form.classList.add('was-validated')
         return
       }
+      this.loadingStatus = true
       if (!this.product.id) {
         this.product.id = Date.now()
         this.productList.push(this.product)
@@ -379,6 +391,7 @@ export default {
       this.$router.push('/product_list')
       setTimeout(() => {
         this.clearInput()
+        this.loadingStatus = false
       }, 5000)
     },
   },
