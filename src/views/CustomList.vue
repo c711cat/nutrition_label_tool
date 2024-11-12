@@ -112,6 +112,12 @@ export default {
           }
         },
       )
+      this.sortItem()
+    },
+    sortItem() {
+      this.updateCustomData.sort((a, b) => {
+        return b.id - a.id
+      })
     },
     transText(item) {
       const chineseAndUnit = this.headerChineseAndEnglish[item]

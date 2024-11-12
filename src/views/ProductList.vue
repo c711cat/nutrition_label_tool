@@ -24,7 +24,7 @@
         </div>
         <!-- 基因改造食品 -->
         <div v-if="item.geneticallyModified.GMFStatus === 'yes'" class="d-flex">
-          <p class="markItemsTitle">過敏原資訊</p>
+          <p class="markItemsTitle">基因改造食品</p>
           <i class="fst-normal">：</i>
           <p class="col">
             {{ item.geneticallyModified.GMFs.join('、') }}
@@ -38,7 +38,9 @@
           <p class="markItemsTitle">過敏原資訊</p>
           <i class="fst-normal">：</i>
           <p class="col">
-            {{ item.allergenInformation.allergens.join('、') }}
+            本產品含有{{
+              transAllergenText(item.allergenInformation.allergens)
+            }}及其製品
           </p>
         </div>
         <!-- 淨重 -->
@@ -328,6 +330,29 @@ export default {
       this.productList = this.myProductList
       this.productList.sort((a, b) => b.id - a.id)
       window.scrollTo(0, 0)
+    },
+    transAllergenText(data) {
+      const text = []
+      const allergenItem = [
+        '麩質',
+        '甲殼類',
+        '芒果類',
+        '花生類',
+        '牛奶、羊奶',
+        '蛋',
+        '芝麻',
+        '堅果類',
+        '大豆',
+        '亞硫酸鹽',
+      ]
+      data.forEach(item => {
+        allergenItem.forEach(ele => {
+          if (item.match(ele)) {
+            text.push(ele)
+          }
+        })
+      })
+      return text.join('、')
     },
   },
   created() {
