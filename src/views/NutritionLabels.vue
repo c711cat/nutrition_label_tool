@@ -161,6 +161,7 @@
               <span class="text-danger">＊</span>
               從左邊資料庫點選成分，並填入各欄位所需資料
             </p>
+
             <ul
               v-for="(item, index) in product.ingredients"
               :key="item.id"
@@ -181,6 +182,7 @@
                   v-model.trim="item.foodName"
                   type="text"
                   :id="'foodName' + index"
+                  :disabled="item.details.category === '自定義'"
                   placeholder="輸入欲示於外包裝成分"
                   class="form-control"
                   required
@@ -286,6 +288,13 @@ export default {
         if (chooseItem.common_name) {
           empty.common_name = chooseItem.common_name
         }
+        if (empty.details.category === '自定義') {
+          empty.foodName =
+            chooseItem.sample_name +
+            ' ( ' +
+            chooseItem.content_description +
+            ' ) '
+        }
       }
     },
     addNewField() {
@@ -294,6 +303,7 @@ export default {
         sample_name: '',
         foodName: '',
         grams: '',
+        details: '',
       }
       this.product.ingredients.push(newIngredient)
     },
