@@ -242,7 +242,7 @@ export const useFoodStore = defineStore('foodDataStore', {
         return
       }
     },
-    DoubleCheckedOK() {
+    doubleCheckedOK() {
       this.loadingStatus = true
       if (!this.product.id) {
         this.product.id = Date.now()

@@ -27,7 +27,20 @@
           >
             取消
           </button>
-          <button @click="checkedOK" type="button" class="btn btn-primary">
+          <button
+            v-if="custom"
+            @click="customCheckedOK"
+            type="button"
+            class="btn btn-primary"
+          >
+            確定送出自定義品項
+          </button>
+          <button
+            v-else
+            @click="checkedOK"
+            type="button"
+            class="btn btn-primary"
+          >
             確定送出
           </button>
         </div>
@@ -39,25 +52,38 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
+import { useCustomStore } from '@/stores/customStore'
 import { mapActions } from 'pinia'
 export default {
   data() {
     return {
       modal: {},
+      custom: false,
     }
   },
   methods: {
-    ...mapActions(useFoodStore, ['DoubleCheckedOK']),
-    showModal() {
+    ...mapActions(useFoodStore, ['doubleCheckedOK']),
+    ...mapActions(useCustomStore, ['customDoubleCheckedOK']),
+    showModal(boolean) {
+      if (boolean) {
+        this.custom = boolean
+      } else {
+        this.custom = false
+      }
       this.modal.show()
     },
     hideModal() {
       this.modal.hide()
     },
     checkedOK() {
-      this.DoubleCheckedOK()
+      this.doubleCheckedOK()
       this.modal.hide()
       this.$router.push('/product_list')
+    },
+    customCheckedOK() {
+      this.customDoubleCheckedOK()
+      this.modal.hide()
+      this.$router.push('/custom_list')
     },
   },
   mounted() {
