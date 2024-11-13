@@ -94,6 +94,13 @@ export default {
 
   methods: {
     ...mapActions(useCustomStore, ['editCustomFood', 'delItemOfCustomList']),
+    sortItem() {
+      this.updateCustomData = this.customDataList
+      this.updateCustomData.sort((a, b) => {
+        return b.id - a.id
+      })
+      this.updateData()
+    },
     updateData() {
       this.updateCustomData = this.customDataList.map(
         ({
@@ -112,13 +119,8 @@ export default {
           }
         },
       )
-      this.sortItem()
     },
-    sortItem() {
-      this.updateCustomData.sort((a, b) => {
-        return b.id - a.id
-      })
-    },
+
     transText(item) {
       const chineseAndUnit = this.headerChineseAndEnglish[item]
       const chinese = chineseAndUnit.replace(/\(.*\)/, '')
@@ -154,7 +156,7 @@ export default {
     },
   },
   created() {
-    this.updateData()
+    this.sortItem()
   },
 }
 </script>
