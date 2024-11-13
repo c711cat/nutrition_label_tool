@@ -330,7 +330,9 @@ export default {
 
     sortItems() {
       this.productList = this.myProductList
-      this.productList.sort((a, b) => b.id - a.id)
+      this.productList.sort((a, b) => {
+        return b.id - a.id
+      })
       window.scrollTo(0, 0)
     },
     transAllergenText(data) {
