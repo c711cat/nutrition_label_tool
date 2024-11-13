@@ -234,7 +234,7 @@
             編輯
           </router-link>
           <button
-            @click="del(index)"
+            @click="openDoubleCheckModal(index, item)"
             type="button"
             class="btn btn-outline-danger"
           >
@@ -244,6 +244,7 @@
       </div>
     </div>
     <AddNutrientsModal ref="addNutrientsModal" />
+    <DoubleCheckModal ref="doubleCheckModal" />
   </div>
 </template>
 
@@ -251,6 +252,7 @@
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
+import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
     return {
@@ -258,7 +260,7 @@ export default {
       productList: [],
     }
   },
-  components: { AddNutrientsModal },
+  components: { AddNutrientsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
@@ -322,10 +324,10 @@ export default {
         return unitMapping[text[1]]
       }
     },
-    del(index) {
-      this.productList.splice(index, 1)
-      this.setMyProducts(this.productList)
+    openDoubleCheckModal(index, item) {
+      this.$refs.doubleCheckModal.showDelModal(index, item)
     },
+
     sortItems() {
       this.productList = this.myProductList
       this.productList.sort((a, b) => b.id - a.id)

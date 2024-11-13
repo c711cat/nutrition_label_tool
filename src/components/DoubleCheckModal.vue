@@ -43,6 +43,14 @@
           >
             確定送出
           </button>
+          <button
+            v-if="delIndex !== ''"
+            @click="delLableItem"
+            type="button"
+            class="btn btn-danger"
+          >
+            確定刪除
+          </button>
         </div>
       </div>
     </div>
@@ -59,10 +67,12 @@ export default {
     return {
       modal: {},
       custom: false,
+      text: '',
+      delIndex: '',
     }
   },
   methods: {
-    ...mapActions(useFoodStore, ['doubleCheckedOK']),
+    ...mapActions(useFoodStore, ['doubleCheckedOK', 'del']),
     ...mapActions(useCustomStore, ['customDoubleCheckedOK']),
     showModal(boolean) {
       if (boolean) {
@@ -84,6 +94,15 @@ export default {
       this.customDoubleCheckedOK()
       this.modal.hide()
       this.$router.push('/custom_list')
+    },
+    showDelModal(index, item) {
+      this.delIndex = index
+      this.text = '確定刪除' + '『 ' + item.title + ' 』'
+      this.modal.show()
+    },
+    delLableItem() {
+      this.del(this.delIndex)
+      this.modal.hide()
     },
   },
   mounted() {
