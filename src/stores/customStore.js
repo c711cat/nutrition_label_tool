@@ -106,6 +106,7 @@ export const useCustomStore = defineStore('customStore', {
     delItemOfCustomList(index) {
       this.customDataList.splice(index, 1)
       this.setCustomData(this.customDataList)
+      location.reload()
     },
     customDoubleCheckedOK() {
       if (!this.customFood.id) {

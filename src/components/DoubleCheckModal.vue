@@ -51,6 +51,14 @@
           >
             確定刪除
           </button>
+          <button
+            v-if="delCustomIndex !== ''"
+            @click="delCustomItem"
+            type="button"
+            class="btn btn-danger"
+          >
+            確定刪除自定義品項
+          </button>
         </div>
       </div>
     </div>
@@ -70,11 +78,15 @@ export default {
       labelForm: false,
       text: '',
       delIndex: '',
+      delCustomIndex: '',
     }
   },
   methods: {
     ...mapActions(useFoodStore, ['doubleCheckedOK', 'del']),
-    ...mapActions(useCustomStore, ['customDoubleCheckedOK']),
+    ...mapActions(useCustomStore, [
+      'customDoubleCheckedOK',
+      'delItemOfCustomList',
+    ]),
     showModal(custom) {
       this.text = '資料確認無誤，並送出'
       if (custom) {
@@ -101,6 +113,15 @@ export default {
     },
     delLableItem() {
       this.del(this.delIndex)
+      this.modal.hide()
+    },
+    showDelCustomModal(item, index) {
+      this.delCustomIndex = index
+      this.text = '確定刪除' + '『 ' + item.sample_name + ' 』'
+      this.modal.show()
+    },
+    delCustomItem() {
+      this.delItemOfCustomList(this.delCustomIndex)
       this.modal.hide()
     },
     hideModal() {
