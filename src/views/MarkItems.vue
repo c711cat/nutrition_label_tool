@@ -312,12 +312,13 @@
       </button>
     </div>
   </form>
+  <DoubleCheckModal ref="doubleCheckModal" />
 </template>
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
-
+import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
     return {
@@ -353,10 +354,9 @@ export default {
         '使用亞硫酸鹽類等，其終產品以二氧化硫殘留量計每公斤十毫克以上之製品',
       ],
       validItemsInput: '',
-
-      loadingStatus: false,
     }
   },
+  components: { DoubleCheckModal },
   watch: {
     'product.validDaysInformation.validDaysStatus'(status) {
       if (status === '標示於外包裝') {
@@ -370,7 +370,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useFoodStore, ['product', 'myProductList']),
+    ...mapState(useFoodStore, ['product', 'myProductList', 'loadingStatus']),
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'clearInput']),
@@ -380,19 +380,9 @@ export default {
         // 若表單無效，添加樣式提示
         form.classList.add('was-validated')
         return
+      } else {
+        this.$refs.doubleCheckModal.showModal()
       }
-      this.loadingStatus = true
-      if (!this.product.id) {
-        this.product.id = Date.now()
-        this.myProductList.push(this.product)
-      }
-
-      this.setMyProducts(this.myProductList)
-      this.$router.push('/product_list')
-      setTimeout(() => {
-        this.clearInput()
-        this.loadingStatus = false
-      }, 5000)
     },
   },
 }
