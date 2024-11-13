@@ -234,7 +234,7 @@
             編輯
           </router-link>
           <button
-            @click="openDoubleCheckModal(index, item)"
+            @click="openDoubleCheckModal(item, index)"
             type="button"
             class="btn btn-outline-danger"
           >
@@ -324,8 +324,8 @@ export default {
         return unitMapping[text[1]]
       }
     },
-    openDoubleCheckModal(index, item) {
-      this.$refs.doubleCheckModal.showDelModal(index, item)
+    openDoubleCheckModal(item, index) {
+      this.$refs.doubleCheckModal.showDelModal(item, index)
     },
 
     sortItems() {

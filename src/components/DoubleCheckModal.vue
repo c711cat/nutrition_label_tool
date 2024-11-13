@@ -106,7 +106,7 @@ export default {
       this.modal.hide()
       this.$router.push('/custom_list')
     },
-    showDelModal(index, item) {
+    showDelModal(item, index) {
       this.delIndex = index
       this.text = '確定刪除' + '『 ' + item.title + ' 』'
       this.modal.show()
