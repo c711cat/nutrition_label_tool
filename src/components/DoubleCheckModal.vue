@@ -17,7 +17,7 @@
           ></button>
         </div>
         <div class="modal-body">
-          <p>資料確認無誤，並送出</p>
+          <p>{{ text }}</p>
         </div>
         <div class="modal-footer">
           <button
@@ -28,7 +28,7 @@
             取消
           </button>
           <button
-            v-if="custom"
+            v-if="customForm"
             @click="customCheckedOK"
             type="button"
             class="btn btn-primary"
@@ -36,7 +36,7 @@
             確定送出自定義品項
           </button>
           <button
-            v-else
+            v-if="labelForm"
             @click="checkedOK"
             type="button"
             class="btn btn-primary"
@@ -66,7 +66,8 @@ export default {
   data() {
     return {
       modal: {},
-      custom: false,
+      customForm: false,
+      labelForm: false,
       text: '',
       delIndex: '',
     }
@@ -74,16 +75,14 @@ export default {
   methods: {
     ...mapActions(useFoodStore, ['doubleCheckedOK', 'del']),
     ...mapActions(useCustomStore, ['customDoubleCheckedOK']),
-    showModal(boolean) {
-      if (boolean) {
-        this.custom = boolean
-      } else {
-        this.custom = false
+    showModal(custom) {
+      this.text = '資料確認無誤，並送出'
+      if (custom) {
+        this.customForm = true
+      } else if (!custom && this.delIndex === '') {
+        this.labelForm = true
       }
       this.modal.show()
-    },
-    hideModal() {
-      this.modal.hide()
     },
     checkedOK() {
       this.doubleCheckedOK()
@@ -104,7 +103,11 @@ export default {
       this.del(this.delIndex)
       this.modal.hide()
     },
+    hideModal() {
+      this.modal.hide()
+    },
   },
+
   mounted() {
     this.modal = new Modal(this.$refs.doubleCheckModal)
   },

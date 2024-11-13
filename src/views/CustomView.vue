@@ -185,9 +185,8 @@ export default {
         form.classList.add('was-validated')
         return
       } else {
-        this.$refs.doubleCheckModal.showModal(true)
+        this.$refs.doubleCheckModal.showModal('custom')
       }
-      
     },
     openModal() {
       this.$refs.addNutrientsModal.showCustomModal(this.customFood)
