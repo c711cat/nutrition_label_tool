@@ -266,6 +266,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     del(index) {
       this.myProductList.splice(index, 1)
       this.setMyProducts(this.myProductList)
+      location.reload()
     },
   },
 })
