@@ -66,7 +66,7 @@
           編輯
         </router-link>
         <button
-          @click="delItem(index)"
+          @click="opendelModal(item, index)"
           type="button"
           class="btn btn-outline-danger me-1"
         >
@@ -75,18 +75,20 @@
       </div>
     </div>
   </div>
+  <DoubleCheckModal ref="doubleCheckModal" />
 </template>
 <script>
 import { mapState, mapActions } from 'pinia'
 import { useCustomStore } from '@/stores/customStore'
 import { useFoodStore } from '@/stores/foodDataStore'
-
+import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
     return {
       updateCustomData: [],
     }
   },
+  components: { DoubleCheckModal },
   computed: {
     ...mapState(useCustomStore, ['customDataList', 'customFood']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
@@ -94,6 +96,13 @@ export default {
 
   methods: {
     ...mapActions(useCustomStore, ['editCustomFood', 'delItemOfCustomList']),
+    sortItem() {
+      this.updateCustomData = this.customDataList
+      this.updateCustomData.sort((a, b) => {
+        return b.id - a.id
+      })
+      this.updateData()
+    },
     updateData() {
       this.updateCustomData = this.customDataList.map(
         ({
@@ -112,13 +121,8 @@ export default {
           }
         },
       )
-      this.sortItem()
     },
-    sortItem() {
-      this.updateCustomData.sort((a, b) => {
-        return b.id - a.id
-      })
-    },
+
     transText(item) {
       const chineseAndUnit = this.headerChineseAndEnglish[item]
       const chinese = chineseAndUnit.replace(/\(.*\)/, '')
@@ -148,13 +152,12 @@ export default {
     edit(item) {
       this.editCustomFood(item)
     },
-    delItem(index) {
-      this.delItemOfCustomList(index)
-      location.reload()
+    opendelModal(item, index) {
+      this.$refs.doubleCheckModal.showDelCustomModal(item, index)
     },
   },
   created() {
-    this.updateData()
+    this.sortItem()
   },
 }
 </script>

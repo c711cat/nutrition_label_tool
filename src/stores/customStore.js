@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-
+import { useFoodStore } from './foodDataStore'
+import { mapState } from 'pinia'
 function getCustomData() {
   return JSON.parse(localStorage.getItem('myCustomData')) || []
 }
@@ -22,6 +23,7 @@ export const useCustomStore = defineStore('customStore', {
     customFoodInStore: ({ customFood }) => {
       return customFood
     },
+    ...mapState(useFoodStore, ['baseFoodData']),
   },
   actions: {
     setCustomData(data) {
@@ -104,6 +106,20 @@ export const useCustomStore = defineStore('customStore', {
     delItemOfCustomList(index) {
       this.customDataList.splice(index, 1)
       this.setCustomData(this.customDataList)
+      location.reload()
+    },
+    customDoubleCheckedOK() {
+      if (!this.customFood.id) {
+        this.customFood.id = Date.now()
+        this.customFood.category = '自定義'
+        this.customDataList.push(this.customFood)
+        this.baseFoodData.push(this.customFood)
+        this.setCustomData(this.customDataList)
+      } else {
+        this.updateList()
+      }
+      this.clearCustomFood()
+      this.clearAddOtherNts()
     },
   },
 })

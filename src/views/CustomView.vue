@@ -106,6 +106,7 @@
       </div>
     </form>
     <AddNutrientsModal ref="addNutrientsModal" />
+    <DoubleCheckModal ref="doubleCheckModal" />
   </div>
 </template>
 
@@ -114,7 +115,7 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { useCustomStore } from '@/stores/customStore.js'
 import { mapState, mapActions } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
-
+import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
     return {
@@ -132,7 +133,7 @@ export default {
       },
     }
   },
-  components: { AddNutrientsModal },
+  components: { AddNutrientsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, [
       'headerChineseAndEnglish',
@@ -183,19 +184,9 @@ export default {
         // 若表單無效，添加樣式提示
         form.classList.add('was-validated')
         return
-      }
-      if (!this.customFood.id) {
-        this.customFood.id = Date.now()
-        this.customFood.category = '自定義'
-        this.customDataList.push(this.customFood)
-        this.baseFoodData.push(this.customFood)
-        this.setCustomData(this.customDataList)
       } else {
-        this.updateList()
+        this.$refs.doubleCheckModal.showModal('custom')
       }
-      this.$router.push('/custom_list')
-      this.clearCustomFood()
-      this.clearAddOtherNts()
     },
     openModal() {
       this.$refs.addNutrientsModal.showCustomModal(this.customFood)

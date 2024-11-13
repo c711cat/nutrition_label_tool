@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import foodData from '@/fooddata2023.json'
+
 const headerMap = {
   '*本資料庫所列數值單位均為每100 g可食部分之含量。': 'id',
   Column2: 'category',
@@ -213,6 +214,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       allergenInformation: { allergenStatus: 'no', allergens: [] },
     },
     nullInput: nullInput,
+    loadingStatus: false,
   }),
   getters: {
     updateKeyFoodData: ({ baseFoodData }) => {
@@ -227,6 +229,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     headerData: ({ headerChineseAndEnglish }) => {
       return headerChineseAndEnglish
     },
+    BtnloadingStatus: ({ loadingStatus }) => {
+      return loadingStatus
+    },
   },
   actions: {
     submitForm(e) {
@@ -237,16 +242,31 @@ export const useFoodStore = defineStore('foodDataStore', {
         return
       }
     },
-
+    doubleCheckedOK() {
+      this.loadingStatus = true
+      if (!this.product.id) {
+        this.product.id = Date.now()
+        this.myProductList.push(this.product)
+      }
+      this.setMyProducts(this.myProductList)
+      setTimeout(() => {
+        this.clearInput()
+        this.loadingStatus = false
+      }, 5000)
+    },
     setMyProducts(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
     },
     clearInput() {
       this.product = this.nullInput
     },
-
     edit(item) {
       this.product = item
+    },
+    del(index) {
+      this.myProductList.splice(index, 1)
+      this.setMyProducts(this.myProductList)
+      location.reload()
     },
   },
 })
