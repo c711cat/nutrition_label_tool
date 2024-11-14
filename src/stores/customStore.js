@@ -13,6 +13,7 @@ export const useCustomStore = defineStore('customStore', {
     customDataList: localStorageCustomData,
     addOthersNutrients: [],
     customFood: {},
+    toDo: '',
   }),
   getters: {
     localStorageData: ({ customDataList }) => {
@@ -30,6 +31,15 @@ export const useCustomStore = defineStore('customStore', {
     ...mapActions(useMsgStore, ['getMsg']),
     setCustomData(data) {
       localStorage.setItem('myCustomData', JSON.stringify(data))
+      const msg = {}
+      if (this.toDo === 'edit') {
+        msg.title = ' 更新成功'
+        this.getMsg(msg)
+      } else if (this.toDo === 'add') {
+        msg.title = ' 新增成功'
+        this.getMsg(msg)
+      }
+      this.toDo = ''
     },
     clearCustomFood() {
       this.customFood = {}
@@ -114,12 +124,14 @@ export const useCustomStore = defineStore('customStore', {
     },
     customDoubleCheckedOK() {
       if (!this.customFood.id) {
+        this.toDo = 'add'
         this.customFood.id = Date.now()
         this.customFood.category = '自定義'
         this.customDataList.push(this.customFood)
         this.baseFoodData.push(this.customFood)
         this.setCustomData(this.customDataList)
       } else {
+        this.toDo = 'edit'
         this.updateList()
       }
       this.clearCustomFood()

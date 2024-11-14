@@ -255,7 +255,6 @@ export const useFoodStore = defineStore('foodDataStore', {
       }
       this.setMyProducts(this.myProductList)
       this.clearInput()
-
       setTimeout(() => {
         this.loadingStatus = false
       }, 5000)
@@ -265,10 +264,12 @@ export const useFoodStore = defineStore('foodDataStore', {
       const data = {}
       if (this.toDo === 'edit') {
         data.title = ' 更新成功'
+        this.getMsg(data)
       } else if (this.toDo === 'add') {
         data.title = ' 新增成功'
+        this.getMsg(data)
       }
-      this.getMsg(data)
+      this.toDo = ''
     },
     clearInput() {
       this.product = this.nullInput
