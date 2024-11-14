@@ -216,6 +216,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     nullInput: nullInput,
     loadingStatus: false,
+    toDo: '',
   }),
   getters: {
     updateKeyFoodData: ({ baseFoodData }) => {
@@ -246,9 +247,11 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     doubleCheckedOK() {
       this.loadingStatus = true
+      this.toDo = 'edit'
       if (!this.product.id) {
         this.product.id = Date.now()
         this.myProductList.push(this.product)
+        this.toDo = 'add'
       }
       this.setMyProducts(this.myProductList)
       this.clearInput()
@@ -259,6 +262,13 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     setMyProducts(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
+      const data = {}
+      if (this.toDo === 'edit') {
+        data.title = ' 更新成功'
+      } else if (this.toDo === 'add') {
+        data.title = ' 新增成功'
+      }
+      this.getMsg(data)
     },
     clearInput() {
       this.product = this.nullInput
