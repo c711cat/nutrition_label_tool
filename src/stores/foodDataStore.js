@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import foodData from '@/fooddata2023.json'
-
+import { useMsgStore } from '@/stores/messageStore.js'
+import { mapActions } from 'pinia'
 const headerMap = {
   '*本資料庫所列數值單位均為每100 g可食部分之含量。': 'id',
   Column2: 'category',
@@ -234,6 +235,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
   },
   actions: {
+    ...mapActions(useMsgStore, ['getMsg']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -249,8 +251,9 @@ export const useFoodStore = defineStore('foodDataStore', {
         this.myProductList.push(this.product)
       }
       this.setMyProducts(this.myProductList)
+      this.clearInput()
+
       setTimeout(() => {
-        this.clearInput()
         this.loadingStatus = false
       }, 5000)
     },
@@ -263,10 +266,13 @@ export const useFoodStore = defineStore('foodDataStore', {
     edit(item) {
       this.product = item
     },
-    del(index) {
+    del(title, index) {
       this.myProductList.splice(index, 1)
       this.setMyProducts(this.myProductList)
       location.reload()
+      const data = {}
+      data.title = title + ' 刪除成功'
+      this.getMsg(data)
     },
   },
 })
