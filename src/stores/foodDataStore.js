@@ -269,7 +269,6 @@ export const useFoodStore = defineStore('foodDataStore', {
     del(title, index) {
       this.myProductList.splice(index, 1)
       this.setMyProducts(this.myProductList)
-      location.reload()
       const data = {}
       data.title = title + ' 刪除成功'
       this.getMsg(data)
