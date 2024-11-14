@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useFoodStore } from './foodDataStore'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
+import { useMsgStore } from './messageStore'
 function getCustomData() {
   return JSON.parse(localStorage.getItem('myCustomData')) || []
 }
@@ -26,6 +27,7 @@ export const useCustomStore = defineStore('customStore', {
     ...mapState(useFoodStore, ['baseFoodData']),
   },
   actions: {
+    ...mapActions(useMsgStore, ['getMsg']),
     setCustomData(data) {
       localStorage.setItem('myCustomData', JSON.stringify(data))
     },
@@ -103,10 +105,12 @@ export const useCustomStore = defineStore('customStore', {
     clearAddOtherNts() {
       this.addOthersNutrients = []
     },
-    delItemOfCustomList(index) {
+    delItemOfCustomList(title, index) {
       this.customDataList.splice(index, 1)
       this.setCustomData(this.customDataList)
-      location.reload()
+      const data = {}
+      data.title = title + ' 刪除成功'
+      this.getMsg(data)
     },
     customDoubleCheckedOK() {
       if (!this.customFood.id) {
