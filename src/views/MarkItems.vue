@@ -319,6 +319,7 @@
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
+import { useMsgStore } from '@/stores/messageStore'
 export default {
   data() {
     return {
@@ -374,11 +375,13 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'clearInput']),
+    ...mapActions(useMsgStore, ['openAlert']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
         // 若表單無效，添加樣式提示
         form.classList.add('was-validated')
+        this.openAlert(true)
         return
       } else {
         this.$refs.doubleCheckModal.showModal()
