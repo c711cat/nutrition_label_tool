@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="alert"
-    class="pr-3 alert alert-danger d-flex justify-content-between fade show position-absolute top-50 start-50 translate-middle z-3"
+    class="alertPosition translate-middle alert alert-danger d-flex justify-content-between fade show"
     role="alert"
   >
     <p class="mb-0 fw-bold pe-3">還有必填的欄位喔 !</p>
@@ -31,3 +31,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.alertPosition {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 300px;
+  z-index: 3;
+}
+</style>
