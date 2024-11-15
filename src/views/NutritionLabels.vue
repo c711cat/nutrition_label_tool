@@ -254,18 +254,22 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
+import { useMsgStore } from '@/stores/messageStore'
 
 export default {
   data() {
     return {
       filteredData: [],
+      alert: false,
     }
   },
+
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
   },
   methods: {
+    ...mapActions(useMsgStore, ['openAlert']),
     searchFood(food) {
       const data = []
       this.baseFoodData.filter(item => {
@@ -321,6 +325,7 @@ export default {
       if (!form.checkValidity()) {
         // 若表單無效，添加樣式提示
         form.classList.add('was-validated')
+        this.openAlert(true)
         return
       }
       this.$router.push('/mark_items')
@@ -343,7 +348,7 @@ ul.list-group {
 }
 
 .visibleHeight {
-  height: 80vh;
+  height: 60vh;
 }
 
 .delBtn-xs {
