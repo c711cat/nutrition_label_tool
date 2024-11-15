@@ -9,7 +9,7 @@ export const useMsgStore = defineStore('msgStore', {
     },
   },
   actions: {
-    getMsg(data) {
+    pushMsg(data) {
       this.message.push(data)
     },
   },
