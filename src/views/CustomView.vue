@@ -113,6 +113,7 @@
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { useCustomStore } from '@/stores/customStore.js'
+import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
@@ -153,6 +154,7 @@ export default {
       'updateList',
       'clearAddOtherNts',
     ]),
+    ...mapActions(useMsgStore, ['openAlert']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
       ;[
@@ -183,6 +185,7 @@ export default {
       if (!form.checkValidity()) {
         // 若表單無效，添加樣式提示
         form.classList.add('was-validated')
+        this.openAlert(true)
         return
       } else {
         this.$refs.doubleCheckModal.showModal('custom')

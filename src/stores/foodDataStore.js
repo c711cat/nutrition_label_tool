@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import foodData from '@/fooddata2023.json'
-
+import { useMsgStore } from '@/stores/messageStore.js'
+import { mapActions } from 'pinia'
 const headerMap = {
   '*本資料庫所列數值單位均為每100 g可食部分之含量。': 'id',
   Column2: 'category',
@@ -215,6 +216,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     nullInput: nullInput,
     loadingStatus: false,
+    toDo: '',
   }),
   getters: {
     updateKeyFoodData: ({ baseFoodData }) => {
@@ -234,6 +236,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
   },
   actions: {
+    ...mapActions(useMsgStore, ['pushMsg']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -244,18 +247,29 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     doubleCheckedOK() {
       this.loadingStatus = true
+      this.toDo = 'edit'
       if (!this.product.id) {
         this.product.id = Date.now()
         this.myProductList.push(this.product)
+        this.toDo = 'add'
       }
       this.setMyProducts(this.myProductList)
+      this.clearInput()
       setTimeout(() => {
-        this.clearInput()
         this.loadingStatus = false
       }, 5000)
     },
     setMyProducts(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
+      const data = {}
+      if (this.toDo === 'edit') {
+        data.title = ' 更新成功'
+        this.pushMsg(data)
+      } else if (this.toDo === 'add') {
+        data.title = ' 新增成功'
+        this.pushMsg(data)
+      }
+      this.toDo = ''
     },
     clearInput() {
       this.product = this.nullInput
@@ -263,10 +277,12 @@ export const useFoodStore = defineStore('foodDataStore', {
     edit(item) {
       this.product = item
     },
-    del(index) {
+    del(title, index) {
       this.myProductList.splice(index, 1)
       this.setMyProducts(this.myProductList)
-      location.reload()
+      const data = {}
+      data.title = title + ' 刪除成功'
+      this.pushMsg(data)
     },
   },
 })

@@ -93,7 +93,17 @@ export default {
     ...mapState(useCustomStore, ['customDataList', 'customFood']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
-
+  watch: {
+    customDataList: {
+      handler(val) {
+        if (val) {
+          this.sortItem()
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   methods: {
     ...mapActions(useCustomStore, ['editCustomFood', 'delItemOfCustomList']),
     sortItem() {
@@ -156,14 +166,5 @@ export default {
       this.$refs.doubleCheckModal.showDelCustomModal(item, index)
     },
   },
-  created() {
-    this.sortItem()
-  },
 }
 </script>
-
-<style lang="scss" scoped>
-* {
-  // border: 1px solid;
-}
-</style>

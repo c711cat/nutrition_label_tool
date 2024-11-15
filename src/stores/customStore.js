@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useFoodStore } from './foodDataStore'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
+import { useMsgStore } from './messageStore'
 function getCustomData() {
   return JSON.parse(localStorage.getItem('myCustomData')) || []
 }
@@ -12,6 +13,7 @@ export const useCustomStore = defineStore('customStore', {
     customDataList: localStorageCustomData,
     addOthersNutrients: [],
     customFood: {},
+    toDo: '',
   }),
   getters: {
     localStorageData: ({ customDataList }) => {
@@ -26,8 +28,18 @@ export const useCustomStore = defineStore('customStore', {
     ...mapState(useFoodStore, ['baseFoodData']),
   },
   actions: {
+    ...mapActions(useMsgStore, ['pushMsg']),
     setCustomData(data) {
       localStorage.setItem('myCustomData', JSON.stringify(data))
+      const msg = {}
+      if (this.toDo === 'edit') {
+        msg.title = ' 更新成功'
+        this.pushMsg(msg)
+      } else if (this.toDo === 'add') {
+        msg.title = ' 新增成功'
+        this.pushMsg(msg)
+      }
+      this.toDo = ''
     },
     clearCustomFood() {
       this.customFood = {}
@@ -103,19 +115,23 @@ export const useCustomStore = defineStore('customStore', {
     clearAddOtherNts() {
       this.addOthersNutrients = []
     },
-    delItemOfCustomList(index) {
+    delItemOfCustomList(title, index) {
       this.customDataList.splice(index, 1)
       this.setCustomData(this.customDataList)
-      location.reload()
+      const data = {}
+      data.title = title + ' 刪除成功'
+      this.pushMsg(data)
     },
     customDoubleCheckedOK() {
       if (!this.customFood.id) {
+        this.toDo = 'add'
         this.customFood.id = Date.now()
         this.customFood.category = '自定義'
         this.customDataList.push(this.customFood)
         this.baseFoodData.push(this.customFood)
         this.setCustomData(this.customDataList)
       } else {
+        this.toDo = 'edit'
         this.updateList()
       }
       this.clearCustomFood()

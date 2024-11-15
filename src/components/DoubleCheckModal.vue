@@ -79,6 +79,7 @@ export default {
       text: '',
       delIndex: '',
       delCustomIndex: '',
+      title: '',
     }
   },
   methods: {
@@ -107,21 +108,23 @@ export default {
       this.$router.push('/custom_list')
     },
     showDelModal(item, index) {
+      this.title = item.title
       this.delIndex = index
       this.text = '確定刪除' + '『 ' + item.title + ' 』'
       this.modal.show()
     },
     delLableItem() {
-      this.del(this.delIndex)
+      this.del(this.title, this.delIndex)
       this.modal.hide()
     },
     showDelCustomModal(item, index) {
+      this.title = item.sample_name
       this.delCustomIndex = index
       this.text = '確定刪除' + '『 ' + item.sample_name + ' 』'
       this.modal.show()
     },
     delCustomItem() {
-      this.delItemOfCustomList(this.delCustomIndex)
+      this.delItemOfCustomList(this.title, this.delCustomIndex)
       this.modal.hide()
     },
     hideModal() {
