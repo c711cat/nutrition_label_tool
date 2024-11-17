@@ -328,7 +328,7 @@ export default {
         this.openAlert(true)
         return
       }
-      this.$router.push('/mark_items')
+      this.$router.push(`/edit_mark_items/${this.product.id}`)
     },
   },
 
