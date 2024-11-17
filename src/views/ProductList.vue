@@ -226,7 +226,7 @@
         </button>
         <div class="my-3">
           <router-link
-            to="/nutrition_label"
+            :to="isPath(item.id)"
             @click="edit(item)"
             type="button"
             class="btn btn-outline-primary me-3"
@@ -266,6 +266,9 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
+    isPath(id) {
+      return (this.$route.path = `/edit_nutrition_label/${id}`)
+    },
     openModal(item) {
       this.$refs.addNutrientsModal.showModal(item)
     },

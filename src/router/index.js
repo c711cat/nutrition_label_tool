@@ -27,6 +27,18 @@ const router = createRouter({
           path: 'custom',
           component: () => import('@/views/CustomView.vue'),
         },
+        {
+          path: 'edit_custom/:id',
+          component: () => import('@/views/CustomView.vue'),
+        },
+        {
+          path: 'edit_nutrition_label/:id',
+          component: () => import('@/views/NutritionLabels.vue'),
+        },
+        {
+          path: 'edit_mark_items/:id',
+          component: () => import('@/views/MarkItems.vue'),
+        },
       ],
     },
   ],

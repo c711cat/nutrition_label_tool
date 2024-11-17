@@ -58,8 +58,8 @@
       </section>
       <div class="text-end my-3">
         <router-link
-          @click="edit(item)"
-          to="/custom"
+          :to="isPath(item.id)"
+          @click="editCustomFood(item)"
           type="button"
           class="btn btn-outline-primary me-3"
         >
@@ -159,11 +159,11 @@ export default {
         return unitMapping[text[1]]
       }
     },
-    edit(item) {
-      this.editCustomFood(item)
-    },
     opendelModal(item, index) {
       this.$refs.doubleCheckModal.showDelCustomModal(item, index)
+    },
+    isPath(id) {
+      return (this.$route.path = `/edit_custom/${id}`)
     },
   },
 }
