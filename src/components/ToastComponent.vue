@@ -8,7 +8,7 @@
   >
     <div class="d-flex">
       <div class="toast-body d-flex align-items-center">
-        <i class="bi bi-check-circle-fill text-success fs-4 me-2"></i>
+        <i class="fs-4 me-2" :class="iconStyle(msg.style)"></i>
         <p class="mb-0 fs-6">{{ msg.title }}</p>
       </div>
       <button
@@ -30,6 +30,18 @@ export default {
     }
   },
   props: ['msg'],
+  methods: {
+    iconStyle(style) {
+      if (style === 'success') {
+        return 'bi bi-check-circle-fill text-success'
+      }
+      if (style === 'failure') {
+        return 'bi bi-x-circle-fill text-danger'
+      } else {
+        return ''
+      }
+    },
+  },
   mounted() {
     const myToast = this.$refs.toast
     this.toastEle = new Toast(myToast, {
