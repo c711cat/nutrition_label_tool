@@ -102,10 +102,17 @@
         :id="`nutritionLabel${item.id}`"
         class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3"
       >
-        <table class="table table-sm table-borderless border border-black mb-0">
+        <table
+          class="table table-sm table-borderless border border-2 border-black mb-0"
+        >
           <thead>
-            <tr class="lh-sm border-bottom border-black">
-              <th colspan="3" class="text-center fw-normal">營養標示</th>
+            <tr class="lh-sm">
+              <th
+                colspan="3"
+                class="text-center fw-normal border-bottom border-black"
+              >
+                營養標示
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -116,14 +123,18 @@
                 {{ item.netWeightInformation.unit }}
               </td>
             </tr>
-            <tr class="lh-1 border-bottom border-black">
-              <th class="fw-normal ps-2">本包裝含</th>
-              <td colspan="2">{{ item.productQty }} 份</td>
+            <tr class="lh-1">
+              <th class="fw-normal ps-2 border-bottom border-black">
+                本包裝含
+              </th>
+              <td colspan="2" class="border-bottom border-black">
+                {{ item.productQty }} 份
+              </td>
             </tr>
-            <tr class="lh-sm border-bottom border-black">
-              <th></th>
-              <td class="text-end pe-2">每份</td>
-              <td class="text-end pe-2">
+            <tr class="lh-sm">
+              <th class="border-bottom border-black"></th>
+              <td class="text-end pe-2 border-bottom border-black">每份</td>
+              <td class="text-end pe-2 border-bottom border-black">
                 每 100 {{ item.netWeightInformation.unit }}
               </td>
             </tr>
