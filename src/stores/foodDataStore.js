@@ -264,9 +264,11 @@ export const useFoodStore = defineStore('foodDataStore', {
       const data = {}
       if (this.toDo === 'edit') {
         data.title = ' 更新成功'
+        data.style = 'success'
         this.pushMsg(data)
       } else if (this.toDo === 'add') {
         data.title = ' 新增成功'
+        data.style = 'success'
         this.pushMsg(data)
       }
       this.toDo = ''
@@ -282,6 +284,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.setMyProducts(this.myProductList)
       const data = {}
       data.title = title + ' 刪除成功'
+      data.style = 'success'
       this.pushMsg(data)
     },
   },

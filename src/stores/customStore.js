@@ -34,9 +34,11 @@ export const useCustomStore = defineStore('customStore', {
       const msg = {}
       if (this.toDo === 'edit') {
         msg.title = ' 更新成功'
+        msg.style = 'success'
         this.pushMsg(msg)
       } else if (this.toDo === 'add') {
         msg.title = ' 新增成功'
+        msg.style = 'success'
         this.pushMsg(msg)
       }
       this.toDo = ''
@@ -120,6 +122,7 @@ export const useCustomStore = defineStore('customStore', {
       this.setCustomData(this.customDataList)
       const data = {}
       data.title = title + ' 刪除成功'
+      data.style = 'success'
       this.pushMsg(data)
     },
     customDoubleCheckedOK() {
