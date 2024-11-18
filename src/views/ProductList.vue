@@ -99,6 +99,7 @@
         </div>
       </section>
       <section
+        :id="`nutritionLabel${item.id}`"
         class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3"
       >
         <table class="table table-sm table-borderless border border-black mb-0">
@@ -225,6 +226,13 @@
           新增其他營養素
         </button>
         <div class="my-3">
+          <button
+            @click="download(item.id)"
+            type="button"
+            class="btn btn-primary me-3"
+          >
+            下載營養標示
+          </button>
           <router-link
             :to="isPath(item.id)"
             @click="edit(item)"
@@ -253,6 +261,8 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
+import html2canvas from 'html2canvas'
+import { useMsgStore } from '@/stores/messageStore'
 export default {
   data() {
     return {
@@ -266,6 +276,7 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
+    ...mapActions(useMsgStore, ['pushMsg']),
     isPath(id) {
       return (this.$route.path = `/edit_nutrition_label/${id}`)
     },
@@ -360,6 +371,25 @@ export default {
         })
       })
       return text.join('、')
+    },
+    download(id) {
+      const data = {}
+      const targetElement = document.getElementById('nutritionLabel' + id)
+      html2canvas(targetElement, { scale: 2 }) // 解析度為目標元素實際大小的 2 倍
+        .then(canvas => {
+          const link = document.createElement('a')
+          link.download = '營養標示.png' // 設定檔名
+          link.href = canvas.toDataURL('image/png') //導出 png 格式，支援透明背景
+          link.click() // 自動點擊下載
+          data.title = '圖片下載成功'
+          data.style = 'success'
+          this.pushMsg(data)
+        })
+        .catch(err => {
+          data.title = '圖片生成失敗:' + err
+          data.style = 'failure'
+          this.pushMsg(data)
+        })
     },
   },
   created() {
