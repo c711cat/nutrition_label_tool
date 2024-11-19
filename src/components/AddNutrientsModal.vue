@@ -24,12 +24,12 @@
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
           <div
-            v-if="addOthersNutrients.length > 0"
+            v-if="localAddNTs.length > 0"
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
             <span
-              v-for="item in localAddOthersNutrients"
+              v-for="item in localAddNTs"
               :key="item"
               class="border badge text-bg-light fs-6 m-1"
             >
@@ -98,7 +98,6 @@ import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
-    const customStore = useCustomStore()
     return {
       modal: null,
       nutrients: [],
@@ -107,21 +106,27 @@ export default {
       product: null,
       productList: null,
       addNTsBtb: true,
-      localAddOthersNutrients: [...customStore.addOthersNutrients],
+      localAddOthersNutrients: [],
     }
   },
 
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
-    ...mapState(useCustomStore, ['addOthersNutrients']),
+    localAddNTs() {
+      return this.localAddOthersNutrients
+    },
   },
   watch: {
-    localAddOthersNutrients(newVal) {
-      useCustomStore().addOthersNutrients = newVal
+    localAddOthersNutrients: {
+      handler(val) {
+        this.pushNTs(val)
+      },
+      deep: true,
+      immediate: true,
     },
   },
   methods: {
-    ...mapActions(useFoodStore, ['setMyProducts']),
+    ...mapActions(useFoodStore, ['setMyProducts', 'addLabelNTs', 'pushNTs']),
     ...mapActions(useCustomStore, ['addCustomNutrients', 'clearAddOtherNts']),
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
@@ -156,15 +161,8 @@ export default {
     },
 
     addNTs() {
-      this.productList.forEach(item => {
-        if (item.id === this.product.id) {
-          item.addNutrients = this.addOthersNutrients
-        }
-      })
-
-      this.setMyProducts(this.productList)
+      this.addLabelNTs(this.product)
       this.hideModal()
-      this.clearAddOtherNts()
     },
     showModal(item) {
       this.addNTsBtb = true
@@ -189,7 +187,6 @@ export default {
   },
   created() {
     this.updateFilterData()
-    this.productList = this.myProductList
   },
   mounted() {
     this.modal = new Modal(this.$refs.nutrientsModal)
