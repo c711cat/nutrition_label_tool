@@ -40,7 +40,61 @@
 
         <div class="modal-body">
           <div v-if="Object.values(filteredNutrients).length === 0">
-            <p class="mb-0 text-center fw-bold">查無相符品項</p>
+            <p class="mt-2 mb-4 text-center fw-bold fs-5 text-primary">
+              查無相符品項
+            </p>
+            <form @submit.prevent="submitForm" novalidate>
+              <h6 class="ms-1">自行新增營養素</h6>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="englishName"
+                  placeholder="營養素英文名稱 或 縮寫"
+                  required
+                />
+                <div class="invalid-feedback">此欄位為必填</div>
+                <label for="englishName">
+                  <i class="text-danger fst-normal">＊</i>
+                  營養素英文名稱 或 縮寫
+                </label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="chineseName"
+                  placeholder="營養素中文名稱"
+                  required
+                />
+                <div class="invalid-feedback">此欄位為必填</div>
+                <label for="chineseName">
+                  <i class="text-danger fst-normal">＊</i>
+                  營養素中文名稱
+                </label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="unit"
+                  placeholder="營養素英文單位，例如：mg"
+                  required
+                />
+                <div class="invalid-feedback">此欄位為必填</div>
+                <label for="unit">
+                  <i class="text-danger fst-normal">＊</i>
+                  營養素英文單位，例如：mg
+                </label>
+              </div>
+              <button
+                @click="addCustomNts"
+                type="submit"
+                class="w-100 btn btn-sm btn-outline-primary"
+              >
+                新增營養素
+              </button>
+            </form>
           </div>
           <div
             v-else
@@ -94,6 +148,7 @@
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
 import { useCustomStore } from '@/stores/customStore'
+import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
 
 export default {
@@ -128,6 +183,7 @@ export default {
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'addLabelNTs', 'pushNTs']),
     ...mapActions(useCustomStore, ['addCustomNutrients', 'clearAddOtherNts']),
+    ...mapActions(useMsgStore, ['openAlert']),
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
         Object.entries(this.nutrients).filter(([, value]) => {
@@ -183,6 +239,18 @@ export default {
     },
     hideModal() {
       this.modal.hide()
+    },
+    submitForm(e) {
+      const form = e.target
+      if (!form.checkValidity()) {
+        // 若表單無效，添加樣式提示
+        form.classList.add('was-validated')
+        this.openAlert(true)
+        return
+      }
+    },
+    addCustomNts() {
+      console.log('addCustomNts')
     },
   },
   created() {

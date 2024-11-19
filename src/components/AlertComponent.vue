@@ -38,6 +38,6 @@ export default {
   top: 50%;
   left: 50%;
   max-width: 300px;
-  z-index: 3;
+  z-index: 1056;
 }
 </style>
