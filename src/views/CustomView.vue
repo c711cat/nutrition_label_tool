@@ -74,7 +74,10 @@
               </td>
             </tr>
             <tr v-for="item in addOthersNutrients" :key="item">
-              <th class="fw-normal px-3">{{ header[item] }}</th>
+              <th class="fw-normal px-3">
+                <i class="text-danger fst-normal">＊</i>
+                {{ header[item] }}
+              </th>
               <td>
                 <input
                   v-model="customFood[item]"
@@ -82,6 +85,7 @@
                   :name="item"
                   :id="item"
                   class="form-control text-center"
+                  required
                   min="0"
                   step="0.01"
                 />
@@ -135,6 +139,16 @@ export default {
     }
   },
   components: { AddNutrientsModal, DoubleCheckModal },
+  watch: {
+    headerChineseAndEnglish: {
+      handler(val) {
+        this.getHeader()
+        return val
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   computed: {
     ...mapState(useFoodStore, [
       'headerChineseAndEnglish',
