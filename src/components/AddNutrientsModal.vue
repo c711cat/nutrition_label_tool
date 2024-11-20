@@ -173,6 +173,7 @@ export default {
 
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
+    ...mapState(useCustomStore, ['addOthersNutrients']),
   },
   watch: {
     localAddOthersNutrients: {
@@ -239,6 +240,7 @@ export default {
       this.modal.show()
     },
     showCustomModal() {
+      this.localAddOthersNutrients = this.addOthersNutrients
       this.modal.show()
       this.addNTsBtb = false
     },
