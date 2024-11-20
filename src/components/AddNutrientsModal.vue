@@ -24,12 +24,12 @@
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
           <div
-            v-if="localAddNTs.length > 0"
+            v-if="localAddOthersNutrients.length > 0"
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
             <span
-              v-for="item in localAddNTs"
+              v-for="item in localAddOthersNutrients"
               :key="item"
               class="border badge text-bg-light fs-6 m-1"
             >
@@ -47,6 +47,7 @@
               <h6 class="ms-1">自行新增營養素</h6>
               <div class="form-floating mb-3">
                 <input
+                  v-model.trim="englishName"
                   type="text"
                   class="form-control"
                   id="englishName"
@@ -61,6 +62,7 @@
               </div>
               <div class="form-floating mb-3">
                 <input
+                  v-model.trim="chineseName"
                   type="text"
                   class="form-control"
                   id="chineseName"
@@ -75,6 +77,7 @@
               </div>
               <div class="form-floating mb-3">
                 <input
+                  v-model.trim="unit"
                   type="text"
                   class="form-control"
                   id="unit"
@@ -162,26 +165,32 @@ export default {
       productList: null,
       addNTsBtb: true,
       localAddOthersNutrients: [],
+      englishName: '',
+      chineseName: '',
+      unit: '',
     }
   },
 
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
-    localAddNTs() {
-      return this.localAddOthersNutrients
-    },
   },
   watch: {
     localAddOthersNutrients: {
       handler(val) {
         this.pushNTs(val)
+        return this.localAddOthersNutrients
       },
       deep: true,
       immediate: true,
     },
   },
   methods: {
-    ...mapActions(useFoodStore, ['setMyProducts', 'addLabelNTs', 'pushNTs']),
+    ...mapActions(useFoodStore, [
+      'setMyProducts',
+      'addLabelNTs',
+      'pushNTs',
+      'setNewHeaderItem',
+    ]),
     ...mapActions(useCustomStore, ['addCustomNutrients', 'clearAddOtherNts']),
     ...mapActions(useMsgStore, ['openAlert']),
     searchNutrient(nutrient) {
@@ -250,7 +259,13 @@ export default {
       }
     },
     addCustomNts() {
-      console.log('addCustomNts')
+      const Nts = {
+        [this.englishName]: this.chineseName + '(' + this.unit + ')',
+      }
+      this.localAddOthersNutrients.push(this.englishName)
+      this.addCustomNutrients(this.localAddOthersNutrients)
+      this.setNewHeaderItem(Nts)
+      this.updateFilterData()
     },
   },
   created() {
