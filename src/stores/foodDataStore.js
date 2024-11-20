@@ -250,6 +250,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     BtnloadingStatus: ({ loadingStatus }) => {
       return loadingStatus
     },
+    getOnlyNewAddHeader: ({ onlyNewAddHeader }) => {
+      return onlyNewAddHeader
+    },
   },
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
