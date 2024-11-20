@@ -143,6 +143,11 @@ export default {
         return
       }
     },
+    getCurrentHeader() {
+      const addedHeader = JSON.parse(localStorage.getItem('myAddHeader'))
+      const originHeader = JSON.parse(localStorage.getItem('myHeader'))
+      this.currentHeader = { ...originHeader, ...addedHeader }
+    },
     showModal() {
       this.modal.show()
     },
@@ -153,16 +158,18 @@ export default {
       const Nts = {
         [this.englishName]: this.chineseName + '(' + this.unit + ')',
       }
-      // this.localAddOthersNutrients.push(this.englishName)
-      // this.addCustomNutrients(this.localAddOthersNutrients)
       this.setNewHeaderItem(Nts)
+      setTimeout(() => {
+        this.englishName = ''
+        this.chineseName = ''
+        this.unit = ''
+      }, 2000)
+      this.hideModal()
+      this.getCurrentHeader()
     },
   },
   created() {
-    const addedHeader = JSON.parse(localStorage.getItem('myAddHeader'))
-    const originHeader = JSON.parse(localStorage.getItem('myHeader'))
-    this.currentHeader = { ...originHeader, ...addedHeader }
-    console.log(this.currentHeader)
+    this.getCurrentHeader()
   },
   mounted() {
     this.modal = new Modal(this.$refs.addCustomNtsModal)
