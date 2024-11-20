@@ -95,17 +95,45 @@
 import Modal from 'bootstrap/js/dist/modal'
 import { mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
+import { useFoodStore } from '@/stores/foodDataStore'
 export default {
   data() {
     return {
       modal: null,
+      currentHeader: {},
       englishName: '',
       chineseName: '',
       unit: '',
     }
   },
+  watch: {
+    englishName() {
+      Object.keys(this.currentHeader).forEach(item => {
+        if (this.englishName !== '' && this.englishName === item) {
+          const text = '已有相同品項： ' + this.englishName
+          this.openAlert(true, text)
+          setTimeout(() => {
+            this.englishName = ''
+          }, 2000)
+        }
+      })
+    },
+    chineseName() {
+      Object.values(this.currentHeader).forEach(item => {
+        item = item.replace(/\(.*\)/, '')
+        if (this.chineseName !== '' && this.chineseName === item) {
+          const text = '已有相同品項： ' + this.chineseName
+          this.openAlert(true, text)
+          setTimeout(() => {
+            this.chineseName = ''
+          }, 2000)
+        }
+      })
+    },
+  },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
+    ...mapActions(useFoodStore, ['setNewHeaderItem']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -126,7 +154,12 @@ export default {
       console.log('submitCustomNts')
     },
   },
-  created() {},
+  created() {
+    const addedHeader = JSON.parse(localStorage.getItem('myAddHeader'))
+    const originHeader = JSON.parse(localStorage.getItem('myHeader'))
+    this.currentHeader = { ...originHeader, ...addedHeader }
+    console.log(this.currentHeader)
+  },
   mounted() {
     this.modal = new Modal(this.$refs.addCustomNtsModal)
   },
