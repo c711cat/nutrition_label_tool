@@ -39,6 +39,10 @@ const router = createRouter({
           path: 'edit_mark_items/:id',
           component: () => import('@/views/MarkItems.vue'),
         },
+        {
+          path: 'added_custom_nts',
+          component: () => import('@/views/AddedCustomNts.vue'),
+        },
       ],
     },
   ],

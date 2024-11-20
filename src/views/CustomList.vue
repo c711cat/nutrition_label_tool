@@ -2,8 +2,11 @@
   <div class="container">
     <h3 class="text-center mb-5">自定義品項列表</h3>
     <div class="text-end">
+      <router-link to="/added_custom_nts" class="btn btn-outline-primary me-3">
+        已新增營養素列表
+      </router-link>
       <router-link to="/custom" class="btn btn-outline-primary">
-        新增
+        新增自定義品項
       </router-link>
     </div>
 
@@ -82,6 +85,7 @@ import { mapState, mapActions } from 'pinia'
 import { useCustomStore } from '@/stores/customStore'
 import { useFoodStore } from '@/stores/foodDataStore'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
+
 export default {
   data() {
     return {
