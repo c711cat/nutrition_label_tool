@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useFoodStore } from './foodDataStore'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from './messageStore'
+
 function getCustomData() {
   return JSON.parse(localStorage.getItem('myCustomData')) || []
 }
@@ -14,6 +15,7 @@ export const useCustomStore = defineStore('customStore', {
     addOthersNutrients: [],
     customFood: {},
     toDo: '',
+    ntName: { englishName: '', chineseName: '', unit: '' },
   }),
   getters: {
     localStorageData: ({ customDataList }) => {
@@ -25,10 +27,14 @@ export const useCustomStore = defineStore('customStore', {
     customFoodInStore: ({ customFood }) => {
       return customFood
     },
+    nutrientName: ({ ntName }) => {
+      return ntName
+    },
     ...mapState(useFoodStore, ['baseFoodData']),
   },
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
+    ...mapActions(useFoodStore, ['setNewHeaderItem']),
     setCustomData(data) {
       localStorage.setItem('myCustomData', JSON.stringify(data))
       const msg = {}
@@ -114,7 +120,7 @@ export const useCustomStore = defineStore('customStore', {
     addCustomNutrients(nts) {
       this.addOthersNutrients = [...nts]
     },
-    
+
     clearAddOtherNts() {
       this.addOthersNutrients = []
     },
@@ -140,6 +146,18 @@ export const useCustomStore = defineStore('customStore', {
       }
       this.clearCustomFood()
       this.clearAddOtherNts()
+    },
+    addCustomNts() {
+      const Nts = {
+        [this.ntName.englishName]:
+          this.ntName.chineseName + '(' + this.ntName.unit + ')',
+      }
+      this.setNewHeaderItem(Nts)
+      setTimeout(() => {
+        this.ntName.englishName = ''
+        this.ntName.chineseName = ''
+        this.ntName.unit = ''
+      }, 2000)
     },
   },
 })

@@ -24,7 +24,7 @@
           <form id="submitCustomNts" @submit.prevent="submitForm" novalidate>
             <div class="form-floating mb-3">
               <input
-                v-model.trim="englishName"
+                v-model.trim="ntName.englishName"
                 type="text"
                 class="form-control"
                 id="englishName"
@@ -39,7 +39,7 @@
             </div>
             <div class="form-floating mb-3">
               <input
-                v-model.trim="chineseName"
+                v-model.trim="ntName.chineseName"
                 type="text"
                 class="form-control"
                 id="chineseName"
@@ -54,7 +54,7 @@
             </div>
             <div class="form-floating mb-3">
               <input
-                v-model.trim="unit"
+                v-model.trim="ntName.unit"
                 type="text"
                 class="form-control"
                 id="unit"
@@ -77,12 +77,7 @@
           >
             取消
           </button>
-          <button
-            form="submitCustomNts"
-            @click="submitCustomNts"
-            type="submit"
-            class="btn btn-primary"
-          >
+          <button form="submitCustomNts" type="submit" class="btn btn-primary">
             送出
           </button>
         </div>
@@ -93,47 +88,20 @@
 
 <script>
 import Modal from 'bootstrap/js/dist/modal'
-import { mapActions } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
-import { useFoodStore } from '@/stores/foodDataStore'
+import { useCustomStore } from '@/stores/customStore'
 export default {
   data() {
     return {
       modal: null,
       currentHeader: {},
-      englishName: '',
-      chineseName: '',
-      unit: '',
     }
   },
-  watch: {
-    englishName() {
-      Object.keys(this.currentHeader).forEach(item => {
-        if (this.englishName !== '' && this.englishName === item) {
-          const text = '已有相同品項： ' + this.englishName
-          this.openAlert(true, text)
-          setTimeout(() => {
-            this.englishName = ''
-          }, 2000)
-        }
-      })
-    },
-    chineseName() {
-      Object.values(this.currentHeader).forEach(item => {
-        item = item.replace(/\(.*\)/, '')
-        if (this.chineseName !== '' && this.chineseName === item) {
-          const text = '已有相同品項： ' + this.chineseName
-          this.openAlert(true, text)
-          setTimeout(() => {
-            this.chineseName = ''
-          }, 2000)
-        }
-      })
-    },
-  },
+  computed: { ...mapState(useCustomStore, ['ntName']) },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
-    ...mapActions(useFoodStore, ['setNewHeaderItem']),
+    ...mapActions(useCustomStore, ['addCustomNts']),
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -141,6 +109,8 @@ export default {
         form.classList.add('was-validated')
         this.openAlert(true, '還有必填欄位喔！')
         return
+      } else {
+        this.submitCustomNts()
       }
     },
     getCurrentHeader() {
@@ -155,15 +125,7 @@ export default {
       this.modal.hide()
     },
     submitCustomNts() {
-      const Nts = {
-        [this.englishName]: this.chineseName + '(' + this.unit + ')',
-      }
-      this.setNewHeaderItem(Nts)
-      setTimeout(() => {
-        this.englishName = ''
-        this.chineseName = ''
-        this.unit = ''
-      }, 2000)
+      this.addCustomNts()
       this.hideModal()
       this.getCurrentHeader()
     },
