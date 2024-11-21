@@ -326,6 +326,10 @@ export const useFoodStore = defineStore('foodDataStore', {
         'myHeader',
         JSON.stringify(this.headerChineseAndEnglish),
       )
+      const data = {}
+      data.title = '新增成功'
+      data.style = 'success'
+      this.pushMsg(data)
     },
   },
 })
