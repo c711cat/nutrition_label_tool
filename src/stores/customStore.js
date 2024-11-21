@@ -33,11 +33,11 @@ export const useCustomStore = defineStore('customStore', {
       localStorage.setItem('myCustomData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
-        msg.title = ' 更新成功'
+        msg.title = '更新成功'
         msg.style = 'success'
         this.pushMsg(msg)
       } else if (this.toDo === 'add') {
-        msg.title = ' 新增成功'
+        msg.title = '新增成功'
         msg.style = 'success'
         this.pushMsg(msg)
       }
@@ -122,7 +122,7 @@ export const useCustomStore = defineStore('customStore', {
       this.customDataList.splice(index, 1)
       this.setCustomData(this.customDataList)
       const data = {}
-      data.title = title + ' 刪除成功'
+      data.title = title + '刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
