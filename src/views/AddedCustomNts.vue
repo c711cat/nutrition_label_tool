@@ -1,11 +1,11 @@
 <template>
-  <div class="container col-12 pb-5 mb-5">
+  <div class="container col-12 col-md-11 col-xl-10 col-xxl-9 pb-5 mb-5">
     <h3 class="text-center">已新增的營養素</h3>
-    <div class="text-end">
+    <div class="text-end px-1">
       <button
         @click="openAddNtsModal"
         type="button"
-        class="btn btn-outline-primary mb-3"
+        class="btn btn-outline-primary mb-3 me-3"
       >
         新增
       </button>
@@ -14,13 +14,13 @@
       <div
         v-for="(value, key, index) in onlyNewAddHeader"
         :key="key"
-        class="col-12 col-lg-6 col-xl-4"
+        class="col-12 col-lg-6"
       >
         <div
-          class="d-flex flex-wrap align-items-center bg-light rounded p-3 mb-2 me-2"
+          class="d-flex flex-wrap align-items-center bg-light rounded p-3 mb-2 mx-1"
         >
-          <p class="mb-0 col">{{ key }}</p>
-          <p class="mb-0 col">{{ value }}</p>
+          <p class="mb-0 px-1 col">{{ key }}</p>
+          <p class="mb-0 px-1 col">{{ value }}</p>
           <div class="text-end">
             <button
               @click="edit(value, key)"
