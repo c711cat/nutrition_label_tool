@@ -59,6 +59,14 @@
           >
             確定刪除自定義品項
           </button>
+          <button
+            v-if="delNtsIndex !== ''"
+            @click="delNtsItem"
+            type="button"
+            class="btn btn-danger"
+          >
+            確定刪除此營養素
+          </button>
         </div>
       </div>
     </div>
@@ -79,11 +87,12 @@ export default {
       text: '',
       delIndex: '',
       delCustomIndex: '',
+      delNtsIndex: '',
       title: '',
     }
   },
   methods: {
-    ...mapActions(useFoodStore, ['doubleCheckedOK', 'del']),
+    ...mapActions(useFoodStore, ['doubleCheckedOK', 'del', 'delItemOfNts']),
     ...mapActions(useCustomStore, [
       'customDoubleCheckedOK',
       'delItemOfCustomList',
@@ -126,6 +135,16 @@ export default {
     delCustomItem() {
       this.delItemOfCustomList(this.title, this.delCustomIndex)
       this.modal.hide()
+    },
+    showDelNtsModal(value, key, index) {
+      this.title = key + ' : ' + value
+      this.delNtsIndex = index
+      this.text = '確定刪除' + '『 ' + key + ' : ' + value + ' 』'
+      this.modal.show()
+    },
+    delNtsItem() {
+      this.delItemOfNts(this.title, this.delNtsIndex)
+      this.hideModal()
     },
     hideModal() {
       this.modal.hide()

@@ -12,7 +12,7 @@
     </div>
     <div class="d-flex flex-wrap">
       <div
-        v-for="(value, key) in onlyNewAddHeader"
+        v-for="(value, key, index) in onlyNewAddHeader"
         :key="key"
         class="col-12 col-lg-6 col-xl-4"
       >
@@ -25,27 +25,38 @@
             <button type="button" class="btn btn-outline-primary me-3">
               編輯
             </button>
-            <button type="button" class="btn btn-outline-danger">刪除</button>
+            <button
+              @click="openDoubleCheckModal(value, key, index)"
+              type="button"
+              class="btn btn-outline-danger"
+            >
+              刪除
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <AddCustomNtsModal ref="addCustomNtsModal" />
+  <DoubleCheckModal ref="doubleCheckModal" />
 </template>
 <script>
 import AddCustomNtsModal from '@/components/CustomNtsModal.vue'
+import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import { useFoodStore } from '@/stores/foodDataStore'
 import { mapState } from 'pinia'
 export default {
   data() {
     return {}
   },
-  components: { AddCustomNtsModal },
+  components: { AddCustomNtsModal, DoubleCheckModal },
   computed: { ...mapState(useFoodStore, ['onlyNewAddHeader']) },
   methods: {
     openAddNtsModal() {
       this.$refs.addCustomNtsModal.showModal()
+    },
+    openDoubleCheckModal(value, key, index) {
+      this.$refs.doubleCheckModal.showDelNtsModal(value, key, index)
     },
   },
 }
