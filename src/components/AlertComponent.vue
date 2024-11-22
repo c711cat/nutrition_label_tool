@@ -4,7 +4,7 @@
     class="alertPosition translate-middle alert alert-danger d-flex justify-content-between fade show"
     role="alert"
   >
-    <p class="mb-0 fw-bold pe-3">還有必填的欄位喔 !</p>
+    <p class="mb-0 fw-bold pe-3">{{ alertText }}</p>
 
     <button
       @click="closeAlert"
@@ -24,7 +24,7 @@ export default {
   },
 
   computed: {
-    ...mapState(useMsgStore, ['alert']),
+    ...mapState(useMsgStore, ['alert', 'alertText']),
   },
   methods: {
     ...mapActions(useMsgStore, ['closeAlert']),
@@ -38,6 +38,6 @@ export default {
   top: 50%;
   left: 50%;
   max-width: 300px;
-  z-index: 3;
+  z-index: 1056;
 }
 </style>

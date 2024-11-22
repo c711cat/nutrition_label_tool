@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { useFoodStore } from './foodDataStore'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from './messageStore'
+
 function getCustomData() {
   return JSON.parse(localStorage.getItem('myCustomData')) || []
 }
@@ -14,6 +15,7 @@ export const useCustomStore = defineStore('customStore', {
     addOthersNutrients: [],
     customFood: {},
     toDo: '',
+    ntName: { englishName: '', chineseName: '', unit: '' },
   }),
   getters: {
     localStorageData: ({ customDataList }) => {
@@ -25,19 +27,23 @@ export const useCustomStore = defineStore('customStore', {
     customFoodInStore: ({ customFood }) => {
       return customFood
     },
-    ...mapState(useFoodStore, ['baseFoodData']),
+    nutrientName: ({ ntName }) => {
+      return ntName
+    },
+    ...mapState(useFoodStore, ['baseFoodData', 'onlyNewAddHeader']),
   },
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
+    ...mapActions(useFoodStore, ['setNewHeaderItem']),
     setCustomData(data) {
       localStorage.setItem('myCustomData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
-        msg.title = ' 更新成功'
+        msg.title = '更新成功'
         msg.style = 'success'
         this.pushMsg(msg)
       } else if (this.toDo === 'add') {
-        msg.title = ' 新增成功'
+        msg.title = '新增成功'
         msg.style = 'success'
         this.pushMsg(msg)
       }
@@ -114,6 +120,7 @@ export const useCustomStore = defineStore('customStore', {
     addCustomNutrients(nts) {
       this.addOthersNutrients = [...nts]
     },
+
     clearAddOtherNts() {
       this.addOthersNutrients = []
     },
@@ -121,7 +128,7 @@ export const useCustomStore = defineStore('customStore', {
       this.customDataList.splice(index, 1)
       this.setCustomData(this.customDataList)
       const data = {}
-      data.title = title + ' 刪除成功'
+      data.title = title + '刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
@@ -139,6 +146,28 @@ export const useCustomStore = defineStore('customStore', {
       }
       this.clearCustomFood()
       this.clearAddOtherNts()
+    },
+    addCustomNts() {
+      const Nts = {
+        [this.ntName.englishName]:
+          this.ntName.chineseName + '(' + this.ntName.unit + ')',
+      }
+      this.setNewHeaderItem(Nts)
+      setTimeout(() => {
+        this.ntName.englishName = ''
+        this.ntName.chineseName = ''
+        this.ntName.unit = ''
+      }, 2000)
+    },
+    editItemOfNts(editKey) {
+      delete this.onlyNewAddHeader[editKey]
+      this.onlyNewAddHeader[this.ntName.englishName] =
+        this.ntName.chineseName + '(' + this.ntName.unit + ')'
+      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
+      const data = {}
+      data.title = '更新成功'
+      data.style = 'success'
+      this.pushMsg(data)
     },
   },
 })

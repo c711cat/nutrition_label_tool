@@ -9,7 +9,7 @@
     <div class="d-flex">
       <div class="toast-body d-flex align-items-center">
         <i class="fs-4 me-2" :class="iconStyle(msg.style)"></i>
-        <p class="mb-0 fs-6">{{ msg.title }}</p>
+        <p class="mb-0 fs-6 ps-1">{{ msg.title }}</p>
       </div>
       <button
         type="button"

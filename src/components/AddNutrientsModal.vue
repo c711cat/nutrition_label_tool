@@ -24,7 +24,7 @@
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
           <div
-            v-if="addOthersNutrients.length > 0"
+            v-if="localAddOthersNutrients.length > 0"
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
@@ -40,7 +40,64 @@
 
         <div class="modal-body">
           <div v-if="Object.values(filteredNutrients).length === 0">
-            <p class="mb-0 text-center fw-bold">查無相符品項</p>
+            <p class="mt-2 mb-4 text-center fw-bold fs-5 text-primary">
+              查無相符品項
+            </p>
+            <form @submit.prevent="submitForm" novalidate>
+              <h6 class="ms-1">自行新增營養素</h6>
+              <div class="form-floating mb-3">
+                <input
+                  v-model.trim="englishName"
+                  type="text"
+                  class="form-control"
+                  id="englishName"
+                  placeholder="營養素英文名稱 或 縮寫"
+                  required
+                />
+                <div class="invalid-feedback">此欄位為必填</div>
+                <label for="englishName">
+                  <i class="text-danger fst-normal">＊</i>
+                  營養素英文名稱 或 縮寫
+                </label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  v-model.trim="chineseName"
+                  type="text"
+                  class="form-control"
+                  id="chineseName"
+                  placeholder="營養素中文名稱"
+                  required
+                />
+                <div class="invalid-feedback">此欄位為必填</div>
+                <label for="chineseName">
+                  <i class="text-danger fst-normal">＊</i>
+                  營養素中文名稱
+                </label>
+              </div>
+              <div class="form-floating mb-3">
+                <input
+                  v-model.trim="unit"
+                  type="text"
+                  class="form-control"
+                  id="unit"
+                  placeholder="營養素英文單位，例如：mg"
+                  required
+                />
+                <div class="invalid-feedback">此欄位為必填</div>
+                <label for="unit">
+                  <i class="text-danger fst-normal">＊</i>
+                  營養素英文單位，例如：mg
+                </label>
+              </div>
+              <button
+                @click="addCustomNts"
+                type="submit"
+                class="w-100 btn btn-sm btn-outline-primary"
+              >
+                新增營養素
+              </button>
+            </form>
           </div>
           <div
             v-else
@@ -94,11 +151,11 @@
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
 import { useCustomStore } from '@/stores/customStore'
+import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
 
 export default {
   data() {
-    const customStore = useCustomStore()
     return {
       modal: null,
       nutrients: [],
@@ -107,7 +164,10 @@ export default {
       product: null,
       productList: null,
       addNTsBtb: true,
-      localAddOthersNutrients: [...customStore.addOthersNutrients],
+      localAddOthersNutrients: [],
+      englishName: '',
+      chineseName: '',
+      unit: '',
     }
   },
 
@@ -116,13 +176,24 @@ export default {
     ...mapState(useCustomStore, ['addOthersNutrients']),
   },
   watch: {
-    localAddOthersNutrients(newVal) {
-      useCustomStore().addOthersNutrients = newVal
+    localAddOthersNutrients: {
+      handler(val) {
+        this.pushNTs(val)
+        return this.localAddOthersNutrients
+      },
+      deep: true,
+      immediate: true,
     },
   },
   methods: {
-    ...mapActions(useFoodStore, ['setMyProducts']),
+    ...mapActions(useFoodStore, [
+      'setMyProducts',
+      'addLabelNTs',
+      'pushNTs',
+      'setNewHeaderItem',
+    ]),
     ...mapActions(useCustomStore, ['addCustomNutrients', 'clearAddOtherNts']),
+    ...mapActions(useMsgStore, ['openAlert']),
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
         Object.entries(this.nutrients).filter(([, value]) => {
@@ -156,15 +227,8 @@ export default {
     },
 
     addNTs() {
-      this.productList.forEach(item => {
-        if (item.id === this.product.id) {
-          item.addNutrients = this.addOthersNutrients
-        }
-      })
-
-      this.setMyProducts(this.productList)
+      this.addLabelNTs(this.product)
       this.hideModal()
-      this.clearAddOtherNts()
     },
     showModal(item) {
       this.addNTsBtb = true
@@ -176,6 +240,7 @@ export default {
       this.modal.show()
     },
     showCustomModal() {
+      this.localAddOthersNutrients = this.addOthersNutrients
       this.modal.show()
       this.addNTsBtb = false
     },
@@ -186,10 +251,27 @@ export default {
     hideModal() {
       this.modal.hide()
     },
+    submitForm(e) {
+      const form = e.target
+      if (!form.checkValidity()) {
+        // 若表單無效，添加樣式提示
+        form.classList.add('was-validated')
+        this.openAlert(true, '還有必填欄位喔！')
+        return
+      }
+    },
+    addCustomNts() {
+      const Nts = {
+        [this.englishName]: this.chineseName + '(' + this.unit + ')',
+      }
+      this.localAddOthersNutrients.push(this.englishName)
+      this.addCustomNutrients(this.localAddOthersNutrients)
+      this.setNewHeaderItem(Nts)
+      this.updateFilterData()
+    },
   },
   created() {
     this.updateFilterData()
-    this.productList = this.myProductList
   },
   mounted() {
     this.modal = new Modal(this.$refs.nutrientsModal)

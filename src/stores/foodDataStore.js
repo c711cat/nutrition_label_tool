@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
+import { defineStore, mapActions } from 'pinia'
 import foodData from '@/fooddata2023.json'
 import { useMsgStore } from '@/stores/messageStore.js'
-import { mapActions } from 'pinia'
+
 const headerMap = {
   '*本資料庫所列數值單位均為每100 g可食部分之含量。': 'id',
   Column2: 'category',
@@ -162,11 +162,21 @@ function addCustomData(data) {
 }
 
 function createHeaderChineseAndEnglish() {
-  const newData = []
+  const newData = {}
   for (const [originKey, newKey] of Object.entries(headerMap)) {
     newData[newKey] = headerObj[originKey]
+    localStorage.setItem('myHeader', JSON.stringify(newData))
   }
-  return newData
+  return JSON.parse(localStorage.getItem('myHeader')) || []
+}
+
+function updateHeader(originHeader) {
+  const addHeader = JSON.parse(localStorage.getItem('myAddHeader')) || []
+  return { ...originHeader, ...addHeader }
+}
+
+function getAddNewHeader() {
+  return JSON.parse(localStorage.getItem('myAddHeader')) || []
 }
 
 function getMyProductList() {
@@ -179,7 +189,11 @@ let baseFoodData = []
 baseFoodData = updateKeyFoodData()
 baseFoodData = addCustomData(baseFoodData)
 
-const headerChineseAndEnglish = createHeaderChineseAndEnglish()
+const onlyNewAddHeader = getAddNewHeader()
+
+let headerChineseAndEnglish = {}
+headerChineseAndEnglish = createHeaderChineseAndEnglish()
+headerChineseAndEnglish = updateHeader(headerChineseAndEnglish)
 const localStorageData = getMyProductList()
 export const useFoodStore = defineStore('foodDataStore', {
   state: () => ({
@@ -217,6 +231,8 @@ export const useFoodStore = defineStore('foodDataStore', {
     nullInput: nullInput,
     loadingStatus: false,
     toDo: '',
+    addNts: [],
+    onlyNewAddHeader: onlyNewAddHeader,
   }),
   getters: {
     updateKeyFoodData: ({ baseFoodData }) => {
@@ -233,6 +249,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     BtnloadingStatus: ({ loadingStatus }) => {
       return loadingStatus
+    },
+    getOnlyNewAddHeader: ({ onlyNewAddHeader }) => {
+      return onlyNewAddHeader
     },
   },
   actions: {
@@ -263,11 +282,11 @@ export const useFoodStore = defineStore('foodDataStore', {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
       const data = {}
       if (this.toDo === 'edit') {
-        data.title = ' 更新成功'
+        data.title = '更新成功'
         data.style = 'success'
         this.pushMsg(data)
       } else if (this.toDo === 'add') {
-        data.title = ' 新增成功'
+        data.title = '新增成功'
         data.style = 'success'
         this.pushMsg(data)
       }
@@ -283,7 +302,42 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.myProductList.splice(index, 1)
       this.setMyProducts(this.myProductList)
       const data = {}
-      data.title = title + ' 刪除成功'
+      data.title = title + '刪除成功'
+      data.style = 'success'
+      this.pushMsg(data)
+    },
+    pushNTs(nts) {
+      this.addNts = nts
+    },
+    addLabelNTs(product) {
+      this.myProductList.forEach(item => {
+        if (item.id === product.id) {
+          item.addNutrients = this.addNts
+        }
+      })
+      this.setMyProducts(this.myProductList)
+      this.addNts = []
+    },
+    setNewHeaderItem(nts) {
+      this.onlyNewAddHeader = { ...this.onlyNewAddHeader, ...nts }
+      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
+      this.headerChineseAndEnglish = { ...this.headerChineseAndEnglish, ...nts }
+      localStorage.setItem(
+        'myHeader',
+        JSON.stringify(this.headerChineseAndEnglish),
+      )
+      const data = {}
+      data.title = '新增成功'
+      data.style = 'success'
+      this.pushMsg(data)
+    },
+    delItemOfNts(title, index) {
+      const keys = Object.keys(this.onlyNewAddHeader) // 得到 key 的陣列 例如：[ 0:lutein, 1:calcium ]
+      const keyToDel = keys[index] // 根據 index 找到對應的 key
+      delete this.onlyNewAddHeader[keyToDel]
+      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
+      const data = {}
+      data.title = title + '刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },

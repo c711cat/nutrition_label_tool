@@ -381,7 +381,7 @@ export default {
       if (!form.checkValidity()) {
         // 若表單無效，添加樣式提示
         form.classList.add('was-validated')
-        this.openAlert(true)
+        this.openAlert(true, '還有必填欄位喔！')
         return
       } else {
         this.$refs.doubleCheckModal.showModal()
