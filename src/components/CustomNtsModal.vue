@@ -12,7 +12,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">新增/編輯營養素</h5>
+          <h5 class="modal-title">{{ titleText }}營養素</h5>
           <button
             type="button"
             class="btn-close"
@@ -78,7 +78,7 @@
             取消
           </button>
           <button form="submitCustomNts" type="submit" class="btn btn-primary">
-            送出
+            {{ btnText }}
           </button>
         </div>
       </div>
@@ -91,17 +91,36 @@ import Modal from 'bootstrap/js/dist/modal'
 import { mapActions, mapState } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomStore } from '@/stores/customStore'
+
 export default {
   data() {
     return {
       modal: null,
       currentHeader: {},
+      editKey: '',
     }
   },
-  computed: { ...mapState(useCustomStore, ['ntName']) },
+  computed: {
+    ...mapState(useCustomStore, ['ntName']),
+    titleText() {
+      if (this.editKey) {
+        return '編輯'
+      } else {
+        return '新增'
+      }
+    },
+    btnText() {
+      if (this.editKey) {
+        return '更新'
+      } else {
+        return '送出新增'
+      }
+    },
+  },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
-    ...mapActions(useCustomStore, ['addCustomNts']),
+    ...mapActions(useCustomStore, ['addCustomNts', 'editItemOfNts']),
+
     submitForm(e) {
       const form = e.target
       if (!form.checkValidity()) {
@@ -109,6 +128,8 @@ export default {
         form.classList.add('was-validated')
         this.openAlert(true, '還有必填欄位喔！')
         return
+      } else if (this.editKey !== '') {
+        this.edit()
       } else {
         this.submitCustomNts()
       }
@@ -118,8 +139,20 @@ export default {
       const originHeader = JSON.parse(localStorage.getItem('myHeader'))
       this.currentHeader = { ...originHeader, ...addedHeader }
     },
-    showModal() {
+    showModal(value, key) {
       this.modal.show()
+      if ((value, key)) {
+        this.ntName.englishName = key
+        this.editKey = key
+        this.ntName.chineseName = value.replace(/\(.*\)/, '')
+        const unit = value.match(/\(([^)]+)\)/)[1]
+        this.ntName.unit = unit
+      } else {
+        this.editKey = null
+        this.ntName.englishName = ''
+        this.ntName.chineseName = ''
+        this.ntName.unit = ''
+      }
     },
     hideModal() {
       this.modal.hide()
@@ -128,6 +161,10 @@ export default {
       this.addCustomNts()
       this.hideModal()
       this.getCurrentHeader()
+    },
+    edit() {
+      this.editItemOfNts(this.editKey)
+      this.modal.hide()
     },
   },
   created() {

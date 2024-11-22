@@ -22,7 +22,11 @@
           <p class="mb-0 col">{{ key }}</p>
           <p class="mb-0 col">{{ value }}</p>
           <div class="text-end">
-            <button type="button" class="btn btn-outline-primary me-3">
+            <button
+              @click="edit(value, key)"
+              type="button"
+              class="btn btn-outline-primary me-3"
+            >
               編輯
             </button>
             <button
@@ -57,6 +61,9 @@ export default {
     },
     openDoubleCheckModal(value, key, index) {
       this.$refs.doubleCheckModal.showDelNtsModal(value, key, index)
+    },
+    edit(value, key) {
+      this.$refs.addCustomNtsModal.showModal(value, key)
     },
   },
 }
