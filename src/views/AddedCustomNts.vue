@@ -17,25 +17,36 @@
         class="col-12 col-lg-6"
       >
         <div
-          class="d-flex flex-wrap align-items-center bg-light rounded p-3 mb-2 mx-1"
+          class="position-relative d-flex flex-column flex-wrap align-items-center bg-light rounded p-3 mb-2 mx-1 py-4"
         >
-          <p class="mb-0 px-1 col">{{ key }}</p>
-          <p class="mb-0 px-1 col">{{ value }}</p>
-          <div class="text-end">
-            <button
-              @click="edit(value, key)"
-              type="button"
-              class="btn btn-outline-primary me-3"
-            >
-              編輯
-            </button>
-            <button
-              @click="openDoubleCheckModal(value, key, index)"
-              type="button"
-              class="btn btn-outline-danger"
-            >
-              刪除
-            </button>
+          <div class="col-12 d-flex align-items-center">
+            <p class="mb-0 px-1 col">{{ key }}</p>
+            <p class="mb-0 px-1 col">{{ value }}</p>
+            <div class="text-end">
+              <button
+                @click="edit(value, key)"
+                type="button"
+                class="btn btn-outline-primary me-3"
+              >
+                編輯
+              </button>
+              <button
+                :disabled="used(key)"
+                @click="openDoubleCheckModal(value, key, index)"
+                type="button"
+                class="btn btn-outline-danger"
+              >
+                刪除
+              </button>
+            </div>
+          </div>
+
+          <div
+            v-if="used(key)"
+            class="d-flex align-items-center position-absolute end-0 bottom-0 mb-0 text-bottom text-secondary infoText"
+          >
+            <i class="bi bi-info-circle me-1"></i>
+            <span class="">已使用該營養素，不予刪除</span>
           </div>
         </div>
       </div>
@@ -48,13 +59,17 @@
 import AddCustomNtsModal from '@/components/CustomNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import { useFoodStore } from '@/stores/foodDataStore'
+import { useCustomStore } from '@/stores/customStore'
 import { mapState } from 'pinia'
 export default {
   data() {
     return {}
   },
   components: { AddCustomNtsModal, DoubleCheckModal },
-  computed: { ...mapState(useFoodStore, ['onlyNewAddHeader']) },
+  computed: {
+    ...mapState(useFoodStore, ['onlyNewAddHeader']),
+    ...mapState(useCustomStore, ['customDataList']),
+  },
   methods: {
     openAddNtsModal() {
       this.$refs.addCustomNtsModal.showModal()
@@ -65,6 +80,20 @@ export default {
     edit(value, key) {
       this.$refs.addCustomNtsModal.showModal(value, key)
     },
+    used(key) {
+      return this.customDataList.some(item => key in item)
+    },
   },
+  created() {},
 }
 </script>
+<style lang="scss" scoped>
+.infoText {
+  font-size: 14px;
+  padding: 0px 15px 2px 0px;
+}
+
+.bi-info-circle {
+  font-size: 12px;
+}
+</style>
