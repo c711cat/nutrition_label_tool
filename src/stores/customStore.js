@@ -30,7 +30,7 @@ export const useCustomStore = defineStore('customStore', {
     nutrientName: ({ ntName }) => {
       return ntName
     },
-    ...mapState(useFoodStore, ['baseFoodData', 'onlyNewAddHeader']),
+    ...mapState(useFoodStore, ['baseFoodData']),
   },
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
@@ -158,16 +158,6 @@ export const useCustomStore = defineStore('customStore', {
         this.ntName.chineseName = ''
         this.ntName.unit = ''
       }, 2000)
-    },
-    editItemOfNts(editKey) {
-      delete this.onlyNewAddHeader[editKey]
-      this.onlyNewAddHeader[this.ntName.englishName] =
-        this.ntName.chineseName + '(' + this.ntName.unit + ')'
-      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
-      const data = {}
-      data.title = '更新成功'
-      data.style = 'success'
-      this.pushMsg(data)
     },
   },
 })
