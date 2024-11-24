@@ -86,13 +86,22 @@
             <div class="col-12">
               <label
                 for="net_weight"
-                class="form-label fw-bold ps-1 d-flex justify-content-start col-12"
+                class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start col-12"
               >
                 <div class="pe-1 d-flex align-items-center">
                   <i class="text-danger fst-normal">＊</i>
                 </div>
-                每一份成品淨重？
+                每一份量
+                <div
+                  class="infoStyle px-3 text-secondary d-flex align-items-center"
+                >
+                  <span class="fw-normal">
+                    <i class="bi bi-info-circle"></i>
+                    將會顯示在營養標示上，每一份量的位置
+                  </span>
+                </div>
               </label>
+
               <div class="col-12 d-flex flex-wrap justify-content-between">
                 <div class="col-12 col-xl-6">
                   <input
@@ -101,7 +110,7 @@
                     min="1"
                     class="form-control me-3"
                     id="net_weight"
-                    placeholder="輸入淨重"
+                    placeholder="輸入克數或毫升數"
                     required
                   />
                   <div class="invalid-feedback">
@@ -138,13 +147,22 @@
           <section class="col-12 col-xl-6">
             <label
               for="product_quantity"
-              class="form-label fw-bold ps-1 d-flex justify-content-start"
+              class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
               </div>
               本包裝含幾份成品？
+              <div
+                class="infoStyle px-3 text-secondary d-flex align-items-center"
+              >
+                <span class="fw-normal">
+                  <i class="bi bi-info-circle"></i>
+                  將會顯示在營養標示上，本包裝含幾份的位置
+                </span>
+              </div>
             </label>
+
             <input
               v-model="product.productQty"
               type="number"
@@ -362,5 +380,9 @@ ul.list-group {
 
 .btn-outline-danger {
   border-color: rgba(255, 255, 255, 0) !important;
+}
+
+.infoStyle {
+  font-size: 14px;
 }
 </style>
