@@ -105,7 +105,7 @@
               <div class="col-12 d-flex flex-wrap justify-content-between">
                 <div class="col-12 col-xl-6">
                   <input
-                    v-model="product.netWeightInformation.netWeight"
+                    v-model="product.perPortionInfomation.perWeight"
                     type="number"
                     min="1"
                     class="form-control me-3"
@@ -120,7 +120,7 @@
                 <div class="mt-2 col-12 col-xl-5 text-xl-center">
                   <div class="form-check form-check-inline">
                     <input
-                      v-model="product.netWeightInformation.unit"
+                      v-model="product.perPortionInfomation.unit"
                       class="form-check-input"
                       type="radio"
                       id="gram"
@@ -130,7 +130,7 @@
                   </div>
                   <div class="form-check form-check-inline">
                     <input
-                      v-model="product.netWeightInformation.unit"
+                      v-model="product.perPortionInfomation.unit"
                       class="form-check-input"
                       type="radio"
                       id="milliliter"
