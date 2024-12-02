@@ -79,6 +79,64 @@
         />
         <div class="invalid-feedback">此欄位為必填</div>
       </section>
+      <section class="col-xl-4 d-flex flex-wrap">
+        <div class="col-12">
+          <label
+            for="net_weight"
+            class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start col-12"
+          >
+            <div class="pe-1 d-flex align-items-center">
+              <i class="text-danger fst-normal">＊</i>
+            </div>
+            淨重
+            <div
+              class="infoStyle px-3 text-secondary d-flex align-items-center"
+            >
+              <span class="fw-normal">
+                <i class="bi bi-info-circle"></i>
+                將會顯示在外包裝上，淨重的位置
+              </span>
+            </div>
+          </label>
+
+          <div class="col-12 d-flex flex-wrap justify-content-between">
+            <div class="col-12 col-sm">
+              <input
+                v-model="product.netWeightInformation.netWeight"
+                type="number"
+                min="1"
+                class="form-control me-3"
+                id="net_weight"
+                placeholder="輸入克數或毫升數"
+                required
+              />
+              <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
+            </div>
+            <div class="mt-2 ms-2 text-xl-center">
+              <div class="form-check form-check-inline">
+                <input
+                  v-model="product.netWeightInformation.unit"
+                  class="form-check-input"
+                  type="radio"
+                  id="gram"
+                  value="公克"
+                />
+                <label class="form-check-label" for="gram">公克</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  v-model="product.netWeightInformation.unit"
+                  class="form-check-input"
+                  type="radio"
+                  id="milliliter"
+                  value="毫升"
+                />
+                <label class="form-check-label" for="milliliter"> 毫升 </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="col-xl-4">
         <span class="fw-bold ps-1 mb-2 d-flex">
           <div class="pe-1 d-flex align-items-center">
@@ -391,4 +449,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.infoStyle {
+  font-size: 14px;
+}
+</style>
