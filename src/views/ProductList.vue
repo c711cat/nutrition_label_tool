@@ -119,8 +119,8 @@
             <tr>
               <th class="fw-normal ps-2 lh-sm">每一份量</th>
               <td colspan="2" class="lh-sm">
-                {{ item.netWeightInformation.netWeight }}
-                {{ item.netWeightInformation.unit }}
+                {{ item.perPortionInfomation.perWeight }}
+                {{ item.perPortionInfomation.unit }}
               </td>
             </tr>
             <tr class="lh-1">
@@ -135,7 +135,7 @@
               <th class="border-bottom border-black"></th>
               <td class="text-end pe-2 border-bottom border-black">每份</td>
               <td class="text-end pe-2 border-bottom border-black">
-                每 100 {{ item.netWeightInformation.unit }}
+                每 100 {{ item.perPortionInfomation.unit }}
               </td>
             </tr>
             <tr class="lh-1">
