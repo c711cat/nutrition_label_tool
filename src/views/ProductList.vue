@@ -317,17 +317,35 @@ export default {
       return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
     },
     calculatePer100g(item, nutrient) {
-      const data = item.ingredients.reduce((total, ingredient) => {
-        const gramsRatio = ingredient.grams / 100
-        const nutrientValue = ingredient.details[`${nutrient}`] || 0
-        return total + nutrientValue * gramsRatio
-      }, 0)
-      return (
-        (data / (item.netWeightInformation.netWeight * item.numberOfCopy)) *
-        100
-      ).toFixed(1)
+      // 若 Copy = 1 ， 並且 Qty > Copy：可製成 1 份，並且『本包裝含的份數』大於『可製成的份數』時
+      // 例如：輸入的材料總重量可製成 1 包鹽，本包裝含 1000 份，每一份量為 1 克（ perWeight : 1 )
+      if (item.numberOfCopy === 1 && item.productQty > item.numberOfCopy) {
+        const data = item.ingredients.reduce((total, ingredient) => {
+          const gramsRatio = ingredient.grams / 100
+          const nutrientValue = ingredient.details[`${nutrient}`] || 0
+          const sumValue = total + nutrientValue * gramsRatio
+          return sumValue
+        }, 0)
+        const totalWeight =
+          item.productQty * item.perPortionInfomation.perWeight
+        const per100g = (data / totalWeight) * 100
+        return per100g.toFixed(1)
+      } else {
+        // 除了以上之外的情況
+        // 例如：南瓜豬肉粥，總材料重量可製成 10 份（ Copy:10 )，本包裝含 1 份 ( Qty:1 )，每一份量為 250 克（ perWeight : 250 )
+        const data = item.ingredients.reduce((total, ingredient) => {
+          const gramsRatio = ingredient.grams / 100
+          const nutrientValue = ingredient.details[`${nutrient}`] || 0
+          const sumValue = total + nutrientValue * gramsRatio
+          return sumValue
+        }, 0)
+        const totalWt = item.numberOfCopy * item.perPortionInfomation.perWeight
+        const per100g = (data / totalWt) * 100
+        return per100g.toFixed(1)
+      }
     },
     calculatePer100gCalories(item) {
+      // 使用 parseFloat：將文字轉換為數字型別，便於數字運算
       const protein = parseFloat(this.calculatePer100g(item, 'protein'))
       const fat = parseFloat(this.calculatePer100g(item, 'fat'))
       const carbohydrates = parseFloat(
