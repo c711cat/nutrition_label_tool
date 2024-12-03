@@ -344,13 +344,20 @@ export default {
       }
     },
     calculatePer100gCalories(item) {
-      // 使用 parseFloat：將文字轉換為數字型別，便於數字運算
-      const protein = parseFloat(this.calculatePer100g(item, 'protein'))
-      const fat = parseFloat(this.calculatePer100g(item, 'fat'))
-      const carbohydrates = parseFloat(
-        this.calculatePer100g(item, 'total_carbohydrates'),
-      )
-      return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+      const protein = parseFloat(this.calculatePer100g(item, 'protein')) || 0
+      const fat = parseFloat(this.calculatePer100g(item, 'fat')) || 0
+      let carbohydrates =
+        parseFloat(this.calculatePer100g(item, 'total_carbohydrates')) || 0
+      const fiber = item.addNutrients?.includes('dietary_fiber')
+        ? parseFloat(this.calculatePer100g(item, 'dietary_fiber')) || 0
+        : 0
+      const alcohol = item.addNutrients?.includes('alcohol')
+        ? parseFloat(this.calculatePer100g(item, 'alcihol')) || 0
+        : 0
+      carbohydrates = carbohydrates - fiber
+      const kcal =
+        protein * 4 + fat * 9 + carbohydrates * 4 + fiber * 2 + alcohol * 7
+      return kcal.toFixed(1)
     },
     transUnitText(unit) {
       const unitMapping = {
