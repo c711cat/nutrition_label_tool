@@ -301,12 +301,11 @@ export default {
         .join('、')
     },
     calculateNutrients(item, nutrient) {
-      const data = item.ingredients.reduce((total, ingredient) => {
-        const gramsRatio = ingredient.grams / 100
-        const nutrientValue = ingredient.details[`${nutrient}`] || 0
-        return total + nutrientValue * gramsRatio
-      }, 0)
-      return (data / item.numberOfCopy).toFixed(1)
+      // 利用『每 100 公克』的數值換算『每份的數值』
+      const data = parseFloat(this.calculatePer100g(item, nutrient))
+      const perWeight = item.perPortionInfomation.perWeight
+      const perData = (data / 100) * perWeight
+      return perData.toFixed(1)
     },
     calculateCalories(item) {
       const protein = parseFloat(this.calculateNutrients(item, 'protein'))
