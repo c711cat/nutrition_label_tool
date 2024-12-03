@@ -308,12 +308,9 @@ export default {
       return perData.toFixed(1)
     },
     calculateCalories(item) {
-      const protein = parseFloat(this.calculateNutrients(item, 'protein'))
-      const fat = parseFloat(this.calculateNutrients(item, 'fat'))
-      const carbohydrates = parseFloat(
-        this.calculateNutrients(item, 'total_carbohydrates'),
-      )
-      return (protein * 4 + fat * 9 + carbohydrates * 4).toFixed(1)
+      let data = parseFloat(this.calculatePer100gCalories(item))
+      data = (data / 100) * item.perPortionInfomation.perWeight
+      return data.toFixed(1)
     },
     calculatePer100g(item, nutrient) {
       // 若 Copy = 1 ， 並且 Qty > Copy：可製成 1 份，並且『本包裝含的份數』大於『可製成的份數』時
