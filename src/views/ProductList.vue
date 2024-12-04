@@ -375,12 +375,44 @@ export default {
       const fiber = item.addNutrients?.includes('dietary_fiber')
         ? parseFloat(this.calculatePer100g(item, 'dietary_fiber')) || 0
         : 0
+      // erythritol 赤藻糖醇 熱量為零
+      const erythritol = item.addNutrients?.includes('Erythritol')
+        ? parseFloat(this.calculatePer100g(item, 'Erythritol')) || 0
+        : 0
+      // 其它糖醇 熱量每公克 2.4 大卡
+      const sugarAlcohols = [
+        'Xylitol',
+        'Sorbitol',
+        'Maltitol',
+        'Lactitol',
+        'Mannitol',
+      ]
+      const SAGrams = sugarAlcohols.reduce((total, SA) => {
+        if (item.addNutrients?.includes(SA)) {
+          const grams = parseFloat(this.calculatePer100g(item, SA)) || 0
+          return total + grams
+        }
+        return total
+      }, 0)
+
+      // 酒精 熱量 每公克 7 大卡
       const alcohol = item.addNutrients?.includes('alcohol')
         ? parseFloat(this.calculatePer100g(item, 'alcihol')) || 0
         : 0
-      carbohydrates = carbohydrates - fiber
+
+      // 碳水化合物包含：膳食纖維、赤藻糖醇、其它糖醇，『若要標示出來』，則熱量計算為：
+      // （ 碳水化合物 - 膳食纖維 - 赤藻糖醇 - 其它糖醇 ） * 4 大卡
+      // ＋ 膳食纖維 ＊ 2 大卡 + 赤藻糖醇 * 0 大卡 + 其它糖醇 * 2.4 大卡
+      // 『不標示出來』，計算方式則為：碳水化合物 * 4 大卡
+      carbohydrates = carbohydrates - fiber - erythritol - SAGrams
       const kcal =
-        protein * 4 + fat * 9 + carbohydrates * 4 + fiber * 2 + alcohol * 7
+        protein * 4 +
+        fat * 9 +
+        carbohydrates * 4 +
+        fiber * 2 +
+        erythritol * 0 +
+        SAGrams * 2.4 +
+        alcohol * 7
       return kcal.toFixed(1)
     },
     transUnitText(unit) {
