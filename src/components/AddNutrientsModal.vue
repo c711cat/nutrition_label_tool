@@ -75,23 +75,44 @@
                   營養素中文名稱
                 </label>
               </div>
-              <div class="form-floating mb-3">
-                <input
-                  v-model.trim="unit"
-                  type="text"
-                  class="form-control"
-                  id="unit"
-                  placeholder="營養素英文單位，例如：mg"
-                  required
-                />
-                <div class="invalid-feedback">此欄位為必填</div>
-                <label for="unit">
-                  <i class="text-danger fst-normal">＊</i>
-                  營養素英文單位，例如：mg
-                </label>
+
+              <div class="mt-2 ms-2 mb-3">
+                <p class="mb-2">
+                  <i class="text-danger fst-normal me-2">＊</i>
+                  營養素單位
+                </p>
+                <div class="form-check form-check-inline">
+                  <input
+                    v-model="unit"
+                    class="form-check-input"
+                    type="radio"
+                    id="gram"
+                    value="公克"
+                  />
+                  <label class="form-check-label" for="gram">公克</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    v-model="unit"
+                    class="form-check-input"
+                    type="radio"
+                    id="milligram"
+                    value="毫克"
+                  />
+                  <label class="form-check-label" for="milligram">毫克</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    v-model="unit"
+                    class="form-check-input"
+                    type="radio"
+                    id="microgram"
+                    value="微克"
+                  />
+                  <label class="form-check-label" for="microgram">微克</label>
+                </div>
               </div>
               <button
-                @click="addCustomNts"
                 type="submit"
                 class="w-100 btn btn-sm btn-outline-primary"
               >
@@ -167,7 +188,7 @@ export default {
       localAddOthersNutrients: [],
       englishName: '',
       chineseName: '',
-      unit: '',
+      unit: '公克',
     }
   },
 
@@ -259,6 +280,7 @@ export default {
         this.openAlert(true, '還有必填欄位喔！')
         return
       }
+      this.addCustomNts()
     },
     addCustomNts() {
       const Nts = {
