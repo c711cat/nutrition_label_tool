@@ -35,25 +35,56 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="border-bottom border-black">
-              <th></th>
-              <td class="px-2">每 100 公克 / 毫升</td>
+            <tr>
+              <th class="border-bottom border-black"></th>
+              <td class="px-2 border-bottom border-black">
+                每 100 公克 / 毫升
+              </td>
             </tr>
-            <tr v-for="(value, key) in item.nutritionLabels" :key="key">
-              <th
-                class="px-2 fw-normal"
-                :class="{
-                  'ps-4': [
-                    'trans_fat',
-                    'total_sugar',
-                    'saturated_fat',
-                  ].includes(key),
-                }"
-              >
-                {{ transText(key) }}
-              </th>
+            <tr>
+              <th class="px-2 fw-normal">熱量</th>
               <td class="text-end px-2">
-                {{ value }} {{ transUnitText(headerChineseAndEnglish[key]) }}
+                {{ item.nutritionLabels.calories }} 大卡
+              </td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">蛋白質</th>
+              <td class="text-end px-2">
+                {{ item.nutritionLabels.protein }} 公克
+              </td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">脂肪</th>
+              <td class="text-end px-2">{{ item.nutritionLabels.fat }} 公克</td>
+            </tr>
+            <tr>
+              <th class="pe-2 ps-4 fw-normal">飽和脂肪</th>
+              <td class="text-end px-2">
+                {{ item.nutritionLabels.saturated_fat }} 公克
+              </td>
+            </tr>
+            <tr>
+              <th class="pe-2 ps-4 fw-normal">反式脂肪</th>
+              <td class="text-end px-2">
+                {{ item.nutritionLabels.trans_fat }} 公克
+              </td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">碳水化合物</th>
+              <td class="text-end px-2">
+                {{ item.nutritionLabels.total_carbohydrates }} 公克
+              </td>
+            </tr>
+            <tr>
+              <th class="pe-2 ps-4 fw-normal">糖</th>
+              <td class="text-end px-2">
+                {{ item.nutritionLabels.total_sugar }} 公克
+              </td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">鈉</th>
+              <td class="text-end px-2">
+                {{ item.nutritionLabels.sodium }} 毫克
               </td>
             </tr>
           </tbody>
