@@ -43,49 +43,41 @@
             </tr>
             <tr>
               <th class="px-2 fw-normal">熱量</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.calories }} 大卡
-              </td>
+              <td class="text-end px-2">{{ item.calories }} 大卡</td>
             </tr>
             <tr>
               <th class="px-2 fw-normal">蛋白質</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.protein }} 公克
-              </td>
+              <td class="text-end px-2">{{ item.protein }} 公克</td>
             </tr>
             <tr>
               <th class="px-2 fw-normal">脂肪</th>
-              <td class="text-end px-2">{{ item.nutritionLabels.fat }} 公克</td>
+              <td class="text-end px-2">{{ item.fat }} 公克</td>
             </tr>
             <tr>
               <th class="pe-2 ps-4 fw-normal">飽和脂肪</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.saturated_fat }} 公克
-              </td>
+              <td class="text-end px-2">{{ item.saturated_fat }} 公克</td>
             </tr>
             <tr>
               <th class="pe-2 ps-4 fw-normal">反式脂肪</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.trans_fat }} 公克
-              </td>
+              <td class="text-end px-2">{{ item.trans_fat }} 公克</td>
             </tr>
             <tr>
               <th class="px-2 fw-normal">碳水化合物</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.total_carbohydrates }} 公克
-              </td>
+              <td class="text-end px-2">{{ item.total_carbohydrates }} 公克</td>
             </tr>
             <tr>
               <th class="pe-2 ps-4 fw-normal">糖</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.total_sugar }} 公克
-              </td>
+              <td class="text-end px-2">{{ item.total_sugar }} 公克</td>
             </tr>
             <tr>
               <th class="px-2 fw-normal">鈉</th>
-              <td class="text-end px-2">
-                {{ item.nutritionLabels.sodium }} 毫克
-              </td>
+              <td class="text-end px-2">{{ item.sodium }} 毫克</td>
+            </tr>
+            <tr v-for="(value, key) in item.claimNts" :key="key">
+              <th class="px-2 fw-normal">
+                {{ headerChineseAndEnglish[key].replace(/\(.*\)/, '') }}
+              </th>
+              <td class="text-end px-2">{{ value }} 毫克</td>
             </tr>
           </tbody>
         </table>
@@ -155,14 +147,30 @@ export default {
           content_description,
           category,
           id,
-          ...nutritionLabels
+          calories,
+          protein,
+          fat,
+          saturated_fat,
+          trans_fat,
+          total_carbohydrates,
+          total_sugar,
+          sodium,
+          ...claimNts
         }) => {
           return {
             sample_name,
             content_description,
             category,
             id,
-            nutritionLabels,
+            calories,
+            protein,
+            fat,
+            saturated_fat,
+            trans_fat,
+            total_carbohydrates,
+            total_sugar,
+            sodium,
+            claimNts,
           }
         },
       )
