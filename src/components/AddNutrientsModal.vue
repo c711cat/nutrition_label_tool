@@ -217,8 +217,8 @@ export default {
     ...mapActions(useMsgStore, ['openAlert']),
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
-        Object.entries(this.nutrients).filter(([, value]) => {
-          return value.match(nutrient)
+        Object.entries(this.nutrients).filter(([key, value]) => {
+          return value.match(nutrient) || key.match(nutrient)
         }),
       )
     },
