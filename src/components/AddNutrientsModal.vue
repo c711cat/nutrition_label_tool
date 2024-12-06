@@ -218,7 +218,7 @@ export default {
     searchNutrient(nutrient) {
       this.filteredNutrients = Object.fromEntries(
         Object.entries(this.nutrients).filter(([key, value]) => {
-          return value.match(nutrient) || key.match(nutrient)
+          return value.match(nutrient) || key.match(nutrient) // key:英文名稱，value:中文名稱
         }),
       )
     },
