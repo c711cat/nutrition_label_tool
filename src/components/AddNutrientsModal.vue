@@ -233,16 +233,8 @@
           >
             取消
           </button>
+
           <button
-            v-if="addNTsBtb"
-            @click="addNTs"
-            type="button"
-            class="btn btn-primary"
-          >
-            新增
-          </button>
-          <button
-            v-else
             @click="addCustomFoodNTs"
             :disabled="
               Object.values(filteredNutrients).length === 0 &&
@@ -275,7 +267,7 @@ export default {
       addNutrients: [],
       product: null,
       productList: null,
-      addNTsBtb: true,
+
       localAddedNts: [],
       englishName: '',
       chineseName: '',
@@ -311,7 +303,7 @@ export default {
     // },
   },
   methods: {
-    ...mapActions(useFoodStore, ['setMyProducts', 'addLabelNTs', 'pushNTs']),
+    ...mapActions(useFoodStore, ['setMyProducts', 'pushNTs']),
     ...mapActions(useCustomStore, ['clearAddOtherNts', 'addNts']),
     ...mapActions(useMsgStore, ['openAlert']),
     searchNutrient(nutrient) {
@@ -355,23 +347,9 @@ export default {
       this.nutrients = data
     },
 
-    addNTs() {
-      this.addLabelNTs(this.product)
-      this.hideModal()
-    },
-    showModal(item) {
-      this.addNTsBtb = true
-      this.product = { ...item }
-      this.addNutrients = []
-      if (item.addNutrients) {
-        this.localAddedNts = item.addNutrients
-      }
-      this.modal.show()
-    },
     showCustomModal() {
       this.localAddedNts = this.addOthersNutrients
       this.modal.show()
-      this.addNTsBtb = false
     },
     addCustomFoodNTs() {
       this.addNts(this.localAddedNts, this.localAddedCustomNts)

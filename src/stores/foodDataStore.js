@@ -323,15 +323,6 @@ export const useFoodStore = defineStore('foodDataStore', {
     pushNTs(nts) {
       this.addNts = nts
     },
-    addLabelNTs(product) {
-      this.myProductList.forEach(item => {
-        if (item.id === product.id) {
-          item.addNutrients = this.addNts
-        }
-      })
-      this.setMyProducts(this.myProductList)
-      this.addNts = []
-    },
 
     delItemOfNts(title, index) {
       const keys = Object.keys(this.onlyNewAddHeader) // 得到 key 的陣列 例如：[ 0:lutein, 1:calcium ]
