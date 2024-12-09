@@ -343,5 +343,13 @@ export const useFoodStore = defineStore('foodDataStore', {
       data.style = 'success'
       this.pushMsg(data)
     },
+    updateCalimNts(product) {
+      this.myProductList.forEach(item => {
+        if (item.id === product.id) {
+          item.claimNts = product.claimNts
+        }
+      })
+      this.setMyProducts(this.myProductList)
+    },
   },
 })

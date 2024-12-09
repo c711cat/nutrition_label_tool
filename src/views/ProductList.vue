@@ -209,7 +209,7 @@
               </td>
             </tr>
             <tr
-              v-for="nutrient in item.addNutrients"
+              v-for="nutrient in item.claimNts"
               :key="nutrient"
               class="lh-1"
             >
@@ -234,7 +234,7 @@
           type="button"
           class="btn btn-primary my-3"
         >
-          新增其他營養素
+          增減營養素
         </button>
         <div class="my-3">
           <button
@@ -289,7 +289,7 @@
         </p>
       </div>
     </div>
-    <AddNutrientsModal ref="addNutrientsModal" />
+    <ProductClaimNtsModal ref="productClaimNtsModal" />
     <DoubleCheckModal ref="doubleCheckModal" />
   </div>
 </template>
@@ -297,18 +297,18 @@
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
-import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
+import ProductClaimNtsModal from '@/components/ProductClaimNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import html2canvas from 'html2canvas'
 import { useMsgStore } from '@/stores/messageStore'
 export default {
   data() {
     return {
-      addNutrients: [],
+      claimNts: [],
       productList: [],
     }
   },
-  components: { AddNutrientsModal, DoubleCheckModal },
+  components: { ProductClaimNtsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
   },
@@ -319,7 +319,7 @@ export default {
       return (this.$route.path = `/edit_nutrition_label/${id}`)
     },
     openModal(item) {
-      this.$refs.addNutrientsModal.showModal(item)
+      this.$refs.productClaimNtsModal.showModal(item)
     },
     sorted(ingredients) {
       return ingredients
@@ -372,11 +372,11 @@ export default {
       const fat = parseFloat(this.calculatePer100g(item, 'fat')) || 0
       let carbohydrates =
         parseFloat(this.calculatePer100g(item, 'total_carbohydrates')) || 0
-      const fiber = item.addNutrients?.includes('dietary_fiber')
+      const fiber = item.claimNts?.includes('dietary_fiber')
         ? parseFloat(this.calculatePer100g(item, 'dietary_fiber')) || 0
         : 0
       // erythritol 赤藻糖醇 熱量為零
-      const erythritol = item.addNutrients?.includes('Erythritol')
+      const erythritol = item.claimNts?.includes('Erythritol')
         ? parseFloat(this.calculatePer100g(item, 'Erythritol')) || 0
         : 0
       // 其它糖醇 熱量每公克 2.4 大卡
@@ -388,7 +388,7 @@ export default {
         'Mannitol',
       ]
       const SAGrams = sugarAlcohols.reduce((total, SA) => {
-        if (item.addNutrients?.includes(SA)) {
+        if (item.claimNts?.includes(SA)) {
           const grams = parseFloat(this.calculatePer100g(item, SA)) || 0
           return total + grams
         }
@@ -396,7 +396,7 @@ export default {
       }, 0)
 
       // 酒精 熱量 每公克 7 大卡
-      const alcohol = item.addNutrients?.includes('alcohol')
+      const alcohol = item.claimNts?.includes('alcohol')
         ? parseFloat(this.calculatePer100g(item, 'alcihol')) || 0
         : 0
 
