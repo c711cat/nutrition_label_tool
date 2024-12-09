@@ -195,15 +195,6 @@ function createHeaderChineseAndEnglish() {
   return JSON.parse(localStorage.getItem('myHeader')) || []
 }
 
-function updateHeader(originHeader) {
-  const addHeader = JSON.parse(localStorage.getItem('myAddHeader')) || []
-  return { ...originHeader, ...addHeader }
-}
-
-function getAddNewHeader() {
-  return JSON.parse(localStorage.getItem('myAddHeader')) || []
-}
-
 function getMyProductList() {
   return JSON.parse(localStorage.getItem('myFoodData')) || []
 }
@@ -214,11 +205,9 @@ let baseFoodData = []
 baseFoodData = updateKeyFoodData()
 baseFoodData = addCustomData(baseFoodData)
 
-const onlyNewAddHeader = getAddNewHeader()
-
 let headerChineseAndEnglish = {}
 headerChineseAndEnglish = createHeaderChineseAndEnglish()
-headerChineseAndEnglish = updateHeader(headerChineseAndEnglish)
+
 const localStorageData = getMyProductList()
 export const useFoodStore = defineStore('foodDataStore', {
   state: () => ({
@@ -258,7 +247,6 @@ export const useFoodStore = defineStore('foodDataStore', {
     loadingStatus: false,
     toDo: '',
     addNts: [],
-    onlyNewAddHeader: onlyNewAddHeader,
   }),
   getters: {
     updateKeyFoodData: ({ baseFoodData }) => {
@@ -344,19 +332,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.setMyProducts(this.myProductList)
       this.addNts = []
     },
-    setNewHeaderItem(nts) {
-      this.onlyNewAddHeader = { ...this.onlyNewAddHeader, ...nts }
-      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
-      this.headerChineseAndEnglish = { ...this.headerChineseAndEnglish, ...nts }
-      localStorage.setItem(
-        'myHeader',
-        JSON.stringify(this.headerChineseAndEnglish),
-      )
-      const data = {}
-      data.title = '新增成功'
-      data.style = 'success'
-      this.pushMsg(data)
-    },
+
     delItemOfNts(title, index) {
       const keys = Object.keys(this.onlyNewAddHeader) // 得到 key 的陣列 例如：[ 0:lutein, 1:calcium ]
       const keyToDel = keys[index] // 根據 index 找到對應的 key

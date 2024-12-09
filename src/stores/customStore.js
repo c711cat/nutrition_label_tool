@@ -13,6 +13,7 @@ export const useCustomStore = defineStore('customStore', {
   state: () => ({
     customDataList: localStorageCustomData,
     addOthersNutrients: [],
+    addCMNts: [],
     customFood: {},
     toDo: '',
     ntName: { englishName: '', chineseName: '', unit: '' },
@@ -23,6 +24,9 @@ export const useCustomStore = defineStore('customStore', {
     },
     addOthersNts: ({ addOthersNutrients }) => {
       return addOthersNutrients
+    },
+    addCustomMadeNts: ({ addCMNts }) => {
+      return addCMNts
     },
     customFoodInStore: ({ customFood }) => {
       return customFood
@@ -117,10 +121,6 @@ export const useCustomStore = defineStore('customStore', {
       this.setCustomData(this.customDataList)
     },
 
-    addCustomNutrients(nts) {
-      this.addOthersNutrients = [...nts]
-    },
-
     clearAddOtherNts() {
       this.addOthersNutrients = []
     },
@@ -158,6 +158,11 @@ export const useCustomStore = defineStore('customStore', {
         this.ntName.chineseName = ''
         this.ntName.unit = ''
       }, 2000)
+    },
+    addNts(nts, customNts) {
+      this.addOthersNutrients = [...nts]
+      this.addCMNts = [...customNts]
+      this.customFood.claimCMNts = { ...customNts }
     },
   },
 })

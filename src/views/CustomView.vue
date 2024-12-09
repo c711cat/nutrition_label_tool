@@ -73,17 +73,37 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </td>
             </tr>
-            <tr v-for="item in addOthersNutrients" :key="item">
+
+            <tr v-for="(value, key) in addOthersNutrients" :key="key">
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
-                {{ header[item] }}
+                {{ header[key] }}
               </th>
               <td>
                 <input
-                  v-model="customFood[item]"
+                  v-model="customFood[key]"
                   type="number"
-                  :name="item"
-                  :id="item"
+                  :name="value"
+                  :id="key"
+                  class="form-control text-center"
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </td>
+            </tr>
+
+            <tr v-for="(item, index) in addCMNts" :key="item + index">
+              <th class="fw-normal px-3">
+                <i class="text-danger fst-normal">＊</i>
+                {{ item.chName }}
+              </th>
+              <td>
+                <input
+                  v-model="customFood.claimCMNts[index].quantity"
+                  :id="item + index"
+                  :name="item.quantity"
+                  type="number"
                   class="form-control text-center"
                   required
                   min="0"
@@ -159,6 +179,7 @@ export default {
       'customDataList',
       'addOthersNutrients',
       'customFood',
+      'addCMNts',
     ]),
   },
   methods: {

@@ -73,11 +73,21 @@
               <th class="px-2 fw-normal">鈉</th>
               <td class="text-end px-2">{{ item.sodium }} 毫克</td>
             </tr>
-            <tr v-for="(value, key) in item.claimNts" :key="key">
+            <tr v-for="(value, key) in item.claimBaseNts" :key="key">
               <th class="px-2 fw-normal">
                 {{ headerChineseAndEnglish[key].replace(/\(.*\)/, '') }}
               </th>
-              <td class="text-end px-2">{{ value }} 毫克</td>
+              <td class="text-end px-2">
+                {{ value }} {{ transUnitText(headerChineseAndEnglish[key]) }}
+              </td>
+            </tr>
+            <tr v-for="(item, index) in item.claimCMNts" :key="item + index">
+              <th class="px-2 fw-normal">
+                {{ item.chName }}
+              </th>
+              <td class="text-end px-2">
+                {{ item.quantity }} {{ item.unit.replace(/\(.*\)/, '') }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -155,7 +165,8 @@ export default {
           total_carbohydrates,
           total_sugar,
           sodium,
-          ...claimNts
+          claimCMNts,
+          ...claimBaseNts
         }) => {
           return {
             sample_name,
@@ -170,7 +181,8 @@ export default {
             total_carbohydrates,
             total_sugar,
             sodium,
-            claimNts,
+            claimCMNts: claimCMNts || null,
+            claimBaseNts,
           }
         },
       )
