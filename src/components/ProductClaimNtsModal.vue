@@ -15,6 +15,7 @@
 
           <section class="w-100 form-floating">
             <input
+              @change="search($event)"
               type="search"
               class="form-control"
               id="searchInput"
@@ -38,6 +39,12 @@
 
         <div class="modal-body">
           <div>
+            <p
+              v-if="Object.values(filteredNts).length === 0"
+              class="mt-2 mb-4 text-center fw-bold fs-4 text-primary"
+            >
+              查無相符品項
+            </p>
             <div
               v-for="(value, key) in filteredNts"
               :key="key"
@@ -128,6 +135,13 @@ export default {
     },
     hideModal() {
       this.modal.hide()
+    },
+    search(e) {
+      // Object.entries(this.nts) [key:value]
+      this.filteredNts = Object.entries(this.nts).filter(([key, value]) => {
+        return key.match(e.target.value) || value.match(e.target.value)
+      })
+      this.filteredNts = Object.fromEntries(this.filteredNts) // 再組裝回去
     },
   },
   created() {
