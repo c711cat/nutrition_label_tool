@@ -74,17 +74,17 @@
               </td>
             </tr>
 
-            <tr v-for="(value, key) in addOthersNutrients" :key="key">
+            <tr v-for="(item, index) in baseClaimNts" :key="item + index">
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
-                {{ header[key] }}
+                {{ header[item] }}
               </th>
               <td>
                 <input
-                  v-model="customFood[key]"
+                  v-model="customFood[item]"
                   type="number"
-                  :name="value"
-                  :id="key"
+                  :name="item"
+                  :id="item + index"
                   class="form-control text-center"
                   required
                   min="0"
@@ -93,14 +93,14 @@
               </td>
             </tr>
 
-            <tr v-for="(item, index) in addCMNts" :key="item + index">
+            <tr v-for="(item, index) in newClaimNts" :key="item + index">
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
                 {{ item.chName }}
               </th>
               <td>
                 <input
-                  v-model="customFood.claimCMNts[index].quantity"
+                  v-model="customFood.newClaimNts[index].quantity"
                   :id="item + index"
                   :name="item.quantity"
                   type="number"
@@ -129,7 +129,7 @@
         </button>
       </div>
     </form>
-    <AddNutrientsModal ref="addNutrientsModal" />
+    <CustomizeClaimNtsModal ref="customizeClaimNtsModal" />
     <DoubleCheckModal ref="doubleCheckModal" />
   </div>
 </template>
@@ -139,7 +139,7 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { useCustomStore } from '@/stores/customStore.js'
 import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
-import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
+import CustomizeClaimNtsModal from '@/components/CustomizeClaimNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
@@ -158,7 +158,7 @@ export default {
       },
     }
   },
-  components: { AddNutrientsModal, DoubleCheckModal },
+  components: { CustomizeClaimNtsModal, DoubleCheckModal },
   watch: {
     headerChineseAndEnglish: {
       handler(val) {
@@ -177,18 +177,13 @@ export default {
     ]),
     ...mapState(useCustomStore, [
       'customDataList',
-      'addOthersNutrients',
+      'newClaimNts',
       'customFood',
-      'addCMNts',
+      'baseClaimNts',
     ]),
   },
   methods: {
-    ...mapActions(useCustomStore, [
-      'setCustomData',
-      'clearCustomFood',
-      'updateList',
-      'clearAddOtherNts',
-    ]),
+    ...mapActions(useCustomStore, ['setCustomData']),
     ...mapActions(useMsgStore, ['openAlert']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
@@ -227,7 +222,7 @@ export default {
       }
     },
     openModal() {
-      this.$refs.addNutrientsModal.showCustomModal(this.customFood)
+      this.$refs.customizeClaimNtsModal.showModal(this.customFood)
     },
   },
 

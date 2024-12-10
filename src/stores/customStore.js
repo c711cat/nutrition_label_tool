@@ -12,8 +12,8 @@ const localStorageCustomData = getCustomData()
 export const useCustomStore = defineStore('customStore', {
   state: () => ({
     customDataList: localStorageCustomData,
-    addOthersNutrients: [],
-    addCMNts: [],
+    baseClaimNts: [],
+    newClaimNts: [],
     customFood: {},
     toDo: '',
     ntName: { englishName: '', chineseName: '', unit: '' },
@@ -22,11 +22,11 @@ export const useCustomStore = defineStore('customStore', {
     localStorageData: ({ customDataList }) => {
       return customDataList
     },
-    addOthersNts: ({ addOthersNutrients }) => {
-      return addOthersNutrients
+    baseClaimNutrients: ({ baseClaimNts }) => {
+      return baseClaimNts
     },
-    addCustomMadeNts: ({ addCMNts }) => {
-      return addCMNts
+    newClaimNutrients: ({ newClaimNts }) => {
+      return newClaimNts
     },
     customFoodInStore: ({ customFood }) => {
       return customFood
@@ -102,7 +102,7 @@ export const useCustomStore = defineStore('customStore', {
       })
 
       const filterNts = {}
-      this.addOthersNutrients.forEach(ele => {
+      this.baseClaimNts.forEach(ele => {
         Object.keys(othersNutrients).forEach(key => {
           if (ele === key) {
             filterNts[key] = othersNutrients[key]
@@ -121,8 +121,8 @@ export const useCustomStore = defineStore('customStore', {
       this.setCustomData(this.customDataList)
     },
 
-    clearAddOtherNts() {
-      this.addOthersNutrients = []
+    clearBaseClaimNts() {
+      this.baseClaimNts = []
     },
     delItemOfCustomList(title, index) {
       this.customDataList.splice(index, 1)
@@ -145,7 +145,7 @@ export const useCustomStore = defineStore('customStore', {
         this.updateList()
       }
       this.clearCustomFood()
-      this.clearAddOtherNts()
+      this.clearBaseClaimNts()
     },
     addCustomNts() {
       const Nts = {
@@ -159,10 +159,10 @@ export const useCustomStore = defineStore('customStore', {
         this.ntName.unit = ''
       }, 2000)
     },
-    addNts(nts, customNts) {
-      this.addOthersNutrients = [...nts]
-      this.addCMNts = [...customNts]
-      this.customFood.claimCMNts = { ...customNts }
+    addNts(nts, newNts) {
+      this.baseClaimNts = [...nts]
+      this.newClaimNts = [...newNts]
+      this.customFood.newClaimNts = { ...newNts }
     },
   },
 })

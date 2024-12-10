@@ -16,40 +16,40 @@
           <section class="w-100 form-floating">
             <input
               v-model="searchText"
-              @change="e => searchNutrient(e.target.value)"
+              @change="search($event.target.value)"
               type="search"
               class="form-control"
               id="searchInput"
               placeholder="請輸入欲新增營養素搜尋"
             />
-            <label for="searchInput">請輸入營養素搜尋</label>
+            <label for="searchInput">搜尋 中文 或 英文 營養素</label>
           </section>
-          <div
+          <section
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
             <span
-              v-for="item in localAddedNts"
-              :key="item"
+              v-for="(nt, index) in localBaseClaimNts"
+              :key="nt + index"
               class="border badge text-bg-light fs-6 m-1"
             >
-              {{ nutrients[item] }}
+              {{ nts[nt].replace(/\(.*\)/, '') }}
             </span>
             <span
-              v-for="(item, index) in localAddedCustomNts"
-              :key="item + index"
+              v-for="(nNt, index) in localNewClaimNts"
+              :key="nNt + index"
               class="border badge text-bg-dark fs-6 m-1"
             >
-              {{ item.chName }}
+              {{ nNt.chName }}
             </span>
-          </div>
+          </section>
         </div>
 
         <div class="modal-body">
-          <div
+          <section
             v-if="
-              Object.values(filteredNutrients).length === 0 &&
-              filteredMyAddHeader.length === 0
+              Object.values(filteredNts).length === 0 &&
+              filteredMyAddedNts.length === 0
             "
           >
             <p class="mt-2 mb-4 text-center fw-bold fs-4 text-primary">
@@ -60,32 +60,32 @@
               <h5 class="ms-1">自行新增營養素</h5>
               <div class="form-floating mb-3">
                 <input
-                  v-model.trim="englishName"
+                  v-model.trim="enName"
                   type="text"
                   class="form-control"
-                  id="englishName"
-                  placeholder="營養素英文名稱 或 縮寫"
+                  id="enName"
+                  placeholder="營養素『 英文 』名稱 或 縮寫"
                   required
                 />
                 <div class="invalid-feedback">此欄位為必填</div>
-                <label for="englishName">
+                <label for="enName">
                   <i class="text-danger fst-normal">＊</i>
-                  營養素英文名稱 或 縮寫
+                  營養素『 英文 』名稱 或 縮寫
                 </label>
               </div>
               <div class="form-floating mb-3">
                 <input
-                  v-model.trim="chineseName"
+                  v-model.trim="chName"
                   type="text"
                   class="form-control"
-                  id="chineseName"
-                  placeholder="營養素中文名稱"
+                  id="chName"
+                  placeholder="營養素『 中文 』名稱"
                   required
                 />
                 <div class="invalid-feedback">此欄位為必填</div>
-                <label for="chineseName">
+                <label for="chName">
                   <i class="text-danger fst-normal">＊</i>
-                  營養素中文名稱
+                  營養素『 中文 』名稱
                 </label>
               </div>
 
@@ -181,22 +181,19 @@
                 </div>
               </div>
 
-              <button
-                type="submit"
-                class="w-100 btn btn-sm btn-outline-primary"
-              >
+              <button type="submit" class="w-100 btn btn-sm btn-primary">
                 新增營養素
               </button>
             </form>
-          </div>
-          <div v-else>
+          </section>
+          <section v-else>
             <div
-              v-for="(item, index) in filteredMyAddHeader"
+              v-for="(item, index) in filteredMyAddedNts"
               :key="item + index"
               class="form-check px-4 py-1 ms-2"
             >
               <input
-                v-model="localAddedCustomNts"
+                v-model="localNewClaimNts"
                 :value="item"
                 :id="item + index"
                 class="form-check-input"
@@ -208,22 +205,22 @@
             </div>
 
             <div
-              v-for="(value, key) in filteredNutrients"
+              v-for="(value, key) in filteredNts"
               :key="key"
               class="form-check px-4 py-1 ms-2"
             >
               <input
-                v-model="localAddedNts"
+                v-model="localBaseClaimNts"
+                :id="key"
+                :value="key"
                 class="form-check-input"
                 type="checkbox"
-                :id="value"
-                :value="key"
               />
-              <label class="form-check-label" :for="value">
+              <label :for="key" class="form-check-label">
                 {{ value }}
               </label>
             </div>
-          </div>
+          </section>
         </div>
         <div class="modal-footer">
           <button
@@ -235,15 +232,15 @@
           </button>
 
           <button
-            @click="addCustomFoodNTs"
+            @click="update"
             :disabled="
-              Object.values(filteredNutrients).length === 0 &&
-              filteredMyAddHeader.length === 0
+              Object.values(filteredNts).length === 0 &&
+              filteredMyAddedNts.length === 0
             "
             type="button"
             class="btn btn-primary"
           >
-            新增自訂義食材營養素
+            更新
           </button>
         </div>
       </div>
@@ -262,69 +259,33 @@ export default {
   data() {
     return {
       modal: null,
-      nutrients: [],
-      filteredNutrients: [],
-      addNutrients: [],
+      filteredNts: [],
+      nts: [],
       product: null,
       productList: null,
-
-      localAddedNts: [],
-      englishName: '',
-      chineseName: '',
+      localBaseClaimNts: [],
+      localNewClaimNts: [],
+      enName: '',
+      chName: '',
       unit: '公克(g)',
       type: '以上皆非',
-      localAddedCustomNts: [],
-      myAddHeader: [],
-      filteredMyAddHeader: [],
+      myAddedNts: [],
+      filteredMyAddedNts: [],
       searchText: '',
     }
   },
-
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
-    ...mapState(useCustomStore, ['addOthersNutrients']),
+    ...mapState(useCustomStore, ['baseClaimNts', 'newClaimNts']),
   },
-  watch: {
-    localAddedNts: {
-      handler(val) {
-        this.pushNTs(val)
-        return this.localAddedNts
-      },
-      deep: true,
-      immediate: true,
-    },
-    // localAddedCustomNts: {
-    //   handler(val) {
-    //     this.pushNTs(val)
-    //     return this.localAddedCustomNts
-    //   },
-    //   deep: true,
-    //   immediate: true,
-    // },
-  },
+  watch: {},
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'pushNTs']),
-    ...mapActions(useCustomStore, ['clearAddOtherNts', 'addNts']),
+    ...mapActions(useCustomStore, ['addNts']),
     ...mapActions(useMsgStore, ['openAlert']),
-    searchNutrient(nutrient) {
-      this.filteredNutrients = Object.fromEntries(
-        Object.entries(this.nutrients).filter(([key, value]) => {
-          return value.match(nutrient) || key.match(nutrient) // key:英文名稱，value:中文名稱
-        }),
-      )
-      this.filteredMyAddHeader = this.myAddHeader.filter(item => {
-        return item.enName.match(nutrient) || item.chName.match(nutrient)
-      })
-    },
-    getMyAddHeader() {
-      const data = JSON.parse(localStorage.getItem('myAddHeader')) || []
-      this.myAddHeader = data
-      this.filteredMyAddHeader = data
-    },
-    updateFilterData() {
-      this.getMyAddHeader()
-      const data = { ...this.headerChineseAndEnglish }
-      ;[
+    updateOptionData() {
+      this.getMyAddedNts()
+      const delItems = [
         'id',
         'category',
         'sample_name',
@@ -340,19 +301,30 @@ export default {
         'total_sugar',
         'sodium',
         'trans_fat',
-      ].forEach(ele => {
-        delete data[ele]
+      ]
+      this.nts = { ...this.headerChineseAndEnglish }
+      delItems.forEach(item => {
+        delete this.nts[item]
       })
-      this.filteredNutrients = data
-      this.nutrients = data
+      this.filteredNts = this.nts
     },
-
-    showCustomModal() {
-      this.localAddedNts = this.addOthersNutrients
+    search(text) {
+      this.filteredNts = Object.fromEntries(
+        Object.entries(this.nts).filter(([key, value]) => {
+          return value.match(text) || key.match(text) // key:英文名稱，value:中文名稱
+        }),
+      )
+      this.filteredMyAddedNts = this.myAddedNts.filter(item => {
+        return item.enName.match(text) || item.chName.match(text)
+      })
+    },
+    showModal() {
+      this.localBaseClaimNts = this.baseClaimNts
+      this.localNewClaimNts = this.newClaimNts
       this.modal.show()
     },
-    addCustomFoodNTs() {
-      this.addNts(this.localAddedNts, this.localAddedCustomNts)
+    update() {
+      this.addNts(this.localBaseClaimNts, this.localNewClaimNts)
       this.hideModal()
     },
     hideModal() {
@@ -366,29 +338,35 @@ export default {
         this.openAlert(true, '還有必填欄位喔！')
         return
       }
-      this.addCustomNts()
+      this.addNt()
     },
-    addCustomNts() {
+    addNt() {
       const data = {
         type: this.type,
-        enName: this.englishName,
-        chName: this.chineseName,
+        enName: this.enName,
+        chName: this.chName,
         unit: this.unit,
         quantity: '',
       }
-      this.localAddedCustomNts.push(data) // 為了立即顯示在已新增營養素畫面中
-      this.myAddHeader.push(data) // 加入剛新增的項目到 myAddHeader 中，再將全部的 myAddHeader setItem 到 localStorage 中
-      localStorage.setItem('myAddHeader', JSON.stringify(this.myAddHeader))
-      this.getMyAddHeader() // 呼叫重新取得全部新增的品項，為了可以立即顯示在選項中
+      this.localNewClaimNts.push(data) // 為了立即顯示在Modal已新增營養素畫面中
+      this.myAddedNts.push(data) // 加入剛新增的項目到 myAddedNts 中，再將全部的 myAddedNts setItem 到 localStorage 中
+      localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNts))
+      this.getMyAddedNts() // 呼叫重新取得全部 myAddedNts，為了可以立即顯示在選項中
       this.type = '以上皆非'
-      this.englishName = ''
-      this.chineseName = ''
+      this.enName = ''
+      this.chName = ''
       this.unit = '公克(g)'
       this.searchText = '' // 清空搜尋欄位
+      this.filteredNts = this.nts // 恢復內建資料庫所有選項在畫面中
+    },
+    getMyAddedNts() {
+      const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
+      this.myAddedNts = data
+      this.filteredMyAddedNts = data
     },
   },
   created() {
-    this.updateFilterData()
+    this.updateOptionData()
   },
   mounted() {
     this.modal = new Modal(this.$refs.nutrientsModal)

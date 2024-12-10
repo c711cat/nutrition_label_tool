@@ -328,7 +328,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       const keys = Object.keys(this.onlyNewAddHeader) // 得到 key 的陣列 例如：[ 0:lutein, 1:calcium ]
       const keyToDel = keys[index] // 根據 index 找到對應的 key
       delete this.onlyNewAddHeader[keyToDel]
-      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
+      localStorage.setItem('myAddedNts', JSON.stringify(this.onlyNewAddHeader))
       const data = {}
       data.title = title + '刪除成功'
       data.style = 'success'
