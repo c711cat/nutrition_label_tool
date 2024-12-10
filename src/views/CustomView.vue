@@ -218,7 +218,7 @@ export default {
         this.openAlert(true, '還有必填欄位喔！')
         return
       } else {
-        this.$refs.doubleCheckModal.showModal('custom')
+        this.$refs.doubleCheckModal.showModal('customize')
       }
     },
     openModal() {

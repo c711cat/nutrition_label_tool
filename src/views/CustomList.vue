@@ -131,7 +131,10 @@ export default {
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
   methods: {
-    ...mapActions(useCustomStore, ['editCustomizeData', 'delItemOfCustomList']),
+    ...mapActions(useCustomStore, [
+      'editCustomizeData',
+      'delItemOfCustomizeList',
+    ]),
     sortItem() {
       this.updateSortData = this.customizeDataList
       this.updateSortData.sort((a, b) => {
@@ -204,7 +207,7 @@ export default {
       }
     },
     opendelModal(item, index) {
-      this.$refs.doubleCheckModal.showDelCustomModal(item, index)
+      this.$refs.doubleCheckModal.showDelCustomizeModal(item, index)
     },
     isPath(id) {
       return (this.$route.path = `/edit_custom/${id}`)

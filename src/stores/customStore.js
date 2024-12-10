@@ -124,7 +124,7 @@ export const useCustomStore = defineStore('customStore', {
     clearBaseClaimNts() {
       this.baseClaimNts = []
     },
-    delItemOfCustomList(title, index) {
+    delItemOfCustomizeList(title, index) {
       this.customizeDataList.splice(index, 1)
       this.setCustomData(this.customizeDataList)
       const data = {}
@@ -132,7 +132,7 @@ export const useCustomStore = defineStore('customStore', {
       data.style = 'success'
       this.pushMsg(data)
     },
-    customDoubleCheckedOK() {
+    customizeDoubleCheckedOK() {
       if (!this.customizeData.id) {
         this.toDo = 'add'
         this.customizeData.id = Date.now()

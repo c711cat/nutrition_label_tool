@@ -28,8 +28,8 @@
             取消
           </button>
           <button
-            v-if="customForm"
-            @click="customCheckedOK"
+            v-if="customizeForm"
+            @click="customizeCheckedOK"
             type="button"
             class="btn btn-primary"
           >
@@ -52,8 +52,8 @@
             確定刪除
           </button>
           <button
-            v-if="delCustomIndex !== ''"
-            @click="delCustomItem"
+            v-if="delCustomizeIndex !== ''"
+            @click="delCustomizeItem"
             type="button"
             class="btn btn-danger"
           >
@@ -82,11 +82,11 @@ export default {
   data() {
     return {
       modal: {},
-      customForm: false,
+      customizeForm: false,
       labelForm: false,
       text: '',
       delIndex: '',
-      delCustomIndex: '',
+      delCustomizeIndex: '',
       delNtsIndex: '',
       title: '',
     }
@@ -94,14 +94,14 @@ export default {
   methods: {
     ...mapActions(useFoodStore, ['doubleCheckedOK', 'del', 'delItemOfNts']),
     ...mapActions(useCustomStore, [
-      'customDoubleCheckedOK',
-      'delItemOfCustomList',
+      'customizeDoubleCheckedOK',
+      'delItemOfCustomizeList',
     ]),
-    showModal(custom) {
+    showModal(customize) {
       this.text = '資料確認無誤，並送出'
-      if (custom) {
-        this.customForm = true
-      } else if (!custom && this.delIndex === '') {
+      if (customize) {
+        this.customizeForm = true
+      } else if (!customize && this.delIndex === '') {
         this.labelForm = true
       }
       this.modal.show()
@@ -111,8 +111,8 @@ export default {
       this.modal.hide()
       this.$router.push('/product_list')
     },
-    customCheckedOK() {
-      this.customDoubleCheckedOK()
+    customizeCheckedOK() {
+      this.customizeDoubleCheckedOK()
       this.modal.hide()
       this.$router.push('/custom_list')
     },
@@ -126,14 +126,14 @@ export default {
       this.del(this.title, this.delIndex)
       this.modal.hide()
     },
-    showDelCustomModal(item, index) {
+    showDelCustomizeModal(item, index) {
       this.title = item.sample_name
-      this.delCustomIndex = index
+      this.delCustomizeIndex = index
       this.text = '確定刪除' + '『 ' + item.sample_name + ' 』'
       this.modal.show()
     },
-    delCustomItem() {
-      this.delItemOfCustomList(this.title, this.delCustomIndex)
+    delCustomizeItem() {
+      this.delItemOfCustomizeList(this.title, this.delCustomizeIndex)
       this.modal.hide()
     },
     showDelNtsModal(value, key, index) {
