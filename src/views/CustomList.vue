@@ -11,7 +11,7 @@
     </div>
 
     <div
-      v-for="(item, index) in updateCustomData"
+      v-for="(item, index) in updateSortData"
       :key="item"
       class="border rounded row m-0 my-5 justify-content-between"
     >
@@ -73,7 +73,7 @@
               <th class="px-2 fw-normal">鈉</th>
               <td class="text-end px-2">{{ item.sodium }} 毫克</td>
             </tr>
-            <tr v-for="(value, key) in item.claimBaseNts" :key="key">
+            <tr v-for="(value, key) in item.baseClaimNts" :key="key">
               <th class="px-2 fw-normal">
                 {{ headerChineseAndEnglish[key].replace(/\(.*\)/, '') }}
               </th>
@@ -81,7 +81,7 @@
                 {{ value }} {{ transUnitText(headerChineseAndEnglish[key]) }}
               </td>
             </tr>
-            <tr v-for="(item, index) in item.claimCMNts" :key="item + index">
+            <tr v-for="(item, index) in item.newClaimNts" :key="item + index">
               <th class="px-2 fw-normal">
                 {{ item.chName }}
               </th>
@@ -122,7 +122,7 @@ import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
     return {
-      updateCustomData: [],
+      updateSortData: [],
     }
   },
   components: { DoubleCheckModal },
@@ -130,22 +130,11 @@ export default {
     ...mapState(useCustomStore, ['customizeDataList', 'customizeData']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
-  watch: {
-    customDataList: {
-      handler(val) {
-        if (val) {
-          this.sortItem()
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-  },
   methods: {
     ...mapActions(useCustomStore, ['editCustomizeData', 'delItemOfCustomList']),
     sortItem() {
-      this.updateCustomData = this.customDataList
-      this.updateCustomData.sort((a, b) => {
+      this.updateSortData = this.customizeDataList
+      this.updateSortData.sort((a, b) => {
         return b.id - a.id
       })
       this.updateData()
@@ -165,8 +154,8 @@ export default {
           total_carbohydrates,
           total_sugar,
           sodium,
-          claimCMNts,
-          ...claimBaseNts
+          newClaimNts,
+          ...baseClaimNts
         }) => {
           return {
             sample_name,
@@ -181,8 +170,8 @@ export default {
             total_carbohydrates,
             total_sugar,
             sodium,
-            claimCMNts: claimCMNts || null,
-            claimBaseNts,
+            newClaimNts: newClaimNts || null,
+            baseClaimNts,
           }
         },
       )
@@ -220,6 +209,9 @@ export default {
     isPath(id) {
       return (this.$route.path = `/edit_custom/${id}`)
     },
+  },
+  created() {
+    this.sortItem()
   },
 }
 </script>
