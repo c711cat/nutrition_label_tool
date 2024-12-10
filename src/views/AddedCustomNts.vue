@@ -52,7 +52,7 @@
 import AddCustomNtsModal from '@/components/CustomNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import { useFoodStore } from '@/stores/foodDataStore'
-import { useCustomStore } from '@/stores/customStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 import { mapState } from 'pinia'
 export default {
   data() {
@@ -61,7 +61,7 @@ export default {
   components: { AddCustomNtsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['onlyNewAddHeader']),
-    ...mapState(useCustomStore, ['customDataList']),
+    ...mapState(useCustomizeStore, ['customDataList']),
   },
   methods: {
     openAddNtsModal() {

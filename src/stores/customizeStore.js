@@ -9,7 +9,7 @@ function getCustomData() {
 
 const localStorageCustomData = getCustomData()
 
-export const useCustomStore = defineStore('customStore', {
+export const useCustomizeStore = defineStore('customStore', {
   state: () => ({
     customizeDataList: localStorageCustomData,
     baseClaimNts: [],
@@ -56,25 +56,30 @@ export const useCustomStore = defineStore('customStore', {
     clearCustomizeData() {
       this.customizeData = {}
     },
-    editCustomFood(item) {
-      this.customFood = { ...item, ...item.nutritionLabels }
-      const excludeKey = [
-        'calories',
-        'protein',
-        'fat',
-        'saturated_fat',
-        'trans_fat',
-        'total_carbohydrates',
-        'total_sugar',
-        'sodium',
-      ]
-      this.addOthersNutrients = []
-      Object.keys(this.customFood.nutritionLabels).filter(key => {
-        if (!excludeKey.includes(key)) {
-          this.addOthersNutrients.push(key)
-        }
-      })
-      delete this.customFood.nutritionLabels
+    editCustomizeData(item) {
+      console.log(item)
+      this.baseClaimNts = item.claimBaseNts
+      this.newClaimNts = item.newClaimNts
+      this.customizeData = { ...item, ...this.baseClaimNts }
+      // const excludeKey = [
+      //   'calories',
+      //   'protein',
+      //   'fat',
+      //   'saturated_fat',
+      //   'trans_fat',
+      //   'total_carbohydrates',
+      //   'total_sugar',
+      //   'sodium',
+      // ]
+      // this.baseClaimNts = []
+
+      // Object.keys(this.customizeData.nutritionLabels).filter(key => {
+      //   if (!excludeKey.includes(key)) {
+      //     this.baseClaimNts.push(key)
+      //   }
+      // })
+      // delete this.customizeData.nutritionLabels
+      console.log(this.customizeData)
     },
     updateList() {
       const keepKeys = [

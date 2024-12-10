@@ -251,7 +251,7 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
-import { useCustomStore } from '@/stores/customStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
 
@@ -276,12 +276,12 @@ export default {
   },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
-    ...mapState(useCustomStore, ['baseClaimNts', 'newClaimNts']),
+    ...mapState(useCustomizeStore, ['baseClaimNts', 'newClaimNts']),
   },
   watch: {},
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'pushNTs']),
-    ...mapActions(useCustomStore, ['addNts']),
+    ...mapActions(useCustomizeStore, ['addNts']),
     ...mapActions(useMsgStore, ['openAlert']),
     updateOptionData() {
       this.getMyAddedNts()

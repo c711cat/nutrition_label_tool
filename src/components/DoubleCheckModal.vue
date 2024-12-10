@@ -76,7 +76,7 @@
 <script>
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
-import { useCustomStore } from '@/stores/customStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 import { mapActions } from 'pinia'
 export default {
   data() {
@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['doubleCheckedOK', 'del', 'delItemOfNts']),
-    ...mapActions(useCustomStore, [
+    ...mapActions(useCustomizeStore, [
       'customizeDoubleCheckedOK',
       'delItemOfCustomizeList',
     ]),

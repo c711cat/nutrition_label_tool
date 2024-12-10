@@ -136,7 +136,7 @@
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { useCustomStore } from '@/stores/customStore.js'
+import { useCustomizeStore } from '@/stores/customizeStore.js'
 import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
 import CustomizeClaimNtsModal from '@/components/CustomizeClaimNtsModal.vue'
@@ -175,7 +175,7 @@ export default {
       'myProductList',
       'baseFoodData',
     ]),
-    ...mapState(useCustomStore, [
+    ...mapState(useCustomizeStore, [
       'customDataList',
       'newClaimNts',
       'customizeData',
@@ -183,7 +183,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions(useCustomStore, ['setCustomData']),
+    ...mapActions(useCustomizeStore, ['setCustomData']),
     ...mapActions(useMsgStore, ['openAlert']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }

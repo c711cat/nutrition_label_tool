@@ -115,7 +115,7 @@
 </template>
 <script>
 import { mapState, mapActions } from 'pinia'
-import { useCustomStore } from '@/stores/customStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 import { useFoodStore } from '@/stores/foodDataStore'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 
@@ -127,11 +127,11 @@ export default {
   },
   components: { DoubleCheckModal },
   computed: {
-    ...mapState(useCustomStore, ['customizeDataList', 'customizeData']),
+    ...mapState(useCustomizeStore, ['customizeDataList', 'customizeData']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
   methods: {
-    ...mapActions(useCustomStore, [
+    ...mapActions(useCustomizeStore, [
       'editCustomizeData',
       'delItemOfCustomizeList',
     ]),
