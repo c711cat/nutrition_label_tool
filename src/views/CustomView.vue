@@ -9,7 +9,7 @@
       <div class="py-3 col-12 col-lg">
         <div class="form-floating mb-3">
           <input
-            v-model.trim="customFood.sample_name"
+            v-model.trim="customizeData.sample_name"
             type="text"
             class="form-control"
             id="sample_name"
@@ -25,7 +25,7 @@
         <div class="form-floating">
           <textarea
             style="height: 200px"
-            v-model.trim="customFood.content_description"
+            v-model.trim="customizeData.content_description"
             type="text"
             class="form-control"
             id="content_description"
@@ -61,7 +61,7 @@
               </th>
               <td class="col-6 col-sm-auto">
                 <input
-                  v-model="customFood[key]"
+                  v-model="customizeData[key]"
                   type="number"
                   :name="key"
                   :id="key"
@@ -81,7 +81,7 @@
               </th>
               <td>
                 <input
-                  v-model="customFood[item]"
+                  v-model="customizeData[item]"
                   type="number"
                   :name="item"
                   :id="item + index"
@@ -100,7 +100,7 @@
               </th>
               <td>
                 <input
-                  v-model="customFood.newClaimNts[index].quantity"
+                  v-model="customizeData.newClaimNts[index].quantity"
                   :id="item + index"
                   :name="item.quantity"
                   type="number"
@@ -178,7 +178,7 @@ export default {
     ...mapState(useCustomStore, [
       'customDataList',
       'newClaimNts',
-      'customFood',
+      'customizeData',
       'baseClaimNts',
     ]),
   },
@@ -222,7 +222,7 @@ export default {
       }
     },
     openModal() {
-      this.$refs.customizeClaimNtsModal.showModal(this.customFood)
+      this.$refs.customizeClaimNtsModal.showModal(this.customizeData)
     },
   },
 

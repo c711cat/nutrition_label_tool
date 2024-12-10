@@ -95,7 +95,7 @@
       <div class="text-end my-3">
         <router-link
           :to="isPath(item.id)"
-          @click="editCustomFood(item)"
+          @click="editCustomizeData(item)"
           type="button"
           class="btn btn-outline-primary me-3"
         >
@@ -127,7 +127,7 @@ export default {
   },
   components: { DoubleCheckModal },
   computed: {
-    ...mapState(useCustomStore, ['customDataList', 'customFood']),
+    ...mapState(useCustomStore, ['customizeDataList', 'customizeData']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
   watch: {
@@ -142,7 +142,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useCustomStore, ['editCustomFood', 'delItemOfCustomList']),
+    ...mapActions(useCustomStore, ['editCustomizeData', 'delItemOfCustomList']),
     sortItem() {
       this.updateCustomData = this.customDataList
       this.updateCustomData.sort((a, b) => {
@@ -151,7 +151,7 @@ export default {
       this.updateData()
     },
     updateData() {
-      this.updateCustomData = this.customDataList.map(
+      this.updateSortData = this.customizeDataList.map(
         ({
           sample_name,
           content_description,

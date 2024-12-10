@@ -4,23 +4,23 @@ import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from './messageStore'
 
 function getCustomData() {
-  return JSON.parse(localStorage.getItem('myCustomData')) || []
+  return JSON.parse(localStorage.getItem('myCustomizeData')) || []
 }
 
 const localStorageCustomData = getCustomData()
 
 export const useCustomStore = defineStore('customStore', {
   state: () => ({
-    customDataList: localStorageCustomData,
+    customizeDataList: localStorageCustomData,
     baseClaimNts: [],
     newClaimNts: [],
-    customFood: {},
+    customizeData: {},
     toDo: '',
     ntName: { englishName: '', chineseName: '', unit: '' },
   }),
   getters: {
-    localStorageData: ({ customDataList }) => {
-      return customDataList
+    localStorageCustomizeData: ({ customizeDataList }) => {
+      return customizeDataList
     },
     baseClaimNutrients: ({ baseClaimNts }) => {
       return baseClaimNts
@@ -28,8 +28,8 @@ export const useCustomStore = defineStore('customStore', {
     newClaimNutrients: ({ newClaimNts }) => {
       return newClaimNts
     },
-    customFoodInStore: ({ customFood }) => {
-      return customFood
+    customizeDataInStore: ({ customizeData }) => {
+      return customizeData
     },
     nutrientName: ({ ntName }) => {
       return ntName
@@ -40,7 +40,7 @@ export const useCustomStore = defineStore('customStore', {
     ...mapActions(useMsgStore, ['pushMsg']),
     ...mapActions(useFoodStore, ['setNewHeaderItem']),
     setCustomData(data) {
-      localStorage.setItem('myCustomData', JSON.stringify(data))
+      localStorage.setItem('myCustomizeData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
         msg.title = '更新成功'
@@ -53,8 +53,8 @@ export const useCustomStore = defineStore('customStore', {
       }
       this.toDo = ''
     },
-    clearCustomFood() {
-      this.customFood = {}
+    clearCustomizeData() {
+      this.customizeData = {}
     },
     editCustomFood(item) {
       this.customFood = { ...item, ...item.nutritionLabels }
@@ -91,13 +91,13 @@ export const useCustomStore = defineStore('customStore', {
         'total_sugar',
         'sodium',
       ]
-      const keepKeysOfCustomFood = {}
+      const keepKeysOfCustomizeData = {}
       const othersNutrients = {}
-      Object.keys(this.customFood).forEach(key => {
+      Object.keys(this.customizeData).forEach(key => {
         if (keepKeys.includes(key)) {
-          keepKeysOfCustomFood[key] = this.customFood[key]
+          keepKeysOfCustomizeData[key] = this.customizeData[key]
         } else {
-          othersNutrients[key] = this.customFood[key]
+          othersNutrients[key] = this.customizeData[key]
         }
       })
 
@@ -110,41 +110,41 @@ export const useCustomStore = defineStore('customStore', {
         })
       })
 
-      this.customFood = { ...keepKeysOfCustomFood, ...filterNts }
-      this.customDataList = this.customDataList.map(item => {
-        if (item.id === this.customFood.id) {
-          return (item = this.customFood)
+      this.customizeData = { ...keepKeysOfCustomizeData, ...filterNts }
+      this.customizeDataList = this.customizeDataList.map(item => {
+        if (item.id === this.customizeData.id) {
+          return (item = this.customizeData)
         } else {
           return item
         }
       })
-      this.setCustomData(this.customDataList)
+      this.setCustomData(this.customizeDataList)
     },
 
     clearBaseClaimNts() {
       this.baseClaimNts = []
     },
     delItemOfCustomList(title, index) {
-      this.customDataList.splice(index, 1)
-      this.setCustomData(this.customDataList)
+      this.customizeDataList.splice(index, 1)
+      this.setCustomData(this.customizeDataList)
       const data = {}
       data.title = title + '刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
     customDoubleCheckedOK() {
-      if (!this.customFood.id) {
+      if (!this.customizeData.id) {
         this.toDo = 'add'
-        this.customFood.id = Date.now()
-        this.customFood.category = '自定義'
-        this.customDataList.push(this.customFood)
-        this.baseFoodData.push(this.customFood)
-        this.setCustomData(this.customDataList)
+        this.customizeData.id = Date.now()
+        this.customizeData.category = '自定義'
+        this.customizeDataList.push(this.customizeData)
+        this.baseFoodData.push(this.customizeData)
+        this.setCustomData(this.customizeDataList)
       } else {
         this.toDo = 'edit'
         this.updateList()
       }
-      this.clearCustomFood()
+      this.clearCustomizeData()
       this.clearBaseClaimNts()
     },
     addCustomNts() {
@@ -162,7 +162,7 @@ export const useCustomStore = defineStore('customStore', {
     addNts(nts, newNts) {
       this.baseClaimNts = [...nts]
       this.newClaimNts = [...newNts]
-      this.customFood.newClaimNts = { ...newNts }
+      this.customizeData.newClaimNts = { ...newNts }
     },
   },
 })
