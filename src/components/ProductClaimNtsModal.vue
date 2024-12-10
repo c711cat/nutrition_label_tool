@@ -23,7 +23,7 @@
             />
             <label for="searchInput">請輸入營養素搜尋</label>
           </section>
-          <div
+          <section
             class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
           >
             <span class="ms-1">已新增營養素：</span>
@@ -32,9 +32,9 @@
               :key="nt + index"
               class="border badge text-bg-light fs-6 m-1"
             >
-              {{ nts[nt] }}
+              {{ nts[nt].replace(/\(.*\)/, '') }}
             </span>
-          </div>
+          </section>
         </div>
 
         <div class="modal-body">
