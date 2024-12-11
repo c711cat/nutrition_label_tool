@@ -36,11 +36,11 @@
               {{ nts[nt].replace(/\(.*\)/, '') }}
             </span>
             <span
-              v-for="(nNt, index) in localNewClaimNts"
-              :key="nNt + index"
+              v-for="(value, key) in localNewClaimNts"
+              :key="key"
               class="border badge text-bg-dark fs-6 m-1"
             >
-              {{ nNt.chName }}
+              {{ myAddedNts[value].replace(/\(.*\)/, '') }}
             </span>
           </section>
         </div>
@@ -186,21 +186,22 @@
               </button>
             </form>
           </section>
+
           <section v-else>
             <div
-              v-for="(item, index) in filteredMyAddedNts"
-              :key="item + index"
+              v-for="(value, key) in filteredMyAddedNts"
+              :key="key"
               class="form-check px-4 py-1 ms-2"
             >
               <input
                 v-model="localNewClaimNts"
-                :value="item"
-                :id="item + index"
+                :value="key"
+                :id="key"
                 class="form-check-input"
                 type="checkbox"
               />
-              <label :for="item + index" class="form-check-label">
-                {{ item.chName }}
+              <label :for="key" class="form-check-label">
+                {{ value }}
               </label>
             </div>
 
@@ -348,7 +349,7 @@ export default {
         unit: this.unit,
         quantity: '',
       }
-      this.localNewClaimNts.push(data) // 為了立即顯示在Modal已新增營養素畫面中
+      this.localNewClaimNts.push(this.enName) // 為了立即顯示在Modal已新增營養素畫面中
       this.myAddedNts.push(data) // 加入剛新增的項目到 myAddedNts 中，再將全部的 myAddedNts setItem 到 localStorage 中
       localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNts))
       this.getMyAddedNts() // 呼叫重新取得全部 myAddedNts，為了可以立即顯示在選項中
@@ -361,8 +362,13 @@ export default {
     },
     getMyAddedNts() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
-      this.myAddedNts = data
-      this.filteredMyAddedNts = data
+      let ntName = {}
+      data.forEach(item => {
+        ntName[item.enName] =
+          item.chName + '(' + item.unit.match(/\((.*?)\)/)[1] + ')'
+      })
+      this.myAddedNts = ntName
+      this.filteredMyAddedNts = ntName
     },
   },
   created() {
