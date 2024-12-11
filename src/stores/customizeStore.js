@@ -57,10 +57,13 @@ export const useCustomizeStore = defineStore('customStore', {
       this.customizeData = {}
     },
     editCustomizeData(item) {
-      console.log(item)
-      this.baseClaimNts = item.baseClaimNts
       this.newClaimNts = item.newClaimNts
-      this.customizeData = { ...item, ...this.baseClaimNts }
+      this.baseClaimNts = []
+      Object.entries(item.baseClaimNts).forEach(item => {
+        this.baseClaimNts.push(item[0])
+      })
+      this.customizeData = { ...item, ...item.baseClaimNts }
+      delete this.customizeData.baseClaimNts
       // const excludeKey = [
       //   'calories',
       //   'protein',
@@ -79,7 +82,6 @@ export const useCustomizeStore = defineStore('customStore', {
       //   }
       // })
       // delete this.customizeData.nutritionLabels
-      console.log(this.customizeData)
     },
     updateList() {
       const keepKeys = [
