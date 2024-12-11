@@ -58,7 +58,7 @@ export const useCustomizeStore = defineStore('customStore', {
     },
     editCustomizeData(item) {
       console.log(item)
-      this.baseClaimNts = item.claimBaseNts
+      this.baseClaimNts = item.baseClaimNts
       this.newClaimNts = item.newClaimNts
       this.customizeData = { ...item, ...this.baseClaimNts }
       // const excludeKey = [
