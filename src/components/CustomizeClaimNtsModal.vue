@@ -315,9 +315,11 @@ export default {
           return value.match(text) || key.match(text) // key:英文名稱，value:中文名稱
         }),
       )
-      this.filteredMyAddedNts = this.myAddedNts.filter(item => {
-        return item.enName.match(text) || item.chName.match(text)
-      })
+      this.filteredMyAddedNts = Object.fromEntries(
+        Object.entries(this.myAddedNts).filter(([key, value]) => {
+          return key.match(text) || value.match(text)
+        }),
+      )
     },
     showModal() {
       this.localBaseClaimNts = this.baseClaimNts
