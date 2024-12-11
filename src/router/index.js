@@ -20,16 +20,16 @@ const router = createRouter({
           component: () => import('@/views/MarkItems.vue'),
         },
         {
-          path: 'custom_list',
-          component: () => import('@/views/CustomList.vue'),
+          path: 'customize_list',
+          component: () => import('@/views/CustomizeList.vue'),
         },
         {
-          path: 'custom',
-          component: () => import('@/views/CustomView.vue'),
+          path: 'customize',
+          component: () => import('@/views/CustomizeView.vue'),
         },
         {
-          path: 'edit_custom/:id',
-          component: () => import('@/views/CustomView.vue'),
+          path: 'edit_customize/:id',
+          component: () => import('@/views/CustomizeView.vue'),
         },
         {
           path: 'edit_nutrition_label/:id',

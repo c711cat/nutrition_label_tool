@@ -5,7 +5,7 @@
       <router-link to="/added_custom_nts" class="btn btn-outline-primary me-3">
         已新增營養素列表
       </router-link>
-      <router-link to="/custom" class="btn btn-outline-primary">
+      <router-link to="/customize" class="btn btn-outline-primary">
         新增自定義品項
       </router-link>
     </div>
@@ -210,7 +210,7 @@ export default {
       this.$refs.doubleCheckModal.showDelCustomizeModal(item, index)
     },
     isPath(id) {
-      return (this.$route.path = `/edit_custom/${id}`)
+      return (this.$route.path = `/edit_customize/${id}`)
     },
   },
   created() {
