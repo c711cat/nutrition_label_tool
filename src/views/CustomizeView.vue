@@ -100,6 +100,7 @@
               </th>
               <td>
                 <input
+                  v-if="customizeData.newClaimNts"
                   v-model="customizeData.newClaimNts[index].quantity"
                   :id="item + index"
                   :name="item.quantity"
@@ -217,9 +218,8 @@ export default {
         form.classList.add('was-validated')
         this.openAlert(true, '還有必填欄位喔！')
         return
-      } else {
-        this.$refs.doubleCheckModal.showModal('customize')
       }
+      this.$refs.doubleCheckModal.showModal('customize')
     },
     openModal() {
       this.$refs.customizeClaimNtsModal.showModal(this.customizeData)
