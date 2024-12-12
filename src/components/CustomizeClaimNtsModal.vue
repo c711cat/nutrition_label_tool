@@ -353,8 +353,8 @@ export default {
         quantity: '',
       }
       this.localNewClaimNts.push(this.enName) // 為了立即顯示在Modal已新增營養素畫面中
-      this.myAddedNts.push(data) // 加入剛新增的項目到 myAddedNts 中，再將全部的 myAddedNts setItem 到 localStorage 中
-      localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNts))
+      this.myAddedNtsList.push(data) // 加入剛新增的項目到 myAddedNts 中，再將全部的 myAddedNts setItem 到 localStorage 中
+      localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
       this.getMyAddedNts() // 呼叫重新取得全部 myAddedNts，為了可以立即顯示在選項中
       this.type = '以上皆非'
       this.enName = ''
