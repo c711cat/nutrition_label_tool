@@ -279,7 +279,22 @@ export default {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
     ...mapState(useCustomizeStore, ['baseClaimNts', 'newClaimNts']),
   },
-  watch: {},
+  watch: {
+    baseClaimNts: {
+      handler(val) {
+        this.localBaseClaimNts = val
+      },
+      deep: true,
+      immediate: true,
+    },
+    newClaimNts: {
+      handler(val) {
+        this.localNewClaimNts = val
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'pushNTs']),
     ...mapActions(useCustomizeStore, ['addNts']),
@@ -322,8 +337,6 @@ export default {
       )
     },
     showModal() {
-      this.localBaseClaimNts = this.baseClaimNts
-      this.localNewClaimNts = this.newClaimNts
       this.modal.show()
     },
     update() {

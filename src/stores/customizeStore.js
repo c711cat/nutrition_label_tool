@@ -57,12 +57,20 @@ export const useCustomizeStore = defineStore('customStore', {
       this.customizeData = {}
     },
     editCustomizeData(item) {
-      this.newClaimNts = item.newClaimNts
+      console.log(item)
       this.baseClaimNts = []
+      this.newClaimNts = []
       Object.entries(item.baseClaimNts).forEach(item => {
         this.baseClaimNts.push(item[0])
       })
-      this.customizeData = { ...item, ...item.baseClaimNts }
+      Object.values(item.newClaimNts).forEach(item => {
+        this.newClaimNts.push(item.enName)
+      })
+      this.customizeData = {
+        ...item,
+        ...item.baseClaimNts,
+        newClaimNts: item.newClaimNts,
+      }
       delete this.customizeData.baseClaimNts
       // const excludeKey = [
       //   'calories',
