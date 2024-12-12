@@ -12,7 +12,6 @@
               aria-label="Close"
             ></button>
           </div>
-
           <section class="w-100 form-floating">
             <input
               v-model="searchText"
@@ -49,7 +48,7 @@
           <section
             v-if="
               Object.values(filteredNts).length === 0 &&
-              filteredMyAddedNts.length === 0
+              Object.values(filteredMyAddedNts).length === 0
             "
           >
             <p class="mt-2 mb-4 text-center fw-bold fs-4 text-primary">
@@ -236,7 +235,7 @@
             @click="update"
             :disabled="
               Object.values(filteredNts).length === 0 &&
-              filteredMyAddedNts.length === 0
+              Object.values(filteredMyAddedNts).length === 0
             "
             type="button"
             class="btn btn-primary"
