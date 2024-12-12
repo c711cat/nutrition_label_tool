@@ -270,6 +270,7 @@ export default {
       chName: '',
       unit: '公克(g)',
       type: '以上皆非',
+      myAddedNtsList: [],
       myAddedNts: [],
       filteredMyAddedNts: [],
       searchText: '',
@@ -364,6 +365,8 @@ export default {
     },
     getMyAddedNts() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
+      this.myAddedNtsList = data // 將已新增的先存在 myAddedNtsList
+      // 以下 將已新增的營養素英文名設定為 key，中文名設定為 value，與內建營養素呈現方式一致
       let ntName = {}
       data.forEach(item => {
         ntName[item.enName] =
