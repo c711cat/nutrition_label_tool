@@ -328,7 +328,10 @@ export default {
       this.modal.show()
     },
     update() {
-      this.addNts(this.localBaseClaimNts, this.localNewClaimNts)
+      const transNewClaimNts = this.myAddedNtsList.filter(item => {
+        return this.localNewClaimNts.includes(item.enName)
+      })
+      this.addNts(this.localBaseClaimNts, transNewClaimNts)
       this.hideModal()
     },
     hideModal() {
