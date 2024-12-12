@@ -166,10 +166,10 @@ export const useCustomizeStore = defineStore('customStore', {
         this.ntName.unit = ''
       }, 2000)
     },
-    addNts(nts, newNts) {
+    addNts(nts, newNts, customizeData) {
       this.baseClaimNts = [...nts]
       this.newClaimNts = [...newNts]
-      this.customizeData.newClaimNts = { ...newNts }
+      this.customizeData.newClaimNts = { ...customizeData }
     },
   },
 })

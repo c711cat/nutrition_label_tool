@@ -93,7 +93,10 @@
               </td>
             </tr>
 
-            <tr v-for="(item, index) in newClaimNts" :key="item + index">
+            <tr
+              v-for="(item, index) in customizeData.newClaimNts"
+              :key="item + index"
+            >
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
                 {{ item.chName }}
