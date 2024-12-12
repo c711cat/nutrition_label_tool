@@ -57,83 +57,24 @@ export const useCustomizeStore = defineStore('customStore', {
       this.customizeData = {}
     },
     editCustomizeData(item) {
-      console.log(item)
-      this.baseClaimNts = []
-      this.newClaimNts = []
-      Object.entries(item.baseClaimNts).forEach(item => {
-        this.baseClaimNts.push(item[0])
-      })
-      Object.values(item.newClaimNts).forEach(item => {
-        this.newClaimNts.push(item.enName)
-      })
-      this.customizeData = {
-        ...item,
-        ...item.baseClaimNts,
-        newClaimNts: item.newClaimNts,
-      }
-      delete this.customizeData.baseClaimNts
-      // const excludeKey = [
-      //   'calories',
-      //   'protein',
-      //   'fat',
-      //   'saturated_fat',
-      //   'trans_fat',
-      //   'total_carbohydrates',
-      //   'total_sugar',
-      //   'sodium',
-      // ]
-      // this.baseClaimNts = []
-
-      // Object.keys(this.customizeData.nutritionLabels).filter(key => {
-      //   if (!excludeKey.includes(key)) {
-      //     this.baseClaimNts.push(key)
-      //   }
-      // })
-      // delete this.customizeData.nutritionLabels
-    },
-    updateList() {
-      const keepKeys = [
-        'sample_name',
-        'content_description',
-        'category',
-        'id',
-        'calories',
-        'protein',
-        'fat',
-        'saturated_fat',
-        'trans_fat',
-        'total_carbohydrates',
-        'total_sugar',
-        'sodium',
-      ]
-      const keepKeysOfCustomizeData = {}
-      const othersNutrients = {}
-      Object.keys(this.customizeData).forEach(key => {
-        if (keepKeys.includes(key)) {
-          keepKeysOfCustomizeData[key] = this.customizeData[key]
-        } else {
-          othersNutrients[key] = this.customizeData[key]
-        }
-      })
-
-      const filterNts = {}
-      this.baseClaimNts.forEach(ele => {
-        Object.keys(othersNutrients).forEach(key => {
-          if (ele === key) {
-            filterNts[key] = othersNutrients[key]
-          }
+      if (item.baseClaimNts) {
+        this.baseClaimNts = []
+        Object.entries(item.baseClaimNts).forEach(item => {
+          this.baseClaimNts.push(item[0])
         })
-      })
-
-      this.customizeData = { ...keepKeysOfCustomizeData, ...filterNts }
-      this.customizeDataList = this.customizeDataList.map(item => {
-        if (item.id === this.customizeData.id) {
-          return (item = this.customizeData)
-        } else {
-          return item
+        this.customizeData = {
+          ...item,
+          ...item.baseClaimNts,
         }
-      })
-      this.setCustomData(this.customizeDataList)
+        delete this.customizeData.baseClaimNts
+      }
+      if (item.newClaimNts) {
+        this.newClaimNts = []
+        Object.values(item.newClaimNts).forEach(item => {
+          this.newClaimNts.push(item.enName)
+        })
+        this.customizeData.newClaimNts = item.newClaimNts
+      }
     },
 
     clearBaseClaimNts() {
