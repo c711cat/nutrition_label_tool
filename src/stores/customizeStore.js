@@ -123,6 +123,10 @@ export const useCustomizeStore = defineStore('customStore', {
     addNts(nts, newNts, customizeData) {
       this.baseClaimNts = [...nts]
       this.newClaimNts = [...newNts]
+      this.customizeData.baseClaimNts = nts.reduce((acc, key) => {
+        acc[key] = '' // 將 nts 的元素作為 key，其 value = ''，進行累加
+        return acc
+      }, {}) //初始為空物件
       this.customizeData.newClaimNts = { ...customizeData }
     },
   },

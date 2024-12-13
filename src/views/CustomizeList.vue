@@ -140,44 +140,6 @@ export default {
       this.updateSortData.sort((a, b) => {
         return b.id - a.id
       })
-      this.updateData()
-    },
-    updateData() {
-      this.updateSortData = this.customizeDataList.map(
-        ({
-          sample_name,
-          content_description,
-          category,
-          id,
-          calories,
-          protein,
-          fat,
-          saturated_fat,
-          trans_fat,
-          total_carbohydrates,
-          total_sugar,
-          sodium,
-          newClaimNts,
-          ...baseClaimNts
-        }) => {
-          return {
-            sample_name,
-            content_description,
-            category,
-            id,
-            calories,
-            protein,
-            fat,
-            saturated_fat,
-            trans_fat,
-            total_carbohydrates,
-            total_sugar,
-            sodium,
-            newClaimNts: newClaimNts || null,
-            baseClaimNts,
-          }
-        },
-      )
     },
 
     transText(item) {

@@ -74,17 +74,17 @@
               </td>
             </tr>
 
-            <tr v-for="(item, index) in baseClaimNts" :key="item + index">
+            <tr v-for="(value, key) in customizeData.baseClaimNts" :key="key">
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
-                {{ header[item] }}
+                {{ header[key] }}
               </th>
               <td>
                 <input
-                  v-model="customizeData[item]"
+                  v-model="customizeData.baseClaimNts[key]"
                   type="number"
-                  :name="item"
-                  :id="item + index"
+                  :name="key"
+                  :id="key"
                   class="form-control text-center"
                   required
                   min="0"
