@@ -76,9 +76,9 @@ export const useCustomizeStore = defineStore('customStore', {
         this.customizeData.newClaimNts = item.newClaimNts
       }
     },
-
-    clearBaseClaimNts() {
+    clearClaimNts() {
       this.baseClaimNts = []
+      this.newClaimNts = []
     },
     delItemOfCustomizeList(title, index) {
       this.customizeDataList.splice(index, 1)
@@ -95,13 +95,18 @@ export const useCustomizeStore = defineStore('customStore', {
         this.customizeData.category = '自定義'
         this.customizeDataList.push(this.customizeData)
         this.baseFoodData.push(this.customizeData)
-        this.setCustomData(this.customizeDataList)
       } else {
         this.toDo = 'edit'
-        this.updateList()
+        this.customizeDataList = this.customizeDataList.map(item => {
+          if (item.id === this.customizeData.id) {
+            return { ...this.customizeData } // 把舊的 item 換成新的
+          }
+          return item // 如果不是該 id，則保持原值
+        })
       }
+      this.setCustomData(this.customizeDataList)
       this.clearCustomizeData()
-      this.clearBaseClaimNts()
+      this.clearClaimNts()
     },
     addCustomNts() {
       const Nts = {

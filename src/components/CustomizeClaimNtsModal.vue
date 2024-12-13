@@ -277,7 +277,12 @@ export default {
   },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
-    ...mapState(useCustomizeStore, ['baseClaimNts', 'newClaimNts']),
+    ...mapState(useCustomizeStore, [
+      'baseClaimNts',
+      'newClaimNts',
+      'customizeData',
+      'customizeDataList',
+    ]),
   },
   watch: {
     baseClaimNts: {
@@ -340,9 +345,37 @@ export default {
       this.modal.show()
     },
     update() {
-      const transNewClaimNts = this.myAddedNtsList.filter(item => {
-        return this.localNewClaimNts.includes(item.enName)
-      })
+      let transNewClaimNts = []
+      // 新增時（ 沒有自定義資料的 id ）
+      if (!this.customizeData.id) {
+        transNewClaimNts = this.myAddedNtsList.filter(item => {
+          return this.localNewClaimNts.includes(item.enName)
+        })
+        // 編輯時（ 有id ）
+      } else {
+        if (this.customizeData.newClaimNts) {
+          const currentLocalNewClaimNts = [...this.localNewClaimNts]
+          let oldAdd = [] // 存取 編輯前 已加入的營養素整個格式（類別，含量，中英文名，單位）
+          let oldNtsName = [] // 只存上述陣列中的英文名稱
+          Object.values(this.customizeData?.newClaimNts).forEach(item => {
+            if (this.localNewClaimNts.includes(item.enName)) {
+              oldAdd.push(item)
+              oldNtsName.push(item.enName)
+            }
+          })
+          // 這次編輯加入的營養素英文名稱：newNtsName
+          // 利用當前加入的全部營養素品項（新舊混合）過濾，沒有包含在舊英文名中的品項，裝入 newNtsName 中
+          const newNtsName = currentLocalNewClaimNts.filter(item => {
+            return !oldNtsName.includes(item)
+          })
+          // 這次編輯新增的營養素，對應已新增的營養素格式（中英文名，單位，數量，類別），符合英文名稱，則將整個格式代入到 newAdd
+          let newAdd = this.myAddedNtsList.filter(item => {
+            return newNtsName.includes(item.enName)
+          })
+          // 合併新舊營養素品項及其格式，作為參數傳遞到 CustomizeView.vue中，為了可以填入含量用
+          transNewClaimNts = [...oldAdd, ...newAdd]
+        }
+      }
       this.addNts(
         this.localBaseClaimNts,
         this.localNewClaimNts,
