@@ -208,11 +208,7 @@
                 {{ calculatePer100g(item, 'sodium') }} 毫克
               </td>
             </tr>
-            <tr
-              v-for="nutrient in item.claimNts"
-              :key="nutrient"
-              class="lh-1"
-            >
+            <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
               <th class="fw-normal ps-2">
                 {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
@@ -432,9 +428,23 @@ export default {
     openDoubleCheckModal(item, index) {
       this.$refs.doubleCheckModal.showDelModal(item, index)
     },
-
-    sortItems() {
+    adjustData() {
       this.productList = this.myProductList
+      // 將 productList.ingredients.details.baseClaimNts 展開並存入 productList.ingredients.details 
+      // 並在處理後刪除 baseClaimNts
+      this.productList.forEach(product => {
+        product.ingredients.forEach(item => {
+          if (item.details.baseClaimNts) {
+            const baseData = item.details.baseClaimNts
+            Object.assign(item.details, baseData)
+            delete item.details.baseClaimNts
+          }
+        })
+      })
+
+      this.sortItems()
+    },
+    sortItems() {
       this.productList.sort((a, b) => {
         return b.id - a.id
       })
@@ -484,7 +494,7 @@ export default {
     },
   },
   created() {
-    this.sortItems()
+    this.adjustData()
   },
 }
 </script>
