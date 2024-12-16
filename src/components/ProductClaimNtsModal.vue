@@ -34,17 +34,43 @@
             >
               {{ nts[nt].replace(/\(.*\)/, '') }}
             </span>
+            <span
+              v-for="(nt, index) in localNewClaimNts"
+              :key="nt + index"
+              class="border badge text-bg-dark fs-6 m-1"
+            >
+              {{ myAddedNts[nt].replace(/\(.*\)/, '') }}
+            </span>
           </section>
         </div>
 
         <div class="modal-body">
           <div>
             <p
-              v-if="Object.values(filteredNts).length === 0"
+              v-if="
+                Object.values(filteredNts).length === 0 &&
+                Object.values(filteredMyAddedNts).length === 0
+              "
               class="mt-2 mb-4 text-center fw-bold fs-4 text-primary"
             >
               查無相符品項
             </p>
+            <div
+              v-for="(value, key) in filteredMyAddedNts"
+              :key="key"
+              class="form-check px-4 py-1 ms-2"
+            >
+              <input
+                v-model="localNewClaimNts"
+                :id="key"
+                :value="key"
+                class="form-check-input"
+                type="checkbox"
+              />
+              <label :for="key" class="form-check-label">
+                {{ value }}
+              </label>
+            </div>
             <div
               v-for="(value, key) in filteredNts"
               :key="key"
@@ -84,6 +110,7 @@
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
 import { mapActions, mapState } from 'pinia'
+import { useCustomizeStore } from '@/stores/customizeStore'
 export default {
   data() {
     return {
@@ -92,10 +119,14 @@ export default {
       filteredNts: [],
       product: null,
       localClaimNts: [],
+      myAddedNts: [],
+      filteredMyAddedNts: [],
+      localNewClaimNts: [],
     }
   },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'claimNts']),
+    ...mapState(useCustomizeStore, ['myAddedNtsList']),
   },
   methods: {
     ...mapActions(useFoodStore, ['updateCalimNts']),
@@ -137,15 +168,32 @@ export default {
       this.modal.hide()
     },
     search(e) {
-      // Object.entries(this.nts) [key:value]
+      // Object.entries(this.nts) [key:value] key 英文名稱，value 中文名稱
       this.filteredNts = Object.entries(this.nts).filter(([key, value]) => {
         return key.match(e.target.value) || value.match(e.target.value)
       })
       this.filteredNts = Object.fromEntries(this.filteredNts) // 再組裝回去
+
+      this.filteredMyAddedNts = Object.entries(this.myAddedNts).filter(
+        ([key, value]) => {
+          return key.match(e.target.value) || value.match(e.target.value)
+        },
+      )
+      this.filteredMyAddedNts = Object.fromEntries(this.filteredMyAddedNts)
+    },
+    getMyAddedNtsList() {
+      const data = {}
+      this.myAddedNtsList.forEach(item => {
+        data[item.enName] =
+          item.chName + '(' + item.unit.match(/\((.*?)\)/)[1] + ')'
+      })
+      this.myAddedNts = data
+      this.filteredMyAddedNts = data
     },
   },
   created() {
     this.updateOptions()
+    this.getMyAddedNtsList()
   },
   mounted() {
     this.modal = new Modal(this.$refs.productModal)

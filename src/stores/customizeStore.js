@@ -37,6 +37,9 @@ export const useCustomizeStore = defineStore('customStore', {
     nutrientName: ({ ntName }) => {
       return ntName
     },
+    localStorageMyAddedNtsList: ({ myAddedNtsList }) => {
+      return myAddedNtsList
+    },
     ...mapState(useFoodStore, ['baseFoodData']),
   },
   actions: {
