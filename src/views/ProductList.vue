@@ -430,13 +430,12 @@ export default {
     },
     adjustData() {
       this.productList = this.myProductList
-      // 將 productList.ingredients.details.baseClaimNts 展開並存入 productList.ingredients.details 
+      // 將 productList.ingredients.details.baseClaimNts 展開並存入 productList.ingredients.details
       // 並在處理後刪除 baseClaimNts
       this.productList.forEach(product => {
         product.ingredients.forEach(item => {
           if (item.details.baseClaimNts) {
-            const baseData = item.details.baseClaimNts
-            Object.assign(item.details, baseData)
+            item.details = { ...item.details, ...item.details.baseClaimNts }
             delete item.details.baseClaimNts
           }
         })
