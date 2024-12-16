@@ -161,6 +161,7 @@ export default {
     },
     update() {
       this.product.claimNts = this.localClaimNts
+      this.product.newClaimNts = this.localNewClaimNts
       this.updateCalimNts(this.product)
       this.hideModal()
     },

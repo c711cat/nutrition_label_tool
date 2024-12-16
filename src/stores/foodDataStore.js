@@ -338,6 +338,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.myProductList.forEach(item => {
         if (item.id === product.id) {
           item.claimNts = product.claimNts
+          item.newClaimNts = product.newClaimNts
         }
       })
       this.setMyProducts(this.myProductList)

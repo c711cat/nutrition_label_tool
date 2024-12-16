@@ -221,6 +221,23 @@
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
             </tr>
+            <tr
+              v-for="nutrient in item.newClaimNts"
+              :key="nutrient"
+              class="lh-1"
+            >
+              <th class="fw-normal ps-2">
+                {{ myAddedNts[nutrient].replace(/\(.*\)/, '') }}
+              </th>
+              <td class="text-end pe-2">
+                {{ calculateNutrients(item, nutrient) }}
+                {{ transUnitText(myAddedNts[nutrient]) }}
+              </td>
+              <td class="text-end pe-2">
+                {{ calculatePer100g(item, nutrient) }}
+                {{ transUnitText(myAddedNts[nutrient]) }}
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>
@@ -297,16 +314,19 @@ import ProductClaimNtsModal from '@/components/ProductClaimNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import html2canvas from 'html2canvas'
 import { useMsgStore } from '@/stores/messageStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 export default {
   data() {
     return {
       claimNts: [],
       productList: [],
+      myAddedNts: [],
     }
   },
   components: { ProductClaimNtsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
+    ...mapState(useCustomizeStore, ['myAddedNtsList']),
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
@@ -440,7 +460,6 @@ export default {
           }
         })
       })
-
       this.sortItems()
     },
     sortItems() {
@@ -448,6 +467,14 @@ export default {
         return b.id - a.id
       })
       window.scrollTo(0, 0)
+    },
+    getMyAddedNts() {
+      const data = {}
+      this.myAddedNtsList.forEach(item => {
+        data[item.enName] =
+          item.chName + '(' + item.unit.match(/\((.*?)\)/)[1] + ')'
+      })
+      this.myAddedNts = data
     },
     transAllergenText(data) {
       const text = []
@@ -494,6 +521,7 @@ export default {
   },
   created() {
     this.adjustData()
+    this.getMyAddedNts()
   },
 }
 </script>
