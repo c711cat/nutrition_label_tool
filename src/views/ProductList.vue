@@ -321,6 +321,14 @@ export default {
       claimNts: [],
       productList: [],
       myAddedNts: [],
+      sugarAlcohols: [
+        // 內建資料庫已存在的糖醇名稱
+        'Xylitol', // 木糖醇
+        'Sorbitol', // 山梨醇
+        'Maltitol', // 麥芽糖醇
+        'Lactitol', // 乳糖醇
+        'Mannitol', // 甘露醇
+      ],
     }
   },
   components: { ProductClaimNtsModal, DoubleCheckModal },
@@ -395,16 +403,21 @@ export default {
       const erythritol = item.claimNts?.includes('Erythritol')
         ? parseFloat(this.calculatePer100g(item, 'Erythritol')) || 0
         : 0
-      // 其它糖醇 熱量每公克 2.4 大卡
-      const sugarAlcohols = [
-        'Xylitol',
-        'Sorbitol',
-        'Maltitol',
-        'Lactitol',
-        'Mannitol',
-      ]
-      const SAGrams = sugarAlcohols.reduce((total, SA) => {
-        if (item.claimNts?.includes(SA)) {
+      //將 item.ingredients 中的自行新增的糖醇元素加入到內建資料庫 this.sugarAlcohols 陣列中
+      item.ingredients.forEach(product => {
+        product.details.newClaimNts?.forEach(newClaimItem => {
+          if (
+            newClaimItem.type === '糖醇' &&
+            !this.sugarAlcohols.includes(newClaimItem.enName)
+          ) {
+            this.sugarAlcohols.push(newClaimItem.enName)
+          }
+        })
+      })
+      // 內建資料庫中其他糖醇 熱量每公克 2.4 大卡
+      console.log(this.sugarAlcohols)
+      const SAGrams = this.sugarAlcohols.reduce((total, SA) => {
+        if (item.claimNts?.includes(SA) || item.newClaimNts?.includes(SA)) {
           const grams = parseFloat(this.calculatePer100g(item, SA)) || 0
           return total + grams
         }
