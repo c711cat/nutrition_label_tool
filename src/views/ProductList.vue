@@ -321,6 +321,7 @@ export default {
       claimNts: [],
       productList: [],
       myAddedNts: [],
+      newFiber: [],
       sugarAlcohols: [
         // 內建資料庫已存在的糖醇名稱
         'Xylitol', // 木糖醇
@@ -329,6 +330,7 @@ export default {
         'Lactitol', // 乳糖醇
         'Mannitol', // 甘露醇
       ],
+      organicAcid: [],
     }
   },
   components: { ProductClaimNtsModal, DoubleCheckModal },
@@ -403,6 +405,25 @@ export default {
       const erythritol = item.claimNts?.includes('Erythritol')
         ? parseFloat(this.calculatePer100g(item, 'Erythritol')) || 0
         : 0
+      // 將自行新增的膳食纖維名稱加入到 this.newFiber 陣列中
+      item.ingredients.forEach(product => {
+        product.details.newClaimNts?.forEach(newClaimItem => {
+          if (
+            newClaimItem.type === '膳食纖維' &&
+            !this.newFiber.includes(newClaimItem.enName)
+          ) {
+            this.newFiber.push(newClaimItem.enName)
+          }
+        })
+      })
+      // 加總自行新增的膳食纖維克數
+      const newFiberGrams = this.newFiber.reduce((total, fiber) => {
+        if (item.newClaimNts?.includes(fiber)) {
+          const grams = parseFloat(this.calculatePer100g(item, fiber)) || 0
+          return total + grams
+        }
+        return total
+      }, 0)
       //將 item.ingredients 中的自行新增的糖醇元素加入到內建資料庫 this.sugarAlcohols 陣列中
       item.ingredients.forEach(product => {
         product.details.newClaimNts?.forEach(newClaimItem => {
@@ -414,11 +435,29 @@ export default {
           }
         })
       })
-      // 內建資料庫中其他糖醇 熱量每公克 2.4 大卡
-      console.log(this.sugarAlcohols)
+      // 其他糖醇 熱量每公克 2.4 大卡
       const SAGrams = this.sugarAlcohols.reduce((total, SA) => {
         if (item.claimNts?.includes(SA) || item.newClaimNts?.includes(SA)) {
           const grams = parseFloat(this.calculatePer100g(item, SA)) || 0
+          return total + grams
+        }
+        return total
+      }, 0)
+      // 將自行新增的 有機酸 名稱加入到 this.organicAcid 陣列中
+      item.ingredients.forEach(product => {
+        product.details.newClaimNts?.forEach(newClaimItem => {
+          if (
+            newClaimItem.type === '有機酸' &&
+            !this.organicAcid.includes(newClaimItem.enName)
+          ) {
+            this.organicAcid.push(newClaimItem.enName)
+          }
+        })
+      })
+      // 加總自行新增的 有機酸 克數，若將 有機酸 有標示出來，每公克以熱量 3 大卡 計算，不標則不用算
+      const organicAcidGrams = this.organicAcid.reduce((total, acid) => {
+        if (item.newClaimNts?.includes(acid)) {
+          const grams = parseFloat(this.calculatePer100g(item, acid)) || 0
           return total + grams
         }
         return total
@@ -433,14 +472,17 @@ export default {
       // （ 碳水化合物 - 膳食纖維 - 赤藻糖醇 - 其它糖醇 ） * 4 大卡
       // ＋ 膳食纖維 ＊ 2 大卡 + 赤藻糖醇 * 0 大卡 + 其它糖醇 * 2.4 大卡
       // 『不標示出來』，計算方式則為：碳水化合物 * 4 大卡
-      carbohydrates = carbohydrates - fiber - erythritol - SAGrams
+      carbohydrates =
+        carbohydrates - fiber - newFiberGrams - erythritol - SAGrams
       const kcal =
         protein * 4 +
         fat * 9 +
         carbohydrates * 4 +
         fiber * 2 +
+        newFiberGrams * 2 +
         erythritol * 0 +
         SAGrams * 2.4 +
+        organicAcidGrams * 3 +
         alcohol * 7
       return kcal.toFixed(1)
     },
