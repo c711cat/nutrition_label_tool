@@ -99,7 +99,7 @@
             >
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
-                {{ item.chName }}
+                {{ item.chName }}({{ item.unit.match(/\((.*?)\)/)[1] }})
               </th>
               <td>
                 <input
