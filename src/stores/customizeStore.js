@@ -201,5 +201,9 @@ export const useCustomizeStore = defineStore('customStore', {
         ]
       }
     },
+    showProductClaimNts(item) {
+      this.baseClaimNts = item.claimNts
+      this.newClaimNts = item.newClaimNts
+    },
   },
 })

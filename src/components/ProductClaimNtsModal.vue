@@ -124,12 +124,33 @@ export default {
       localNewClaimNts: [],
     }
   },
+  watch: {
+    baseClaimNts: {
+      handler(val) {
+        this.localClaimNts = val
+      },
+      deep: true,
+      immediate: true,
+    },
+    newClaimNts: {
+      handler(val) {
+        this.localNewClaimNts = val
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'claimNts']),
-    ...mapState(useCustomizeStore, ['myAddedNtsList']),
+    ...mapState(useCustomizeStore, [
+      'myAddedNtsList',
+      'baseClaimNts',
+      'newClaimNts',
+    ]),
   },
   methods: {
     ...mapActions(useFoodStore, ['updateCalimNts']),
+    ...mapActions(useCustomizeStore, ['showProductClaimNts']),
     updateOptions() {
       const delItems = [
         'id',
@@ -156,6 +177,7 @@ export default {
     },
 
     showModal(item) {
+      this.showProductClaimNts(item)
       this.product = { ...item }
       this.modal.show()
     },
