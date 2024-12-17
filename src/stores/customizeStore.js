@@ -122,6 +122,7 @@ export const useCustomizeStore = defineStore('customStore', {
       }, 2000)
     },
     addNts(nts, newNts) {
+      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
       this.baseClaimNts = [...nts]
       this.newClaimNts = [...newNts]
       if (!this.customizeData.id) {
