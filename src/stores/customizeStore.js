@@ -202,8 +202,15 @@ export const useCustomizeStore = defineStore('customStore', {
       }
     },
     showProductClaimNts(item) {
-      this.baseClaimNts = item.claimNts
-      this.newClaimNts = item.newClaimNts
+      if (item.claimNts) {
+        this.baseClaimNts = item.claimNts
+      }
+      if (item.newClaimNts) {
+        this.newClaimNts = item.newClaimNts
+      } else {
+        this.baseClaimNts = []
+        this.newClaimNts = []
+      }
     },
   },
 })
