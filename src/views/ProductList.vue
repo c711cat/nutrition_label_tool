@@ -361,7 +361,20 @@ export default {
       if (item.numberOfCopy === 1 && item.productQty > item.numberOfCopy) {
         const data = item.ingredients.reduce((total, ingredient) => {
           const gramsRatio = ingredient.grams / 100
-          const nutrientValue = ingredient.details[`${nutrient}`] || 0
+          let nutrientValue = 0
+          let newClaimNts = []
+          let newCalimData = {}
+          if (ingredient.details.newClaimNts) {
+            ingredient.details.newClaimNts.forEach(newClaimItem => {
+              newClaimNts.push(newClaimItem.enName)
+              newCalimData[newClaimItem.enName] = newClaimItem.quantity
+            })
+          }
+          if (newClaimNts.includes(nutrient)) {
+            nutrientValue = newCalimData[`${nutrient}`]
+          } else {
+            nutrientValue = ingredient.details[`${nutrient}`] || 0
+          }
           const sumValue = total + nutrientValue * gramsRatio
           return sumValue
         }, 0)
@@ -374,7 +387,20 @@ export default {
         // 例如：南瓜豬肉粥，總材料重量可製成 10 份（ Copy:10 )，本包裝含 1 份 ( Qty:1 )，每一份量為 250 克（ perWeight : 250 )
         const data = item.ingredients.reduce((total, ingredient) => {
           const gramsRatio = ingredient.grams / 100
-          const nutrientValue = ingredient.details[`${nutrient}`] || 0
+          let nutrientValue = 0
+          let newClaimNts = []
+          let newCalimData = {}
+          if (ingredient.details.newClaimNts) {
+            ingredient.details.newClaimNts.forEach(newClaimItem => {
+              newClaimNts.push(newClaimItem.enName)
+              newCalimData[newClaimItem.enName] = newClaimItem.quantity
+            })
+          }
+          if (newClaimNts.includes(nutrient)) {
+            nutrientValue = newCalimData[`${nutrient}`]
+          } else {
+            nutrientValue = ingredient.details[`${nutrient}`] || 0
+          }
           const sumValue = total + nutrientValue * gramsRatio
           return sumValue
         }, 0)

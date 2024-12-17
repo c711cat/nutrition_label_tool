@@ -181,7 +181,7 @@ function updateKeyFoodData() {
 }
 
 function addCustomData(data) {
-  const customData = JSON.parse(localStorage.getItem('myCustomData')) || []
+  const customData = JSON.parse(localStorage.getItem('myCustomizeData')) || []
   data.push(...customData)
   return data
 }
