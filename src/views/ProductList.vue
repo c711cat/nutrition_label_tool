@@ -443,17 +443,7 @@ export default {
         }
         return total
       }, 0)
-      // 將自行新增的 有機酸 名稱加入到 this.organicAcid 陣列中
-      item.ingredients.forEach(product => {
-        product.details.newClaimNts?.forEach(newClaimItem => {
-          if (
-            newClaimItem.type === '有機酸' &&
-            !this.organicAcid.includes(newClaimItem.enName)
-          ) {
-            this.organicAcid.push(newClaimItem.enName)
-          }
-        })
-      })
+
       // 加總自行新增的 有機酸 克數，若將 有機酸 有標示出來，每公克以熱量 3 大卡 計算，不標則不用算
       const organicAcidGrams = this.organicAcid.reduce((total, acid) => {
         if (item.newClaimNts?.includes(acid)) {
@@ -577,10 +567,21 @@ export default {
           this.pushMsg(data)
         })
     },
+    getOrganicAcidName() {
+      // 將自行新增的 有機酸 名稱加入到 this.organicAcid 陣列中
+      const OAName = []
+      this.myAddedNtsList.forEach(item => {
+        if (item.type === '有機酸') {
+          OAName.push(item.enName)
+        }
+      })
+      this.organicAcid = OAName
+    },
   },
   created() {
     this.adjustData()
     this.getMyAddedNts()
+    this.getOrganicAcidName()
   },
 }
 </script>
