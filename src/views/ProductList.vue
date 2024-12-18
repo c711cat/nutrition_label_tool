@@ -240,6 +240,17 @@
             </tr>
           </tbody>
         </table>
+          <div
+            v-for="nutrient in item.newClaimNts"
+            :key="nutrient"
+            class="mb-0 ps-2"
+          >
+            <p v-if="organicAcid.includes(nutrient)" class="mb-0">
+              每份含 {{ myAddedNts[nutrient].replace(/\(.*\)/, '') }}
+              {{ calculateNutrients(item, nutrient) }}
+              {{ transUnitText(myAddedNts[nutrient]) }}
+            </p>
+          </div>
       </section>
       <div class="d-flex flex-wrap justify-content-between pe-4">
         <button
