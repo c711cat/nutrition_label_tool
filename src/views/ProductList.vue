@@ -209,14 +209,14 @@
               </td>
             </tr>
             <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
-              <th class="fw-normal ps-2">
+              <th v-if="nutrient !== 'alcohol'" class="fw-normal ps-2">
                 {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
-              <td class="text-end pe-2">
+              <td v-if="nutrient !== 'alcohol'" class="text-end pe-2">
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
-              <td class="text-end pe-2">
+              <td v-if="nutrient !== 'alcohol'" class="text-end pe-2">
                 {{ calculatePer100g(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
@@ -240,6 +240,12 @@
             </tr>
           </tbody>
         </table>
+        <section class="pt-1">
+          <div v-for="nutrient in item.claimNts" :key="nutrient" class="ps-2">
+            <p v-if="nutrient === 'alcohol'" class="mb-0">
+              每份含 酒精 {{ calculateNutrients(item, nutrient) }} 公克
+            </p>
+          </div>
           <div
             v-for="nutrient in item.newClaimNts"
             :key="nutrient"
@@ -251,6 +257,7 @@
               {{ transUnitText(myAddedNts[nutrient]) }}
             </p>
           </div>
+        </section>
       </section>
       <div class="d-flex flex-wrap justify-content-between pe-4">
         <button
