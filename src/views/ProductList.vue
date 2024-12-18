@@ -226,14 +226,14 @@
               :key="nutrient"
               class="lh-1"
             >
-              <th class="fw-normal ps-2">
+              <th v-if="!organicAcid.includes(nutrient)" class="fw-normal ps-2">
                 {{ myAddedNts[nutrient].replace(/\(.*\)/, '') }}
               </th>
-              <td class="text-end pe-2">
+              <td v-if="!organicAcid.includes(nutrient)" class="text-end pe-2">
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(myAddedNts[nutrient]) }}
               </td>
-              <td class="text-end pe-2">
+              <td v-if="!organicAcid.includes(nutrient)" class="text-end pe-2">
                 {{ calculatePer100g(item, nutrient) }}
                 {{ transUnitText(myAddedNts[nutrient]) }}
               </td>
