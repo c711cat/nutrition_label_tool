@@ -376,12 +376,20 @@ export default {
       const data = parseFloat(this.calculatePer100g(item, nutrient))
       const perWeight = item.perPortionInfomation.perWeight
       const perData = (data / 100) * perWeight
-      return perData.toFixed(1)
+      if (perData === 0) {
+        return perData.toFixed(0)
+      } else {
+        return perData.toFixed(1)
+      }
     },
     calculateCalories(item) {
       let data = parseFloat(this.calculatePer100gCalories(item))
       data = (data / 100) * item.perPortionInfomation.perWeight
-      return data.toFixed(1)
+      if (data === 0) {
+        return data.toFixed(0)
+      } else {
+        return data.toFixed(1)
+      }
     },
     calculatePer100g(item, nutrient) {
       // 若 Copy = 1 ， 並且 Qty > Copy：可製成 1 份，並且『本包裝含的份數』大於『可製成的份數』時
@@ -396,7 +404,11 @@ export default {
         const totalWeight =
           item.productQty * item.perPortionInfomation.perWeight
         const per100g = (data / totalWeight) * 100
-        return per100g.toFixed(1)
+        if (per100g === 0) {
+          return per100g.toFixed(0)
+        } else {
+          return per100g.toFixed(1)
+        }
       } else {
         // 除了以上之外的情況
         // 例如：南瓜豬肉粥，總材料重量可製成 10 份（ Copy:10 )，本包裝含 1 份 ( Qty:1 )，每一份量為 250 克（ perWeight : 250 )
@@ -408,7 +420,11 @@ export default {
         }, 0)
         const totalWt = item.numberOfCopy * item.perPortionInfomation.perWeight
         const per100g = (data / totalWt) * 100
-        return per100g.toFixed(1)
+        if (per100g === 0) {
+          return per100g.toFixed(0)
+        } else {
+          return per100g.toFixed(1)
+        }
       }
     },
     calculatePer100gCalories(item) {
@@ -492,7 +508,12 @@ export default {
         SAGrams * 2.4 +
         organicAcidGrams * 3 +
         alcohol * 7
-      return kcal.toFixed(1)
+
+      if (kcal === 0) {
+        return kcal.toFixed(0)
+      } else {
+        return kcal.toFixed(1)
+      }
     },
     transUnitText(unit) {
       const unitMapping = {
