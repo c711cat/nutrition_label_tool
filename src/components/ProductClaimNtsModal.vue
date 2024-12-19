@@ -206,7 +206,7 @@ export default {
     },
     getMyAddedNtsList() {
       const data = {}
-      this.myAddedNtsList.forEach(item => {
+      this.myAddedNtsList?.forEach(item => {
         data[item.enName] =
           item.chName + '(' + item.unit.match(/\((.*?)\)/)[1] + ')'
       })

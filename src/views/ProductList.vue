@@ -558,7 +558,7 @@ export default {
     },
     getMyAddedNts() {
       const data = {}
-      this.myAddedNtsList.forEach(item => {
+      this.myAddedNtsList?.forEach(item => {
         data[item.enName] =
           item.chName + '(' + item.unit.match(/\((.*?)\)/)[1] + ')'
       })
@@ -609,7 +609,7 @@ export default {
     getOrganicAcidName() {
       // 將自行新增的 有機酸 名稱加入到 this.organicAcid 陣列中
       const OAName = []
-      this.myAddedNtsList.forEach(item => {
+      this.myAddedNtsList?.forEach(item => {
         if (item.type === '有機酸') {
           OAName.push(item.enName)
         }
