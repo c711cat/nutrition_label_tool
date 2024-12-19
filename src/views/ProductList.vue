@@ -556,7 +556,7 @@ export default {
 
       // 酒精 熱量 每公克 7 大卡
       const alcohol = item.claimNts?.includes('alcohol')
-        ? parseFloat(this.calculatePer100g(item, 'alcihol')) || 0
+        ? parseFloat(this.calculatePer100g(item, 'alcohol')) || 0
         : 0
 
       // 碳水化合物包含：膳食纖維、赤藻糖醇、其它糖醇，『若要標示出來』，則熱量計算為：
