@@ -6,9 +6,7 @@
       :key="item.id"
       class="border rounded row m-0 my-5"
     >
-      <section
-        class="bg-light p-3 rounded col-12 col-xl-7 col-xxl-8 markItemsContainer"
-      >
+      <section class="bg-light p-3 rounded col-12 col-xl markItemsContainer">
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
           <i class="fst-normal">：</i>
@@ -100,7 +98,7 @@
       </section>
       <section
         :id="`nutritionLabel${item.id}`"
-        class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4 p-3"
+        class="col-12 col-sm-11 col-md-9 col-lg-6 col-xl-5 p-3"
       >
         <table
           class="table table-sm table-borderless border border-2 border-black mb-0"
@@ -118,7 +116,7 @@
           <tbody>
             <tr>
               <th class="fw-normal ps-2 lh-sm">每一份量</th>
-              <td colspan="2" class="lh-sm">
+              <td colspan="2" class="lh-sm align-middle">
                 {{ item.perPortionInfomation.perWeight }}
                 {{ item.perPortionInfomation.unit }}
               </td>
@@ -127,84 +125,88 @@
               <th class="fw-normal ps-2 border-bottom border-black">
                 本包裝含
               </th>
-              <td colspan="2" class="border-bottom border-black">
+              <td colspan="2" class="border-bottom border-black align-middle">
                 {{ item.productQty }} 份
               </td>
             </tr>
             <tr class="lh-sm">
               <th class="border-bottom border-black"></th>
-              <td class="text-end pe-2 border-bottom border-black">每份</td>
-              <td class="text-end pe-2 border-bottom border-black">
+              <td class="text-end pe-2 border-bottom border-black align-middle">
+                每份
+              </td>
+              <td class="text-end pe-2 border-bottom border-black align-middle">
                 每 100 {{ item.perPortionInfomation.unit }}
               </td>
             </tr>
             <tr class="lh-1">
-              <th class="fw-normal ps-2">熱量</th>
-              <td class="text-end pe-2">{{ calculateCalories(item) }} 大卡</td>
-              <td class="text-end pe-2">
+              <th class="fw-normal ps-2 col-4">熱量</th>
+              <td class="text-end pe-2 align-middle">
+                {{ calculateCalories(item) }} 大卡
+              </td>
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100gCalories(item) }} 大卡
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">蛋白質</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'protein') }} 公克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'protein') }} 公克
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">脂肪</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'fat') }} 公克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'fat') }} 公克
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">飽和脂肪</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'saturated_fat') }} 公克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'saturated_fat') }} 公克
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">反式脂肪</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'trans_fat') }} 公克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'trans_fat') }} 公克
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">碳水化合物</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'total_carbohydrates') }} 公克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'total_carbohydrates') }} 公克
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-4">糖</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'total_sugar') }} 公克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'total_sugar') }} 公克
               </td>
             </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">鈉</th>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculateNutrients(item, 'sodium') }} 毫克
               </td>
-              <td class="text-end pe-2">
+              <td class="text-end pe-2 align-middle">
                 {{ calculatePer100g(item, 'sodium') }} 毫克
               </td>
             </tr>
