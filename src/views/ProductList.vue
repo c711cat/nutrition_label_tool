@@ -212,11 +212,17 @@
               <th v-if="nutrient !== 'alcohol'" class="fw-normal ps-2">
                 {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
-              <td v-if="nutrient !== 'alcohol'" class="text-end pe-2">
+              <td
+                v-if="nutrient !== 'alcohol'"
+                class="text-end pe-2 align-middle"
+              >
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
-              <td v-if="nutrient !== 'alcohol'" class="text-end pe-2">
+              <td
+                v-if="nutrient !== 'alcohol'"
+                class="text-end pe-2 align-middle"
+              >
                 {{ calculatePer100g(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
@@ -229,36 +235,93 @@
               <th v-if="!organicAcid.includes(nutrient)" class="fw-normal ps-2">
                 {{ myAddedNts[nutrient].replace(/\(.*\)/, '') }}
               </th>
-              <td v-if="!organicAcid.includes(nutrient)" class="text-end pe-2">
+              <td
+                v-if="!organicAcid.includes(nutrient)"
+                class="text-end pe-2 align-middle"
+              >
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(myAddedNts[nutrient]) }}
               </td>
-              <td v-if="!organicAcid.includes(nutrient)" class="text-end pe-2">
+              <td
+                v-if="!organicAcid.includes(nutrient)"
+                class="text-end pe-2 align-middle"
+              >
                 {{ calculatePer100g(item, nutrient) }}
                 {{ transUnitText(myAddedNts[nutrient]) }}
               </td>
             </tr>
           </tbody>
         </table>
-        <section class="pt-1">
-          <div v-for="nutrient in item.claimNts" :key="nutrient" class="ps-2">
-            <p v-if="nutrient === 'alcohol'" class="mb-0">
-              每份含 酒精 {{ calculateNutrients(item, nutrient) }} 公克
-            </p>
-          </div>
-          <div
-            v-for="nutrient in item.newClaimNts"
-            :key="nutrient"
-            class="mb-0 ps-2"
+        <section>
+          <table
+            class="table table-sm table-borderless border border-2 border-black mt-1 mb-0"
           >
-            <p v-if="organicAcid.includes(nutrient)" class="mb-0">
-              每份含 {{ myAddedNts[nutrient].replace(/\(.*\)/, '') }}
-              {{ calculateNutrients(item, nutrient) }}
-              {{ transUnitText(myAddedNts[nutrient]) }}
-            </p>
-          </div>
+            <thead>
+              <tr class="lh-sm">
+                <th
+                  class="ps-2 fw-normal border-bottom border-black align-middle"
+                >
+                  其他成分
+                </th>
+                <td
+                  class="pR text-end border-bottom border-black col-4 align-middle"
+                >
+                  每份
+                </td>
+                <td
+                  class="text-end pe-2 border-bottom border-black col-4 align-middle"
+                >
+                  每 100 公克
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="nutrient in item.claimNts"
+                :key="nutrient"
+                class="lh-1"
+              >
+                <th v-if="nutrient === 'alcohol'" class="fw-normal ps-2">
+                  酒精
+                </th>
+                <td
+                  v-if="nutrient === 'alcohol'"
+                  class="pR text-end align-middle"
+                >
+                  {{ calculateNutrients(item, nutrient) }} 公克
+                </td>
+                <td
+                  v-if="nutrient === 'alcohol'"
+                  class="text-end pe-2 align-middle"
+                >
+                  {{ calculatePer100g(item, nutrient) }} 公克
+                </td>
+              </tr>
+              <tr
+                v-for="nutrient in item.newClaimNts"
+                :key="nutrient"
+                class="lh-1"
+              >
+                <th
+                  v-if="organicAcid.includes(nutrient)"
+                  class="fw-normal ps-2"
+                >
+                  {{ myAddedNts[nutrient].replace(/\(.*\)/, '') }}
+                </th>
+                <td v-if="organicAcid.includes(nutrient)" class="text-end pe-2">
+                  {{ calculateNutrients(item, nutrient) }}
+                  {{ transUnitText(myAddedNts[nutrient]) }}
+                </td>
+                <td v-if="organicAcid.includes(nutrient)" class="text-end pe-2">
+                  {{ calculatePer100g(item, nutrient) }}
+                  {{ transUnitText(myAddedNts[nutrient]) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </section>
       </section>
+
       <div class="d-flex flex-wrap justify-content-between pe-4">
         <button
           @click="openModal(item)"
@@ -634,4 +697,9 @@ export default {
   width: 120px;
   text-align-last: justify;
 }
+
+.pR {
+  padding-right: 11px !important;
+}
+
 </style>
