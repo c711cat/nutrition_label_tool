@@ -122,9 +122,7 @@
               </td>
             </tr>
             <tr class="lh-1">
-              <th
-                class="fw-normal ps-2 border-bottom border-black pb-2"
-              >
+              <th class="fw-normal ps-2 border-bottom border-black pb-2">
                 本包裝含
               </th>
               <td colspan="2" class="border-bottom border-black align-middle">
@@ -258,6 +256,7 @@
         </table>
         <section>
           <table
+            v-if="isOtherIngredients(item)"
             class="table table-sm table-borderless border border-2 border-black mt-1 mb-0"
           >
             <thead>
@@ -575,7 +574,6 @@ export default {
         SAGrams * 2.4 +
         organicAcidGrams * 3 +
         alcohol * 7
-
       if (kcal === 0) {
         return kcal.toFixed(0)
       } else {
@@ -682,6 +680,24 @@ export default {
         }
       })
       this.organicAcid = OAName
+    },
+    isOtherIngredients(item) {
+      let isOrganicAcid = false
+      item.newClaimNts?.forEach(nt => {
+        if (this.organicAcid.includes(nt)) {
+          isOrganicAcid = true
+        } else {
+          isOrganicAcid = false
+        }
+      })
+      if (
+        (item.claimNts && item.claimNts.includes('alcohol')) ||
+        isOrganicAcid === true
+      ) {
+        return true
+      } else {
+        return false
+      }
     },
   },
   created() {
