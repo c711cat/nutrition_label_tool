@@ -98,7 +98,7 @@
       </section>
       <section
         :id="`nutritionLabel${item.id}`"
-        class="col-12 col-sm-11 col-md-9 col-lg-6 col-xl-5 p-3"
+        class="col-12 col-sm-9 col-md-7 col-lg-5 col-xl-4 p-3"
       >
         <table
           class="table table-sm table-borderless border border-2 border-black mb-0"
@@ -122,7 +122,9 @@
               </td>
             </tr>
             <tr class="lh-1">
-              <th class="fw-normal ps-2 border-bottom border-black">
+              <th
+                class="fw-normal ps-2 border-bottom border-black pb-2"
+              >
                 本包裝含
               </th>
               <td colspan="2" class="border-bottom border-black align-middle">
@@ -139,7 +141,7 @@
               </td>
             </tr>
             <tr class="lh-1">
-              <th class="fw-normal ps-2 col-4">熱量</th>
+              <th class="fw-normal ps-2">熱量</th>
               <td class="text-end pe-2 align-middle">
                 {{ calculateCalories(item) }} 大卡
               </td>
@@ -703,5 +705,4 @@ export default {
 .pR {
   padding-right: 11px !important;
 }
-
 </style>
