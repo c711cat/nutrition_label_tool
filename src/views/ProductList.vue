@@ -719,6 +719,6 @@ export default {
 }
 
 .pR {
-  padding-right: 11px !important;
+  padding-right: 9px !important;
 }
 </style>
