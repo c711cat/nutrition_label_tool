@@ -1,7 +1,7 @@
 <template>
-  <main class="container mt-4">
+  <main class="mx-auto col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mt-4">
     <h3 class="text-center mb-4">營養標示製作</h3>
-    <section class="form-floating mb-5">
+    <section class="form-floating mb-5 mx-3">
       <input
         @change="e => searchFood(e.target.value)"
         type="search"
@@ -11,36 +11,75 @@
       />
       <label for="searchInput">請輸入食物成分搜尋</label>
     </section>
-    <div>
-      <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-5">
-        <section class="col-4 col-xl-2 px-0 me-1">
-          <div v-if="filteredData.length === 0" class="py-5">
-            <p class="mb-0 text-center fw-bold">無相符品項</p>
-          </div>
-          <div v-else class="list-group rounded visibleHeight overflow-y-auto">
+    <div class="col-12 ps-1">
+      <div class="row col-12 mx-0 mb-5">
+        <div class="col-4 col-xl-3">
+          <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
-              v-for="item in filteredData"
-              :key="item.id"
-              @click="chooseSample(item)"
               type="button"
-              class="list-group-item list-group-item-action px-1"
-              aria-current="true"
+              class="col-12 col-xl m-1 me-1 btn btn-sm btn-outline-primary"
             >
-              <p class="mb-0 px-2">{{ item.sample_name }}</p>
-              <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
-                俗名：{{ item.common_name }}
-              </p>
+              內建資料庫
+            </button>
+            <button
+              type="button"
+              class="col-12 col-xl m-1 me-1 btn btn-sm btn-outline-primary"
+            >
+              自定義資料庫
             </button>
           </div>
-        </section>
+          <section>
+            <div v-if="filteredData.length === 0" class="py-5">
+              <p class="mb-0 text-center fw-bold">無相符品項</p>
+            </div>
+            <div v-else>
+              <section
+                v-if="true"
+                class="list-group rounded visibleHeight overflow-y-auto"
+              >
+                <button
+                  v-for="item in filteredData"
+                  :key="item.id"
+                  @click="chooseSample(item)"
+                  type="button"
+                  class="list-group-item list-group-item-action px-1"
+                  aria-current="true"
+                >
+                  <p class="mb-0 px-2">{{ item.sample_name }}</p>
+                  <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
+                    俗名：{{ item.common_name }}
+                  </p>
+                </button>
+              </section>
+              <section
+                v-if="false"
+                class="list-group rounded visibleHeight overflow-y-auto"
+              >
+                <button
+                  v-for="item in filteredCostomizeData"
+                  :key="item.id"
+                  @click="chooseSample(item)"
+                  type="button"
+                  class="list-group-item list-group-item-action px-1"
+                  aria-current="true"
+                >
+                  <p class="mb-0 px-2">{{ item.sample_name }}</p>
+                  <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
+                    俗名：{{ item.common_name }}
+                  </p>
+                </button>
+              </section>
+            </div>
+          </section>
+        </div>
 
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 g-3 align-content-start col-8 col-xl visibleHeight overflow-y-auto"
+          class="row m-0 g-3 align-content-start col-8 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
-          <section class="col-12 col-xl-6">
+          <section class="col-12 col-xl-6 mt-0">
             <label
               for="productName"
               class="form-label fw-bold ps-1 d-flex justify-content-start"
@@ -257,11 +296,11 @@
           </section>
         </form>
       </div>
-      <div class="col-12 text-end mb-4 px-1">
+      <div class="col-12 text-end mb-4 px-3">
         <button
           form="form_id"
           type="submit"
-          class="col-12 col-xl-10 btn btn-primary"
+          class="col-12 col-xl-9 btn btn-primary"
         >
           送出以上資料
         </button>
@@ -274,20 +313,25 @@
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
-
+import { useCustomizeStore } from '@/stores/customizeStore'
 export default {
   data() {
     return {
       filteredData: [],
       alert: false,
+      filteredCostomizeData: [],
     }
   },
 
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
+    ...mapState(useCustomizeStore, ['customizeDataList']),
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
+    getCustomizeDataBase() {
+      console.log(this.customizeDataList)
+    },
     searchFood(food) {
       const data = []
       this.baseFoodData.filter(item => {
@@ -356,21 +400,23 @@ export default {
 
   created() {
     this.filteredData = this.baseFoodData
+    this.filteredCostomizeData = this.customizeDataList
+    this.getCustomizeDataBase()
   },
 }
 </script>
 
 <style lang="scss" scoped>
-* {
-  // border: 1px solid;
-}
-
 ul.list-group {
   --bs-list-group-border-width: none;
 }
 
 .visibleHeight {
-  height: 60vh;
+  height: 72vh;
+}
+
+.formVisibleHeight {
+  height: 77vh;
 }
 
 .delBtn-xs {
@@ -384,5 +430,8 @@ ul.list-group {
 
 .infoStyle {
   font-size: 14px;
+}
+* {
+  border: 1px solid;
 }
 </style>
