@@ -75,13 +75,13 @@ const headerMap = {
   Column70: 'arachidic_acid(20:0)',
   Column71: 'docosanoic_acid(22:0)',
   Column72: 'tetracosanoic_acid(24:0)',
-  Column73: 'total_fatty_acid-M',
+  Column73: 'monounsaturated_fatty_acid(MUFA)',
   Column74: 'myristoleic_acid(14:1)',
   Column75: 'palmitoleic_acid(16:1)',
   Column76: 'oleic_acid(18:1)',
   Column77: 'gadoleic_acid(20:1)',
   Column78: 'erucic_acid(22:1)',
-  Column79: 'total_fatty_acid-P',
+  Column79: 'polyunsaturated_fatty_acid(PUFA)',
   Column80: 'linoleic_acid(18:2)',
   Column81: 'linolenic_acid(18:3)',
   Column82: 'octadecatetraenoic_acid(18:4)',
@@ -113,6 +113,30 @@ const headerMap = {
   Column108: 'Trp',
   Column109: 'cholesterol',
   Column110: 'alcohol',
+  Column111: 'iodine(I)',
+  Column112: 'Pantothenic Acid(vitaminB5)',
+  Column113: 'biotin',
+  Column114: 'Choline',
+  Column115: 'Inositol',
+  Column116: 'Lutein',
+  Column117: 'Chlorine(Cl)',
+  Column118: 'Sulfur(S)',
+  Column119: 'Fluoride(F)',
+  Column120: 'Chromium(Cr)',
+  Column121: 'Selenium(Se)',
+  Column122: 'Cobalt(Co)',
+  Column123: 'Molybdenum(Mo)',
+  Column124: 'Boron(B)',
+  Column125: 'Nickel(Ni)',
+  Column126: 'Silicon(Si)',
+  Column127: 'Tin(Sn)',
+  Column128: 'Vanadium(V)',
+  Column129: 'Erythritol',
+  Column130: 'Xylitol',
+  Column131: 'Sorbitol',
+  Column132: 'Maltitol',
+  Column133: 'Lactitol',
+  Column134: 'Mannitol',
 }
 const nullInput = {
   id: '',
@@ -127,6 +151,7 @@ const nullInput = {
     },
   ],
   numberOfCopy: '',
+  perPortionInfomation: { perWeight: '', unit: '公克' },
   netWeightInformation: { netWeight: '', unit: '公克' },
   productQty: '',
   manufacturer: '',
@@ -156,7 +181,7 @@ function updateKeyFoodData() {
 }
 
 function addCustomData(data) {
-  const customData = JSON.parse(localStorage.getItem('myCustomData')) || []
+  const customData = JSON.parse(localStorage.getItem('myCustomizeData')) || []
   data.push(...customData)
   return data
 }
@@ -170,15 +195,6 @@ function createHeaderChineseAndEnglish() {
   return JSON.parse(localStorage.getItem('myHeader')) || []
 }
 
-function updateHeader(originHeader) {
-  const addHeader = JSON.parse(localStorage.getItem('myAddHeader')) || []
-  return { ...originHeader, ...addHeader }
-}
-
-function getAddNewHeader() {
-  return JSON.parse(localStorage.getItem('myAddHeader')) || []
-}
-
 function getMyProductList() {
   return JSON.parse(localStorage.getItem('myFoodData')) || []
 }
@@ -189,11 +205,9 @@ let baseFoodData = []
 baseFoodData = updateKeyFoodData()
 baseFoodData = addCustomData(baseFoodData)
 
-const onlyNewAddHeader = getAddNewHeader()
-
 let headerChineseAndEnglish = {}
 headerChineseAndEnglish = createHeaderChineseAndEnglish()
-headerChineseAndEnglish = updateHeader(headerChineseAndEnglish)
+
 const localStorageData = getMyProductList()
 export const useFoodStore = defineStore('foodDataStore', {
   state: () => ({
@@ -217,6 +231,7 @@ export const useFoodStore = defineStore('foodDataStore', {
         },
       ],
       numberOfCopy: '',
+      perPortionInfomation: { perWeight: '', unit: '公克' },
       netWeightInformation: { netWeight: '', unit: '公克' },
       productQty: '',
       manufacturer: '',
@@ -232,7 +247,6 @@ export const useFoodStore = defineStore('foodDataStore', {
     loadingStatus: false,
     toDo: '',
     addNts: [],
-    onlyNewAddHeader: onlyNewAddHeader,
   }),
   getters: {
     updateKeyFoodData: ({ baseFoodData }) => {
@@ -309,37 +323,25 @@ export const useFoodStore = defineStore('foodDataStore', {
     pushNTs(nts) {
       this.addNts = nts
     },
-    addLabelNTs(product) {
-      this.myProductList.forEach(item => {
-        if (item.id === product.id) {
-          item.addNutrients = this.addNts
-        }
-      })
-      this.setMyProducts(this.myProductList)
-      this.addNts = []
-    },
-    setNewHeaderItem(nts) {
-      this.onlyNewAddHeader = { ...this.onlyNewAddHeader, ...nts }
-      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
-      this.headerChineseAndEnglish = { ...this.headerChineseAndEnglish, ...nts }
-      localStorage.setItem(
-        'myHeader',
-        JSON.stringify(this.headerChineseAndEnglish),
-      )
-      const data = {}
-      data.title = '新增成功'
-      data.style = 'success'
-      this.pushMsg(data)
-    },
+
     delItemOfNts(title, index) {
       const keys = Object.keys(this.onlyNewAddHeader) // 得到 key 的陣列 例如：[ 0:lutein, 1:calcium ]
       const keyToDel = keys[index] // 根據 index 找到對應的 key
       delete this.onlyNewAddHeader[keyToDel]
-      localStorage.setItem('myAddHeader', JSON.stringify(this.onlyNewAddHeader))
+      localStorage.setItem('myAddedNts', JSON.stringify(this.onlyNewAddHeader))
       const data = {}
       data.title = title + '刪除成功'
       data.style = 'success'
       this.pushMsg(data)
+    },
+    updateCalimNts(product) {
+      this.myProductList.forEach(item => {
+        if (item.id === product.id) {
+          item.claimNts = product.claimNts
+          item.newClaimNts = product.newClaimNts
+        }
+      })
+      this.setMyProducts(this.myProductList)
     },
   },
 })

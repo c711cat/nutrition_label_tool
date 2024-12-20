@@ -9,7 +9,7 @@
       <div class="py-3 col-12 col-lg">
         <div class="form-floating mb-3">
           <input
-            v-model.trim="customFood.sample_name"
+            v-model.trim="customizeData.sample_name"
             type="text"
             class="form-control"
             id="sample_name"
@@ -25,7 +25,7 @@
         <div class="form-floating">
           <textarea
             style="height: 200px"
-            v-model.trim="customFood.content_description"
+            v-model.trim="customizeData.content_description"
             type="text"
             class="form-control"
             id="content_description"
@@ -61,7 +61,7 @@
               </th>
               <td class="col-6 col-sm-auto">
                 <input
-                  v-model="customFood[key]"
+                  v-model="customizeData[key]"
                   type="number"
                   :name="key"
                   :id="key"
@@ -73,17 +73,41 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </td>
             </tr>
-            <tr v-for="item in addOthersNutrients" :key="item">
+
+            <tr v-for="(value, key) in customizeData.baseClaimNts" :key="key">
               <th class="fw-normal px-3">
                 <i class="text-danger fst-normal">＊</i>
-                {{ header[item] }}
+                {{ header[key] }}
               </th>
               <td>
                 <input
-                  v-model="customFood[item]"
+                  v-model="customizeData.baseClaimNts[key]"
                   type="number"
-                  :name="item"
-                  :id="item"
+                  :name="key"
+                  :id="key"
+                  class="form-control text-center"
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </td>
+            </tr>
+
+            <tr
+              v-for="(item, index) in customizeData.newClaimNts"
+              :key="item + index"
+            >
+              <th class="fw-normal px-3">
+                <i class="text-danger fst-normal">＊</i>
+                {{ item.chName }}({{ item.unit.match(/\((.*?)\)/)[1] }})
+              </th>
+              <td>
+                <input
+                  v-if="customizeData.newClaimNts"
+                  v-model="customizeData.newClaimNts[index].quantity"
+                  :id="item + index"
+                  :name="item.quantity"
+                  type="number"
                   class="form-control text-center"
                   required
                   min="0"
@@ -109,17 +133,17 @@
         </button>
       </div>
     </form>
-    <AddNutrientsModal ref="addNutrientsModal" />
+    <CustomizeClaimNtsModal ref="customizeClaimNtsModal" />
     <DoubleCheckModal ref="doubleCheckModal" />
   </div>
 </template>
 
 <script>
 import { useFoodStore } from '@/stores/foodDataStore.js'
-import { useCustomStore } from '@/stores/customStore.js'
+import { useCustomizeStore } from '@/stores/customizeStore.js'
 import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
-import AddNutrientsModal from '@/components/AddNutrientsModal.vue'
+import CustomizeClaimNtsModal from '@/components/CustomizeClaimNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 export default {
   data() {
@@ -138,7 +162,7 @@ export default {
       },
     }
   },
-  components: { AddNutrientsModal, DoubleCheckModal },
+  components: { CustomizeClaimNtsModal, DoubleCheckModal },
   watch: {
     headerChineseAndEnglish: {
       handler(val) {
@@ -155,19 +179,15 @@ export default {
       'myProductList',
       'baseFoodData',
     ]),
-    ...mapState(useCustomStore, [
+    ...mapState(useCustomizeStore, [
       'customDataList',
-      'addOthersNutrients',
-      'customFood',
+      'newClaimNts',
+      'customizeData',
+      'baseClaimNts',
     ]),
   },
   methods: {
-    ...mapActions(useCustomStore, [
-      'setCustomData',
-      'clearCustomFood',
-      'updateList',
-      'clearAddOtherNts',
-    ]),
+    ...mapActions(useCustomizeStore, ['setCustomData']),
     ...mapActions(useMsgStore, ['openAlert']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }
@@ -201,12 +221,11 @@ export default {
         form.classList.add('was-validated')
         this.openAlert(true, '還有必填欄位喔！')
         return
-      } else {
-        this.$refs.doubleCheckModal.showModal('custom')
       }
+      this.$refs.doubleCheckModal.showModal('customize')
     },
     openModal() {
-      this.$refs.addNutrientsModal.showCustomModal(this.customFood)
+      this.$refs.customizeClaimNtsModal.showModal(this.customizeData)
     },
   },
 

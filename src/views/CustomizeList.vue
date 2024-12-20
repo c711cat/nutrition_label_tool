@@ -5,13 +5,13 @@
       <router-link to="/added_custom_nts" class="btn btn-outline-primary me-3">
         已新增營養素列表
       </router-link>
-      <router-link to="/custom" class="btn btn-outline-primary">
+      <router-link to="/customize" class="btn btn-outline-primary">
         新增自定義品項
       </router-link>
     </div>
 
     <div
-      v-for="(item, index) in updateCustomData"
+      v-for="(item, index) in updateSortData"
       :key="item"
       class="border rounded row m-0 my-5 justify-content-between"
     >
@@ -35,25 +35,58 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="border-bottom border-black">
-              <th></th>
-              <td class="px-2">每 100 公克 / 毫升</td>
+            <tr>
+              <th class="border-bottom border-black"></th>
+              <td class="px-2 border-bottom border-black">
+                每 100 公克 / 毫升
+              </td>
             </tr>
-            <tr v-for="(value, key) in item.nutritionLabels" :key="key">
-              <th
-                class="px-2 fw-normal"
-                :class="{
-                  'ps-4': [
-                    'trans_fat',
-                    'total_sugar',
-                    'saturated_fat',
-                  ].includes(key),
-                }"
-              >
-                {{ transText(key) }}
+            <tr>
+              <th class="px-2 fw-normal">熱量</th>
+              <td class="text-end px-2">{{ item.calories }} 大卡</td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">蛋白質</th>
+              <td class="text-end px-2">{{ item.protein }} 公克</td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">脂肪</th>
+              <td class="text-end px-2">{{ item.fat }} 公克</td>
+            </tr>
+            <tr>
+              <th class="pe-2 ps-4 fw-normal">飽和脂肪</th>
+              <td class="text-end px-2">{{ item.saturated_fat }} 公克</td>
+            </tr>
+            <tr>
+              <th class="pe-2 ps-4 fw-normal">反式脂肪</th>
+              <td class="text-end px-2">{{ item.trans_fat }} 公克</td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">碳水化合物</th>
+              <td class="text-end px-2">{{ item.total_carbohydrates }} 公克</td>
+            </tr>
+            <tr>
+              <th class="pe-2 ps-4 fw-normal">糖</th>
+              <td class="text-end px-2">{{ item.total_sugar }} 公克</td>
+            </tr>
+            <tr>
+              <th class="px-2 fw-normal">鈉</th>
+              <td class="text-end px-2">{{ item.sodium }} 毫克</td>
+            </tr>
+            <tr v-for="(value, key) in item.baseClaimNts" :key="key">
+              <th class="px-2 fw-normal">
+                {{ headerChineseAndEnglish[key].replace(/\(.*\)/, '') }}
               </th>
               <td class="text-end px-2">
                 {{ value }} {{ transUnitText(headerChineseAndEnglish[key]) }}
+              </td>
+            </tr>
+            <tr v-for="(item, index) in item.newClaimNts" :key="item + index">
+              <th class="px-2 fw-normal">
+                {{ item.chName }}
+              </th>
+              <td class="text-end px-2">
+                {{ item.quantity }} {{ item.unit.replace(/\(.*\)/, '') }}
               </td>
             </tr>
           </tbody>
@@ -62,7 +95,7 @@
       <div class="text-end my-3">
         <router-link
           :to="isPath(item.id)"
-          @click="editCustomFood(item)"
+          @click="editCustomizeData(item)"
           type="button"
           class="btn btn-outline-primary me-3"
         >
@@ -82,59 +115,31 @@
 </template>
 <script>
 import { mapState, mapActions } from 'pinia'
-import { useCustomStore } from '@/stores/customStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 import { useFoodStore } from '@/stores/foodDataStore'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 
 export default {
   data() {
     return {
-      updateCustomData: [],
+      updateSortData: [],
     }
   },
   components: { DoubleCheckModal },
   computed: {
-    ...mapState(useCustomStore, ['customDataList', 'customFood']),
+    ...mapState(useCustomizeStore, ['customizeDataList', 'customizeData']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
-  watch: {
-    customDataList: {
-      handler(val) {
-        if (val) {
-          this.sortItem()
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-  },
   methods: {
-    ...mapActions(useCustomStore, ['editCustomFood', 'delItemOfCustomList']),
+    ...mapActions(useCustomizeStore, [
+      'editCustomizeData',
+      'delItemOfCustomizeList',
+    ]),
     sortItem() {
-      this.updateCustomData = this.customDataList
-      this.updateCustomData.sort((a, b) => {
+      this.updateSortData = this.customizeDataList
+      this.updateSortData.sort((a, b) => {
         return b.id - a.id
       })
-      this.updateData()
-    },
-    updateData() {
-      this.updateCustomData = this.customDataList.map(
-        ({
-          sample_name,
-          content_description,
-          category,
-          id,
-          ...nutritionLabels
-        }) => {
-          return {
-            sample_name,
-            content_description,
-            category,
-            id,
-            nutritionLabels,
-          }
-        },
-      )
     },
 
     transText(item) {
@@ -164,11 +169,14 @@ export default {
       }
     },
     opendelModal(item, index) {
-      this.$refs.doubleCheckModal.showDelCustomModal(item, index)
+      this.$refs.doubleCheckModal.showDelCustomizeModal(item, index)
     },
     isPath(id) {
-      return (this.$route.path = `/edit_custom/${id}`)
+      return (this.$route.path = `/edit_customize/${id}`)
     },
+  },
+  created() {
+    this.sortItem()
   },
 }
 </script>

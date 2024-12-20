@@ -90,7 +90,7 @@
 import Modal from 'bootstrap/js/dist/modal'
 import { mapActions, mapState } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
-import { useCustomStore } from '@/stores/customStore'
+import { useCustomizeStore } from '@/stores/customizeStore'
 
 export default {
   data() {
@@ -100,11 +100,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(useCustomStore, ['ntName']),
+    ...mapState(useCustomizeStore, ['ntName']),
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
-    ...mapActions(useCustomStore, ['addCustomNts']),
+    ...mapActions(useCustomizeStore, ['addCustomNts']),
 
     submitForm(e) {
       const form = e.target
