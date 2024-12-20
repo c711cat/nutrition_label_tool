@@ -16,14 +16,18 @@
         <div class="col-4 col-xl-3">
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
+              @click="showBuiltInDataBase"
               type="button"
-              class="col-12 col-xl m-1 me-1 btn btn-sm btn-outline-primary"
+              class="col-12 col-xl m-1 me-1 btn btn-sm"
+              :class="isBuiltIn ? 'btn-primary' : 'btn-outline-primary'"
             >
               內建資料庫
             </button>
             <button
+              @click="showCustomizeDataBase"
               type="button"
-              class="col-12 col-xl m-1 me-1 btn btn-sm btn-outline-primary"
+              class="col-12 col-xl m-1 me-1 btn btn-sm"
+              :class="isCustomize ? 'btn-primary' : 'btn-outline-primary'"
             >
               自定義資料庫
             </button>
@@ -34,7 +38,7 @@
             </div>
             <div v-else>
               <section
-                v-if="true"
+                v-if="isBuiltIn"
                 class="list-group rounded visibleHeight overflow-y-auto"
               >
                 <button
@@ -52,11 +56,11 @@
                 </button>
               </section>
               <section
-                v-if="false"
+                v-if="isCustomize"
                 class="list-group rounded visibleHeight overflow-y-auto"
               >
                 <button
-                  v-for="item in filteredCostomizeData"
+                  v-for="item in filteredCustomizeData"
                   :key="item.id"
                   @click="chooseSample(item)"
                   type="button"
@@ -319,7 +323,9 @@ export default {
     return {
       filteredData: [],
       alert: false,
-      filteredCostomizeData: [],
+      filteredCustomizeData: [],
+      isBuiltIn: true,
+      isCustomize: false,
     }
   },
 
@@ -331,6 +337,14 @@ export default {
     ...mapActions(useMsgStore, ['openAlert']),
     getCustomizeDataBase() {
       console.log(this.customizeDataList)
+    },
+    showBuiltInDataBase() {
+      this.isBuiltIn = true
+      this.isCustomize = false
+    },
+    showCustomizeDataBase() {
+      this.isCustomize = true
+      this.isBuiltIn = false
     },
     searchFood(food) {
       const data = []
@@ -400,7 +414,7 @@ export default {
 
   created() {
     this.filteredData = this.baseFoodData
-    this.filteredCostomizeData = this.customizeDataList
+    this.filteredCustomizeData = this.customizeDataList
     this.getCustomizeDataBase()
   },
 }
