@@ -33,8 +33,13 @@
             </button>
           </div>
           <section>
-            <div v-if="filteredData.length === 0" class="py-5">
-              <p class="mb-0 text-center fw-bold">無相符品項</p>
+            <div
+              v-if="
+                filteredData.length === 0 && filteredCustomizeData.length === 0
+              "
+              class="py-5"
+            >
+              <p class="mb-0 text-center fw-bold">皆無相符品項</p>
             </div>
             <div v-else>
               <section
@@ -54,6 +59,10 @@
                     俗名：{{ item.common_name }}
                   </p>
                 </button>
+                <div v-if="filteredData.length === 0" class="mt-5">
+                  <p class="mb-0 text-center fw-bold">內建資料庫中</p>
+                  <p class="mb-0 text-center fw-bold">無相符品項</p>
+                </div>
               </section>
               <section
                 v-if="isCustomize"
@@ -72,6 +81,10 @@
                     俗名：{{ item.common_name }}
                   </p>
                 </button>
+                <div v-if="filteredCustomizeData.length === 0" class="mt-5">
+                  <p class="mb-0 text-center fw-bold">自定義資料庫中</p>
+                  <p class="mb-0 text-center fw-bold">無相符品項</p>
+                </div>
               </section>
             </div>
           </section>
@@ -357,6 +370,26 @@ export default {
         }
       })
       this.filteredData = data
+      const customizeData = []
+      this.customizeDataList.filter(item => {
+        if (item.sample_name && item.sample_name.match(food)) {
+          customizeData.push(item)
+        }
+      })
+      this.filteredCustomizeData = customizeData
+
+      if (
+        this.filteredData.length === 0 &&
+        this.filteredCustomizeData.length !== 0
+      ) {
+        this.showCustomizeDataBase()
+      }
+      if (
+        this.filteredData.length !== 0 &&
+        this.filteredCustomizeData.length === 0
+      ) {
+        this.showBuiltInDataBase()
+      }
     },
     chooseSample(chooseItem) {
       const empty = this.product.ingredients.find(item => {
