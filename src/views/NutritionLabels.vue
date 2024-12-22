@@ -44,7 +44,7 @@
             <div v-else>
               <section
                 v-if="isBuiltIn"
-                class="list-group rounded visibleHeight overflow-y-auto"
+                class="list-group rounded visibleHeight overflow-y-auto overflow-x-hidden"
               >
                 <button
                   v-for="item in filteredData"
@@ -66,7 +66,7 @@
               </section>
               <section
                 v-if="isCustomize"
-                class="list-group rounded visibleHeight overflow-y-auto"
+                class="list-group rounded visibleHeight overflow-y-auto overflow-x-hidden"
               >
                 <button
                   v-for="item in filteredCustomizeData"
