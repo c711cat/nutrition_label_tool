@@ -9,11 +9,11 @@
         id="searchInput"
         placeholder="請輸入食物成分搜尋"
       />
-      <label for="searchInput">請輸入食物成分搜尋</label>
+      <label for="searchInput">請輸入食物名稱搜尋</label>
     </section>
     <div class="col-12 ps-1">
       <div class="row col-12 mx-0 mb-5">
-        <div class="col-4 col-xl-3">
+        <div class="col-5 col-xl-3">
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
               @click="showBuiltInDataBase"
@@ -73,7 +73,7 @@
                   :key="item.id"
                   @click="chooseSample(item)"
                   type="button"
-                  class="list-group-item list-group-item-action px-1"
+                  class="list-group-item list-group-item-action"
                   aria-current="true"
                 >
                   <p class="mb-0 px-2">{{ item.sample_name }}</p>
@@ -93,7 +93,7 @@
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 g-3 align-content-start col-8 col-xl formVisibleHeight overflow-y-auto"
+          class="row m-0 g-3 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
           <section class="col-12 col-xl-6 mt-0">
