@@ -18,7 +18,7 @@
             <button
               @click="showBuiltInDataBase"
               type="button"
-              class="col-12 col-xl m-1 me-1 btn btn-sm"
+              class="col-12 col-md m-1 me-1 btn btn-sm"
               :class="isBuiltIn ? 'btn-primary' : 'btn-outline-primary'"
             >
               內建資料庫
@@ -26,7 +26,7 @@
             <button
               @click="showCustomizeDataBase"
               type="button"
-              class="col-12 col-xl m-1 me-1 btn btn-sm"
+              class="col-12 col-md m-1 me-1 btn btn-sm"
               :class="isCustomize ? 'btn-primary' : 'btn-outline-primary'"
             >
               自定義資料庫
@@ -128,13 +128,13 @@
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 g-3 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
+          class="row m-0 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
-          <section class="col-12 col-xl-6 mt-0">
+          <section class="col-12 col-xl-6 mb-3">
             <label
               for="productName"
-              class="form-label fw-bold ps-1 d-flex justify-content-start"
+              class="form-label fw-bold d-flex justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
@@ -151,10 +151,10 @@
             />
             <div class="invalid-feedback">此欄位為必填</div>
           </section>
-          <section class="col-12 col-xl-6">
+          <section class="col-12 col-xl-6 mb-3">
             <label
               for="number_of_copies"
-              class="form-label fw-bold ps-1 d-flex justify-content-start"
+              class="form-label fw-bold d-flex justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
@@ -173,11 +173,11 @@
 
             <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
           </section>
-          <section class="col-12 col-xl-6 d-flex">
+          <section class="col-12 col-xl-6 d-flex mb-3">
             <div class="col-12">
               <label
                 for="net_weight"
-                class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start col-12"
+                class="form-label fw-bold d-flex flex-wrap justify-content-start col-12"
               >
                 <div class="pe-1 d-flex align-items-center">
                   <i class="text-danger fst-normal">＊</i>
@@ -235,10 +235,10 @@
               </div>
             </div>
           </section>
-          <section class="col-12 col-xl-6">
+          <section class="col-12 col-xl-6 mb-3">
             <label
               for="product_quantity"
-              class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start"
+              class="form-label fw-bold d-flex flex-wrap justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
@@ -266,7 +266,7 @@
             <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
           </section>
           <section class="col-12">
-            <p class="mb-0 py-2 ms-1 fw-bold">
+            <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
               從左邊資料庫點選成分，並填入各欄位所需資料
             </p>
