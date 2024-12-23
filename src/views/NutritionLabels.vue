@@ -37,9 +37,17 @@
               v-if="
                 filteredData.length === 0 && filteredCustomizeData.length === 0
               "
-              class="py-5"
+              class="py-5 text-center"
             >
-              <p class="mb-0 text-center fw-bold">皆無相符品項</p>
+              <p class="mb-2 fw-bold px-3">皆無相符品項</p>
+              <p class="px-3">若該品項有營養標示，可自行新增資料</p>
+              <router-link
+                to="/customize"
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+              >
+                前往新增資料
+              </router-link>
             </div>
             <div v-else>
               <section
@@ -67,9 +75,17 @@
                     {{ item.content_description }}
                   </p>
                 </button>
-                <div v-if="filteredData.length === 0" class="mt-5">
+                <div v-if="filteredData.length === 0" class="mt-5 text-center">
                   <p class="mb-0 text-center fw-bold">內建資料庫中</p>
                   <p class="mb-0 text-center fw-bold">無相符品項</p>
+                  <p class="px-3">若該品項有營養標示，可自行新增資料</p>
+                  <router-link
+                    to="/customize"
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    前往新增資料
+                  </router-link>
                 </div>
               </section>
               <section
@@ -89,9 +105,20 @@
                     俗名：{{ item.common_name }}
                   </p>
                 </button>
-                <div v-if="filteredCustomizeData.length === 0" class="mt-5">
+                <div
+                  v-if="filteredCustomizeData.length === 0"
+                  class="mt-5 text-center"
+                >
                   <p class="mb-0 text-center fw-bold">自定義資料庫中</p>
-                  <p class="mb-0 text-center fw-bold">無相符品項</p>
+                  <p class="mb-2 text-center fw-bold">無相符品項</p>
+                  <p class="px-3">若該品項有營養標示，可自行新增資料</p>
+                  <router-link
+                    to="/customize"
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    前往新增資料
+                  </router-link>
                 </div>
               </section>
             </div>
