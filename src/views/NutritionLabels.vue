@@ -93,7 +93,7 @@
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 g-3 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
+          class="row m-0 g-3 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
           <section class="col-12 col-xl-6 mt-0">
@@ -241,13 +241,16 @@
               :key="item.id"
               class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
             >
-              <li
-                class="px-1 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
-              >
-                <p class="mb-0">{{ index + 1 }}. {{ item.sample_name }}</p>
-                <p v-if="item.common_name" class="ps-3 mb-0">
-                  俗名:{{ item.common_name }}
-                </p>
+              <li class="px-1 list-group-item col-12 col-xl-3 d-flex">
+                <i class="pe-1 fst-normal">{{ index + 1 }}.</i>
+                <div>
+                  <p class="mb-0 col-10 col-sm-auto">
+                    {{ item.sample_name }}
+                  </p>
+                  <p v-if="item.common_name" class="mb-0">
+                    俗名:{{ item.common_name }}
+                  </p>
+                </div>
               </li>
               <li
                 class="px-0 list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
