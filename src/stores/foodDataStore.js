@@ -180,12 +180,6 @@ function updateKeyFoodData() {
   })
 }
 
-function addCustomData(data) {
-  const customData = JSON.parse(localStorage.getItem('myCustomizeData')) || []
-  data.push(...customData)
-  return data
-}
-
 function createHeaderChineseAndEnglish() {
   const newData = {}
   for (const [originKey, newKey] of Object.entries(headerMap)) {
@@ -203,7 +197,6 @@ const headerObj = getHearder()
 
 let baseFoodData = []
 baseFoodData = updateKeyFoodData()
-baseFoodData = addCustomData(baseFoodData)
 
 let headerChineseAndEnglish = {}
 headerChineseAndEnglish = createHeaderChineseAndEnglish()

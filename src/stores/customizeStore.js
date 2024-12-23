@@ -95,7 +95,6 @@ export const useCustomizeStore = defineStore('customStore', {
         this.customizeData.id = Date.now()
         this.customizeData.category = '自定義'
         this.customizeDataList.push(this.customizeData)
-        this.baseFoodData.push(this.customizeData)
       } else {
         this.toDo = 'edit'
         this.customizeDataList = this.customizeDataList.map(item => {
