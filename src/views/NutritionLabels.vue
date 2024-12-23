@@ -1,7 +1,7 @@
 <template>
-  <main class="container mt-4">
+  <main class="mx-auto col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mt-4">
     <h3 class="text-center mb-4">營養標示製作</h3>
-    <section class="form-floating mb-5">
+    <section class="form-floating mb-5 mx-3">
       <input
         @change="e => searchFood(e.target.value)"
         type="search"
@@ -9,41 +9,132 @@
         id="searchInput"
         placeholder="請輸入食物成分搜尋"
       />
-      <label for="searchInput">請輸入食物成分搜尋</label>
+      <label for="searchInput">請輸入食物名稱搜尋</label>
     </section>
-    <div>
-      <div class="col-12 justify-content-between row flex-nowrap mx-0 mb-5">
-        <section class="col-4 col-xl-2 px-0 me-1">
-          <div v-if="filteredData.length === 0" class="py-5">
-            <p class="mb-0 text-center fw-bold">無相符品項</p>
-          </div>
-          <div v-else class="list-group rounded visibleHeight overflow-y-auto">
+    <div class="col-12 ps-1">
+      <div class="row col-12 mx-0 mb-5">
+        <div class="col-5 col-xl-3">
+          <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
-              v-for="item in filteredData"
-              :key="item.id"
-              @click="chooseSample(item)"
+              @click="showBuiltInDataBase"
               type="button"
-              class="list-group-item list-group-item-action px-1"
-              aria-current="true"
+              class="col-12 col-md m-1 me-1 btn btn-sm"
+              :class="isBuiltIn ? 'btn-primary' : 'btn-outline-primary'"
             >
-              <p class="mb-0 px-2">{{ item.sample_name }}</p>
-              <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
-                俗名：{{ item.common_name }}
-              </p>
+              內建資料庫
+            </button>
+            <button
+              @click="showCustomizeDataBase"
+              type="button"
+              class="col-12 col-md m-1 me-1 btn btn-sm"
+              :class="isCustomize ? 'btn-primary' : 'btn-outline-primary'"
+            >
+              自定義資料庫
             </button>
           </div>
-        </section>
+          <section>
+            <div
+              v-if="
+                filteredData.length === 0 && filteredCustomizeData.length === 0
+              "
+              class="py-5 text-center"
+            >
+              <p class="mb-2 fw-bold px-3">皆無相符品項</p>
+              <p class="px-3">若該品項有營養標示，可自行新增資料</p>
+              <router-link
+                to="/customize"
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+              >
+                前往新增資料
+              </router-link>
+            </div>
+            <div v-else>
+              <section
+                v-if="isBuiltIn"
+                class="list-group rounded visibleHeight overflow-y-auto overflow-x-hidden"
+              >
+                <button
+                  v-for="item in filteredData"
+                  :key="item.id"
+                  @click="chooseSample(item)"
+                  type="button"
+                  class="list-group-item list-group-item-action px-1"
+                  aria-current="true"
+                >
+                  <p class="mb-0 px-2">
+                    {{ item.sample_name }}
+                  </p>
+                  <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
+                    俗名:{{ item.common_name }}
+                  </p>
+                  <p
+                    v-if="item.content_description"
+                    class="mb-0 px-2 text-secondary"
+                  >
+                    {{ item.content_description }}
+                  </p>
+                </button>
+                <div v-if="filteredData.length === 0" class="mt-5 text-center">
+                  <p class="mb-0 text-center fw-bold">內建資料庫中</p>
+                  <p class="mb-0 text-center fw-bold">無相符品項</p>
+                  <p class="px-3">若該品項有營養標示，可自行新增資料</p>
+                  <router-link
+                    to="/customize"
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    前往新增資料
+                  </router-link>
+                </div>
+              </section>
+              <section
+                v-if="isCustomize"
+                class="list-group rounded visibleHeight overflow-y-auto overflow-x-hidden"
+              >
+                <button
+                  v-for="item in filteredCustomizeData"
+                  :key="item.id"
+                  @click="chooseSample(item)"
+                  type="button"
+                  class="list-group-item list-group-item-action px-1"
+                  aria-current="true"
+                >
+                  <p class="mb-0 px-2">{{ item.sample_name }}</p>
+                  <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
+                    俗名：{{ item.common_name }}
+                  </p>
+                </button>
+                <div
+                  v-if="filteredCustomizeData.length === 0"
+                  class="mt-5 text-center"
+                >
+                  <p class="mb-0 text-center fw-bold">自定義資料庫中</p>
+                  <p class="mb-2 text-center fw-bold">無相符品項</p>
+                  <p class="px-3">若該品項有營養標示，可自行新增資料</p>
+                  <router-link
+                    to="/customize"
+                    type="button"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    前往新增資料
+                  </router-link>
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
 
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 g-3 align-content-start col-8 col-xl visibleHeight overflow-y-auto"
+          class="row m-0 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
-          <section class="col-12 col-xl-6">
+          <section class="col-12 col-xl-6 mb-3">
             <label
               for="productName"
-              class="form-label fw-bold ps-1 d-flex justify-content-start"
+              class="form-label fw-bold d-flex justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
@@ -60,10 +151,10 @@
             />
             <div class="invalid-feedback">此欄位為必填</div>
           </section>
-          <section class="col-12 col-xl-6">
+          <section class="col-12 col-xl-6 mb-3">
             <label
               for="number_of_copies"
-              class="form-label fw-bold ps-1 d-flex justify-content-start"
+              class="form-label fw-bold d-flex justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
@@ -82,11 +173,11 @@
 
             <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
           </section>
-          <section class="col-12 col-xl-6 d-flex">
+          <section class="col-12 col-xl-6 d-flex mb-3">
             <div class="col-12">
               <label
                 for="net_weight"
-                class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start col-12"
+                class="form-label fw-bold d-flex flex-wrap justify-content-start col-12"
               >
                 <div class="pe-1 d-flex align-items-center">
                   <i class="text-danger fst-normal">＊</i>
@@ -144,10 +235,10 @@
               </div>
             </div>
           </section>
-          <section class="col-12 col-xl-6">
+          <section class="col-12 col-xl-6 mb-3">
             <label
               for="product_quantity"
-              class="form-label fw-bold ps-1 d-flex flex-wrap justify-content-start"
+              class="form-label fw-bold d-flex flex-wrap justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
@@ -175,7 +266,7 @@
             <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
           </section>
           <section class="col-12">
-            <p class="mb-0 py-2 ms-1 fw-bold">
+            <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
               從左邊資料庫點選成分，並填入各欄位所需資料
             </p>
@@ -185,13 +276,16 @@
               :key="item.id"
               class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
             >
-              <li
-                class="px-1 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
-              >
-                <p class="mb-0">{{ index + 1 }}. {{ item.sample_name }}</p>
-                <p v-if="item.common_name" class="ps-3 mb-0">
-                  俗名:{{ item.common_name }}
-                </p>
+              <li class="px-1 list-group-item col-12 col-xl-3 d-flex">
+                <i class="pe-1 fst-normal">{{ index + 1 }}.</i>
+                <div>
+                  <p class="mb-0 col-10 col-sm-auto">
+                    {{ item.sample_name }}
+                  </p>
+                  <p v-if="item.common_name" class="mb-0">
+                    俗名:{{ item.common_name }}
+                  </p>
+                </div>
               </li>
               <li
                 class="px-0 list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
@@ -257,11 +351,11 @@
           </section>
         </form>
       </div>
-      <div class="col-12 text-end mb-4 px-1">
+      <div class="col-12 text-end mb-4 px-3">
         <button
           form="form_id"
           type="submit"
-          class="col-12 col-xl-10 btn btn-primary"
+          class="col-12 col-xl-9 btn btn-primary"
         >
           送出以上資料
         </button>
@@ -274,20 +368,32 @@
 import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
-
+import { useCustomizeStore } from '@/stores/customizeStore'
 export default {
   data() {
     return {
       filteredData: [],
       alert: false,
+      filteredCustomizeData: [],
+      isBuiltIn: true,
+      isCustomize: false,
     }
   },
 
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
+    ...mapState(useCustomizeStore, ['customizeDataList']),
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
+    showBuiltInDataBase() {
+      this.isBuiltIn = true
+      this.isCustomize = false
+    },
+    showCustomizeDataBase() {
+      this.isCustomize = true
+      this.isBuiltIn = false
+    },
     searchFood(food) {
       const data = []
       this.baseFoodData.filter(item => {
@@ -299,6 +405,26 @@ export default {
         }
       })
       this.filteredData = data
+      const customizeData = []
+      this.customizeDataList.filter(item => {
+        if (item.sample_name && item.sample_name.match(food)) {
+          customizeData.push(item)
+        }
+      })
+      this.filteredCustomizeData = customizeData
+
+      if (
+        this.filteredData.length === 0 &&
+        this.filteredCustomizeData.length !== 0
+      ) {
+        this.showCustomizeDataBase()
+      }
+      if (
+        this.filteredData.length !== 0 &&
+        this.filteredCustomizeData.length === 0
+      ) {
+        this.showBuiltInDataBase()
+      }
     },
     chooseSample(chooseItem) {
       const empty = this.product.ingredients.find(item => {
@@ -352,25 +478,28 @@ export default {
         this.$router.push('/mark_items')
       }
     },
+    getAllData() {
+      this.filteredData = this.baseFoodData
+      this.filteredCustomizeData = this.customizeDataList
+    },
   },
-
   created() {
-    this.filteredData = this.baseFoodData
+    this.getAllData()
   },
 }
 </script>
 
 <style lang="scss" scoped>
-* {
-  // border: 1px solid;
-}
-
 ul.list-group {
   --bs-list-group-border-width: none;
 }
 
 .visibleHeight {
-  height: 60vh;
+  height: 72vh;
+}
+
+.formVisibleHeight {
+  height: 77vh;
 }
 
 .delBtn-xs {
