@@ -81,7 +81,7 @@
                   :key="item.id"
                   @click="chooseSample(item)"
                   type="button"
-                  class="list-group-item list-group-item-action"
+                  class="list-group-item list-group-item-action px-1"
                   aria-current="true"
                 >
                   <p class="mb-0 px-2">{{ item.sample_name }}</p>
