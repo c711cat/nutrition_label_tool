@@ -54,9 +54,17 @@
                   class="list-group-item list-group-item-action px-1"
                   aria-current="true"
                 >
-                  <p class="mb-0 px-2">{{ item.sample_name }}</p>
+                  <p class="mb-0 px-2">
+                    {{ item.sample_name }}
+                  </p>
                   <p v-if="item.common_name" class="mb-0 px-2 text-secondary">
-                    俗名：{{ item.common_name }}
+                    俗名:{{ item.common_name }}
+                  </p>
+                  <p
+                    v-if="item.content_description"
+                    class="mb-0 px-2 text-secondary"
+                  >
+                    {{ item.content_description }}
                   </p>
                 </button>
                 <div v-if="filteredData.length === 0" class="mt-5">
@@ -351,9 +359,6 @@ export default {
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
-    getCustomizeDataBase() {
-      console.log(this.customizeDataList)
-    },
     showBuiltInDataBase() {
       this.isBuiltIn = true
       this.isCustomize = false
@@ -446,12 +451,13 @@ export default {
         this.$router.push('/mark_items')
       }
     },
+    getAllData() {
+      this.filteredData = this.baseFoodData
+      this.filteredCustomizeData = this.customizeDataList
+    },
   },
-
   created() {
-    this.filteredData = this.baseFoodData
-    this.filteredCustomizeData = this.customizeDataList
-    this.getCustomizeDataBase()
+    this.getAllData()
   },
 }
 </script>
@@ -480,8 +486,5 @@ ul.list-group {
 
 .infoStyle {
   font-size: 14px;
-}
-* {
-  border: 1px solid;
 }
 </style>
