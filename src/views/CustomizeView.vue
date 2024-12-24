@@ -1,6 +1,6 @@
 <template>
   <div class="container col-lg-9 mt-4">
-    <h3 class="text-center py-3">新增自訂義食材</h3>
+    <h3 class="text-center py-3">新增自訂義資料</h3>
     <form
       @submit.prevent="submitForm"
       class="row m-0 justify-content-between"
@@ -28,6 +28,7 @@
             v-model.trim="customizeData.content_description"
             type="text"
             class="form-control"
+            :class="getStyle"
             id="content_description"
             placeholder="成分 （ 填入相同於包裝上顯示的成分 ）"
             required
@@ -185,6 +186,17 @@ export default {
       'customizeData',
       'baseClaimNts',
     ]),
+    getStyle() {
+      console.log(this.$route.path)
+      if (this.$route.path === '/customize' && window.innerWidth < 475) {
+        return 'pt-5'
+      }
+      if (this.$route.path === '/nutrition_label' && window.innerWidth < 501) {
+        return 'pt-5'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     ...mapActions(useCustomizeStore, ['setCustomData']),
@@ -228,14 +240,9 @@ export default {
       this.$refs.customizeClaimNtsModal.showModal(this.customizeData)
     },
   },
-
   created() {
     this.getHeader()
   },
 }
 </script>
-<style lang="scss" scoped>
-* {
-  // border: 1px solid;
-}
-</style>
+

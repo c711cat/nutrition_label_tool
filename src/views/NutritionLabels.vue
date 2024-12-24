@@ -41,13 +41,14 @@
             >
               <p class="mb-2 fw-bold px-3">皆無相符品項</p>
               <p class="px-3">若該品項有營養標示，可自行新增資料</p>
-              <router-link
-                to="/customize"
+
+              <button
+                @click="openCustomizeBaseDataModal"
                 type="button"
                 class="btn btn-sm btn-outline-primary"
               >
-                前往新增資料
-              </router-link>
+                新增自定義資料
+              </button>
             </div>
             <div v-else>
               <section
@@ -79,13 +80,13 @@
                   <p class="mb-0 text-center fw-bold">內建資料庫中</p>
                   <p class="mb-0 text-center fw-bold">無相符品項</p>
                   <p class="px-3">若該品項有營養標示，可自行新增資料</p>
-                  <router-link
-                    to="/customize"
+                  <button
+                    @click="openCustomizeBaseDataModal"
                     type="button"
                     class="btn btn-sm btn-outline-primary"
                   >
-                    前往新增資料
-                  </router-link>
+                    新增自定義資料
+                  </button>
                 </div>
               </section>
               <section
@@ -112,13 +113,13 @@
                   <p class="mb-0 text-center fw-bold">自定義資料庫中</p>
                   <p class="mb-2 text-center fw-bold">無相符品項</p>
                   <p class="px-3">若該品項有營養標示，可自行新增資料</p>
-                  <router-link
-                    to="/customize"
+                  <button
+                    @click="openCustomizeBaseDataModal"
                     type="button"
                     class="btn btn-sm btn-outline-primary"
                   >
-                    前往新增資料
-                  </router-link>
+                    新增自定義資料
+                  </button>
                 </div>
               </section>
             </div>
@@ -362,6 +363,7 @@
       </div>
     </div>
   </main>
+  <CustomizeBaseDataModal ref="customizeBaseDataModal" />
 </template>
 
 <script>
@@ -369,6 +371,7 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
+import CustomizeBaseDataModal from '@/components/CustomizeBaseDataModal.vue'
 export default {
   data() {
     return {
@@ -379,7 +382,7 @@ export default {
       isCustomize: false,
     }
   },
-
+  components: { CustomizeBaseDataModal },
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
     ...mapState(useCustomizeStore, ['customizeDataList']),
@@ -481,6 +484,9 @@ export default {
     getAllData() {
       this.filteredData = this.baseFoodData
       this.filteredCustomizeData = this.customizeDataList
+    },
+    openCustomizeBaseDataModal() {
+      this.$refs.customizeBaseDataModal.showModal()
     },
   },
   created() {
