@@ -383,9 +383,22 @@ export default {
     }
   },
   components: { CustomizeBaseDataModal },
+  watch: {
+    customizeModal: {
+      handler(val) {
+        if (val.switch === false && this.$route.path === '/nutrition_label') {
+          this.showCustomizeDataBase()
+          this.searchFood(val.title)
+          document.getElementById('searchInput').value = val.title
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
-    ...mapState(useCustomizeStore, ['customizeDataList']),
+    ...mapState(useCustomizeStore, ['customizeDataList', 'customizeModal']),
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
