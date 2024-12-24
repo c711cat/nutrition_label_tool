@@ -5,9 +5,9 @@
       <router-link to="/added_custom_nts" class="btn btn-outline-primary me-3">
         已新增營養素列表
       </router-link>
-      <router-link to="/customize" class="btn btn-outline-primary">
+      <button @click="openModal" class="btn btn-outline-primary">
         新增自定義品項
-      </router-link>
+      </button>
     </div>
 
     <div
@@ -112,20 +112,21 @@
     </div>
   </div>
   <DoubleCheckModal ref="doubleCheckModal" />
+  <CustomizeBaseDataModal ref="customizeBaseDataModal" />
 </template>
 <script>
 import { mapState, mapActions } from 'pinia'
 import { useCustomizeStore } from '@/stores/customizeStore'
 import { useFoodStore } from '@/stores/foodDataStore'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
-
+import CustomizeBaseDataModal from '@/components/CustomizeBaseDataModal.vue'
 export default {
   data() {
     return {
       updateSortData: [],
     }
   },
-  components: { DoubleCheckModal },
+  components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
     ...mapState(useCustomizeStore, ['customizeDataList', 'customizeData']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
@@ -173,6 +174,9 @@ export default {
     },
     isPath(id) {
       return (this.$route.path = `/edit_customize/${id}`)
+    },
+    openModal() {
+      this.$refs.customizeBaseDataModal.showModal()
     },
   },
   created() {
