@@ -227,10 +227,7 @@ export default {
       'customizeModal',
     ]),
     getStyle() {
-      if (this.$route.path === '/customize' && window.innerWidth < 475) {
-        return 'pt-5'
-      }
-      if (this.$route.path === '/nutrition_label' && window.innerWidth < 501) {
+      if (window.innerWidth < 451) {
         return 'pt-5'
       } else {
         return ''
