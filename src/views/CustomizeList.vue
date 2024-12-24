@@ -93,14 +93,13 @@
         </table>
       </section>
       <div class="text-end my-3">
-        <router-link
-          :to="isPath(item.id)"
-          @click="editCustomizeData(item)"
+        <button
+          @click="openModal(item)"
           type="button"
           class="btn btn-outline-primary me-3"
         >
           編輯
-        </router-link>
+        </button>
         <button
           @click="opendelModal(item, index)"
           type="button"
@@ -126,9 +125,24 @@ export default {
       updateSortData: [],
     }
   },
+  watch: {
+    customizeModal: {
+      handler(val) {
+        if (val.switch === false) {
+          location.reload()
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
-    ...mapState(useCustomizeStore, ['customizeDataList', 'customizeData']),
+    ...mapState(useCustomizeStore, [
+      'customizeDataList',
+      'customizeData',
+      'customizeModal',
+    ]),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
   methods: {
@@ -175,8 +189,11 @@ export default {
     isPath(id) {
       return (this.$route.path = `/edit_customize/${id}`)
     },
-    openModal() {
+    openModal(item) {
       this.$refs.customizeBaseDataModal.showModal()
+      if (item) {
+        this.editCustomizeData(item)
+      }
     },
   },
   created() {

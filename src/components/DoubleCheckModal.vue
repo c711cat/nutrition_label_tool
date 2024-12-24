@@ -114,9 +114,6 @@ export default {
     customizeCheckedOK() {
       this.customizeDoubleCheckedOK()
       this.modal.hide()
-      if (this.$router.path === '/customize') {
-        this.$router.push('/customize_list')
-      }
     },
     showDelModal(item, index) {
       this.title = item.title
