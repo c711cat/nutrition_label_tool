@@ -1,7 +1,7 @@
 <template>
   <div
     ref="customizeBaseDataModal"
-    class="modal fade col-12"
+    class="modal fade"
     id="staticBackdrop"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
@@ -12,9 +12,9 @@
     <div
       class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen"
     >
-      <div class="modal-content">
-        <div class="modal-header border-0">
-          <h3 class="text-center py-3">新增自訂義資料</h3>
+      <div class="modal-content px-3">
+        <div class="modal-header border-0 mx-auto col-12 col-lg-11 col-xl-10">
+          <h3 class="py-2">新增自訂義資料</h3>
           <button
             type="button"
             class="btn-close"
@@ -22,13 +22,13 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body p-0">
+        <div class="modal-body p-0 mx-auto col-12 col-lg-11 col-xl-10">
           <form
             @submit.prevent="submitForm"
             class="row m-0 justify-content-between"
             novalidate
           >
-            <div class="py-3 col-12 col-lg">
+            <div class="py-3 col-12 col-md">
               <div class="form-floating mb-3">
                 <input
                   v-model.trim="customizeData.sample_name"
@@ -63,7 +63,7 @@
               </div>
             </div>
 
-            <div class="py-3 col-12 col-lg-auto mb-5">
+            <div class="py-3 col-12 col-md-auto mb-5">
               <table class="mb-4">
                 <thead>
                   <tr>
@@ -154,7 +154,7 @@
               </div>
             </div>
             <div class="text-end py-4">
-              <button type="submit" class="col-12 col-lg-auto btn btn-primary">
+              <button type="submit" class="col-12 col-md-3 col-lg-auto btn btn-primary">
                 送出資料
               </button>
             </div>
@@ -227,7 +227,7 @@ export default {
       'customizeModal',
     ]),
     getStyle() {
-      if (window.innerWidth < 451) {
+      if (window.innerWidth < 483) {
         return 'pt-5'
       } else {
         return ''
