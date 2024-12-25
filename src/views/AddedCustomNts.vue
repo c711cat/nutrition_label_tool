@@ -68,7 +68,7 @@ export default {
       this.$refs.addCustomNtsModal.showModal()
     },
     openDoubleCheckModal(value, key, index) {
-      this.$refs.doubleCheckModal.showDelNtsModal(value, key, index)
+      this.$refs.doubleCheckModal.showDelNtModal(value, key, index)
     },
     used(key) {
       return this.customDataList.some(item => key in item)

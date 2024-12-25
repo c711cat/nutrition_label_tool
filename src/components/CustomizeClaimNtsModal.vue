@@ -142,6 +142,10 @@
                 <p class="mb-2 fw-bold">
                   <i class="text-danger fst-normal me-1">＊</i>
                   營養素類別
+                  <i class="bi bi-info-circle ms-2 me-1 text-secondary"></i>
+                  <span class="text-secondary fw-normal"
+                    >以下選擇與熱量計算有關</span
+                  >
                 </p>
                 <div class="form-check form-check-inline">
                   <input
@@ -197,7 +201,7 @@
 
           <section v-else>
             <div
-              v-for="(value, key) in filteredMyAddedNts"
+              v-for="(value, key, index) in filteredMyAddedNts"
               :key="key"
               class="form-check px-4 ms-2 d-flex align-items-center"
             >
@@ -214,11 +218,20 @@
                 </label>
               </div>
 
-              <div class="">
+              <div class="d-flex align-items-center">
                 <button
+                  @click="openDoubleCheckModal(value, key, index)"
+                  :disabled="localNewClaimNts.includes(key)"
                   type="button"
                   class="btn btn-sm btn-outline-danger bi bi-trash3"
                 ></button>
+                <p
+                  v-if="localNewClaimNts.includes(key)"
+                  class="mb-0 px-2 text-secondary"
+                >
+                  <i class="bi bi-info-circle"></i>
+                  若需刪除，則取消勾選
+                </p>
               </div>
             </div>
 
@@ -264,6 +277,7 @@
       </div>
     </div>
   </div>
+  <DoubleCheckModal ref="doubleCheckModal" />
 </template>
 
 <script>
@@ -272,6 +286,7 @@ import { useFoodStore } from '@/stores/foodDataStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
 import { useMsgStore } from '@/stores/messageStore'
 import { mapState, mapActions } from 'pinia'
+import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 
 export default {
   data() {
@@ -287,12 +302,13 @@ export default {
       chName: '',
       unit: '公克(g)',
       type: '以上皆非',
-      myAddedNtsList: [],
+      localMyAddedNtsList: [],
       myAddedNts: [],
       filteredMyAddedNts: [],
       searchText: '',
     }
   },
+  components: { DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['headerChineseAndEnglish', 'myProductList']),
     ...mapState(useCustomizeStore, [
@@ -300,6 +316,7 @@ export default {
       'newClaimNts',
       'customizeData',
       'customizeDataList',
+      'myAddedNtsList',
     ]),
   },
   watch: {
@@ -313,6 +330,13 @@ export default {
     newClaimNts: {
       handler(val) {
         this.localNewClaimNts = val
+      },
+      deep: true,
+      immediate: true,
+    },
+    myAddedNtsList: {
+      handler() {
+        this.getMyAddedNts()
       },
       deep: true,
       immediate: true,
@@ -388,8 +412,11 @@ export default {
         quantity: '',
       }
       this.localNewClaimNts.push(this.enName) // 為了立即顯示在Modal已新增營養素畫面中
-      this.myAddedNtsList.push(data) // 加入剛新增的項目到 myAddedNts 中，再將全部的 myAddedNts setItem 到 localStorage 中
-      localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
+      this.localMyAddedNtsList.push(data) // 加入剛新增的項目到 myAddedNts 中，再將全部的 myAddedNts setItem 到 localStorage 中
+      localStorage.setItem(
+        'myAddedNts',
+        JSON.stringify(this.localMyAddedNtsList),
+      )
       this.getMyAddedNts() // 呼叫重新取得全部 myAddedNts，為了可以立即顯示在選項中
       this.type = '以上皆非'
       this.enName = ''
@@ -400,7 +427,7 @@ export default {
     },
     getMyAddedNts() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
-      this.myAddedNtsList = data // 將已新增的先存在 myAddedNtsList
+      this.localMyAddedNtsList = data // 將已新增的先存在 myAddedNtsList
       // 以下 將已新增的營養素英文名設定為 key，中文名設定為 value，與內建營養素呈現方式一致
       let ntName = {}
       data.forEach(item => {
@@ -409,6 +436,9 @@ export default {
       })
       this.myAddedNts = ntName
       this.filteredMyAddedNts = ntName
+    },
+    openDoubleCheckModal(value, key, index) {
+      this.$refs.doubleCheckModal.showDelNtModal(value, key, index)
     },
   },
   created() {
@@ -424,5 +454,9 @@ export default {
 .addedNts {
   height: 40px;
   overflow-y: scroll;
+}
+
+* {
+  // border: 1px solid;
 }
 </style>

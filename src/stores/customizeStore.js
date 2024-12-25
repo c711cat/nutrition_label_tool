@@ -148,6 +148,12 @@ export const useCustomizeStore = defineStore('customStore', {
         this.integrateNewClaimNts(newNts)
       }
     },
+    delCustomizeNt(index) {
+      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
+      this.myAddedNtsList.splice(index, 1)
+      localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
+      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts'))
+    },
     integrateBaseClaimNts(nts) {
       let data = [...nts]
       // customizeData.baseClaimNts 與目前的 this.baseClaimNts 比對
