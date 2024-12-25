@@ -1,6 +1,6 @@
 <template>
   <div ref="nutrientsModal" class="modal" tabindex="-1">
-    <div class="border border rounded-4 modal-dialog modal-dialog-scrollable">
+    <div class="rounded-4 modal-dialog modal-dialog-scrollable">
       <div class="rounded-4 modal-content">
         <div
           class="border-0 pt-2 pb-3 bg-light modal-header flex-column align-items-start"
