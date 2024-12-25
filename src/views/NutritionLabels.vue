@@ -1,7 +1,7 @@
 <template>
-  <main class="mx-auto col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mt-4">
+  <main class="mx-auto px-3 col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mt-4">
     <h3 class="text-center mb-4">營養標示製作</h3>
-    <section class="form-floating mb-5 mx-3">
+    <section class="form-floating mb-5 mx-1">
       <input
         @change="e => searchFood(e.target.value)"
         type="search"
@@ -13,7 +13,7 @@
     </section>
     <div class="col-12 ps-1">
       <div class="row col-12 mx-0 mb-5">
-        <section class="bg-light py-2 border rounded-4 col-5 col-xl-3">
+        <section class="bg-light py-2 border rounded-3 col-5 col-xl-3">
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
               @click="showBuiltInDataBase"
