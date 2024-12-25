@@ -13,7 +13,7 @@
     </section>
     <div class="col-12 ps-1">
       <div class="row col-12 mx-0 mb-5">
-        <div class="col-5 col-xl-3">
+        <section class="bg-light py-2 border rounded-4 col-5 col-xl-3">
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
               @click="showBuiltInDataBase"
@@ -124,12 +124,12 @@
               </section>
             </div>
           </section>
-        </div>
+        </section>
 
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
+          class="row mx-0 mt-2 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
           <section class="col-12 col-xl-6 mb-3">
