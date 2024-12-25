@@ -20,6 +20,7 @@ export const useCustomizeStore = defineStore('customStore', {
     customizeData: {},
     toDo: '',
     ntName: { englishName: '', chineseName: '', unit: '' },
+    customizeModal: { switch: true, title: '' },
   }),
   getters: {
     localStorageCustomizeData: ({ customizeDataList }) => {
@@ -39,6 +40,9 @@ export const useCustomizeStore = defineStore('customStore', {
     },
     localStorageMyAddedNtsList: ({ myAddedNtsList }) => {
       return myAddedNtsList
+    },
+    customizeBaseDataModal: ({ customizeModal }) => {
+      return customizeModal
     },
     ...mapState(useFoodStore, ['baseFoodData']),
   },
@@ -104,9 +108,14 @@ export const useCustomizeStore = defineStore('customStore', {
           return item // 如果不是該 id，則保持原值
         })
       }
+      this.customizeModal.switch = false
+      this.customizeModal.title = this.customizeData.sample_name
       this.setCustomData(this.customizeDataList)
       this.clearCustomizeData()
       this.clearClaimNts()
+      setTimeout(() => {
+        this.customizeModal.switch = true
+      }, 1000)
     },
     addCustomNts() {
       const Nts = {

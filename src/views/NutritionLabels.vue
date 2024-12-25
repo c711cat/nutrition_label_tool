@@ -1,7 +1,7 @@
 <template>
-  <main class="mx-auto col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mt-4">
+  <main class="mx-auto px-3 col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mt-4">
     <h3 class="text-center mb-4">營養標示製作</h3>
-    <section class="form-floating mb-5 mx-3">
+    <section class="form-floating mb-5 mx-1">
       <input
         @change="e => searchFood(e.target.value)"
         type="search"
@@ -13,7 +13,7 @@
     </section>
     <div class="col-12 ps-1">
       <div class="row col-12 mx-0 mb-5">
-        <div class="col-5 col-xl-3">
+        <section class="bg-light py-2 border rounded-3 col-5 col-xl-3">
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
               @click="showBuiltInDataBase"
@@ -41,13 +41,14 @@
             >
               <p class="mb-2 fw-bold px-3">皆無相符品項</p>
               <p class="px-3">若該品項有營養標示，可自行新增資料</p>
-              <router-link
-                to="/customize"
+
+              <button
+                @click="openCustomizeBaseDataModal"
                 type="button"
                 class="btn btn-sm btn-outline-primary"
               >
-                前往新增資料
-              </router-link>
+                新增自定義資料
+              </button>
             </div>
             <div v-else>
               <section
@@ -79,13 +80,13 @@
                   <p class="mb-0 text-center fw-bold">內建資料庫中</p>
                   <p class="mb-0 text-center fw-bold">無相符品項</p>
                   <p class="px-3">若該品項有營養標示，可自行新增資料</p>
-                  <router-link
-                    to="/customize"
+                  <button
+                    @click="openCustomizeBaseDataModal"
                     type="button"
                     class="btn btn-sm btn-outline-primary"
                   >
-                    前往新增資料
-                  </router-link>
+                    新增自定義資料
+                  </button>
                 </div>
               </section>
               <section
@@ -112,23 +113,23 @@
                   <p class="mb-0 text-center fw-bold">自定義資料庫中</p>
                   <p class="mb-2 text-center fw-bold">無相符品項</p>
                   <p class="px-3">若該品項有營養標示，可自行新增資料</p>
-                  <router-link
-                    to="/customize"
+                  <button
+                    @click="openCustomizeBaseDataModal"
                     type="button"
                     class="btn btn-sm btn-outline-primary"
                   >
-                    前往新增資料
-                  </router-link>
+                    新增自定義資料
+                  </button>
                 </div>
               </section>
             </div>
           </section>
-        </div>
+        </section>
 
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row m-0 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
+          class="row mx-0 mt-2 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
           <section class="col-12 col-xl-6 mb-3">
@@ -362,6 +363,7 @@
       </div>
     </div>
   </main>
+  <CustomizeBaseDataModal ref="customizeBaseDataModal" />
 </template>
 
 <script>
@@ -369,6 +371,7 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
+import CustomizeBaseDataModal from '@/components/CustomizeBaseDataModal.vue'
 export default {
   data() {
     return {
@@ -379,10 +382,23 @@ export default {
       isCustomize: false,
     }
   },
-
+  components: { CustomizeBaseDataModal },
+  watch: {
+    customizeModal: {
+      handler(val) {
+        if (val.switch === false && this.$route.path === '/nutrition_label') {
+          this.showCustomizeDataBase()
+          this.searchFood(val.title)
+          document.getElementById('searchInput').value = val.title
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
-    ...mapState(useCustomizeStore, ['customizeDataList']),
+    ...mapState(useCustomizeStore, ['customizeDataList', 'customizeModal']),
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
@@ -481,6 +497,9 @@ export default {
     getAllData() {
       this.filteredData = this.baseFoodData
       this.filteredCustomizeData = this.customizeDataList
+    },
+    openCustomizeBaseDataModal() {
+      this.$refs.customizeBaseDataModal.showModal()
     },
   },
   created() {

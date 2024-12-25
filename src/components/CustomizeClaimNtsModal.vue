@@ -1,13 +1,20 @@
 <template>
   <div ref="nutrientsModal" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header flex-column align-items-start">
-          <div class="w-100 mb-3 p-2 d-flex justify-content-between">
-            <h4 class="modal-title">新增其他營養素</h4>
+    <div class="rounded-4 modal-dialog modal-dialog-scrollable">
+      <div class="rounded-4 modal-content">
+        <div
+          class="border-0 pt-2 pb-3 bg-light modal-header flex-column align-items-start"
+          :class="
+            localBaseClaimNts.length > 0 || localNewClaimNts.length > 0
+              ? ''
+              : 'border-bottom'
+          "
+        >
+          <div class="w-100 mb-2 d-flex justify-content-between">
+            <h4 class="modal-title p-1">新增其他營養素</h4>
             <button
               type="button"
-              class="btn-close"
+              class="btn-close mt-1"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
@@ -23,27 +30,29 @@
             />
             <label for="searchInput">搜尋 中文 或 英文 營養素</label>
           </section>
-          <section
-            class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
-          >
-            <span class="ms-1">已新增營養素：</span>
+        </div>
+        <section
+          v-if="localBaseClaimNts.length > 0 || localNewClaimNts.length > 0"
+          class="bg-light pb-2 border-bottom d-flex flex-wrap justify-content-start align-items-center"
+        >
+          <p class="ms-3 ps-1 mb-0">已新增營養素：</p>
+          <div class="addedNts w-100 ms-3">
             <span
               v-for="(nt, index) in localBaseClaimNts"
               :key="nt + index"
-              class="border badge text-bg-light fs-6 m-1"
+              class="badge text-primary-emphasis bg-primary-subtle border-primary-subtle fs-6 m-1"
             >
               {{ nts[nt].replace(/\(.*\)/, '') }}
             </span>
             <span
               v-for="(value, key) in localNewClaimNts"
               :key="key"
-              class="border badge text-bg-dark fs-6 m-1"
+              class="badge text-dark-emphasis bg-dark-subtle border-dark-subtle fs-6 m-1"
             >
               {{ myAddedNts[value].replace(/\(.*\)/, '') }}
             </span>
-          </section>
-        </div>
-
+          </div>
+        </section>
         <div class="modal-body">
           <section
             v-if="
@@ -222,7 +231,7 @@
             </div>
           </section>
         </div>
-        <div class="modal-footer">
+        <div class="bg-light modal-footer">
           <button
             type="button"
             class="btn btn-secondary"
@@ -401,3 +410,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.addedNts {
+  height: 40px;
+  overflow-y: scroll;
+}
+</style>

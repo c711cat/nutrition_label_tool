@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <h3 class="text-center mb-5">自定義品項列表</h3>
+    <h3 class="text-center mb-5">自定義資料庫</h3>
     <div class="text-end">
       <router-link to="/added_custom_nts" class="btn btn-outline-primary me-3">
         已新增營養素列表
       </router-link>
-      <router-link to="/customize" class="btn btn-outline-primary">
-        新增自定義品項
-      </router-link>
+      <button @click="openModal" class="btn btn-outline-primary">
+        新增
+      </button>
     </div>
 
     <div
@@ -93,14 +93,13 @@
         </table>
       </section>
       <div class="text-end my-3">
-        <router-link
-          :to="isPath(item.id)"
-          @click="editCustomizeData(item)"
+        <button
+          @click="openModal(item)"
           type="button"
           class="btn btn-outline-primary me-3"
         >
           編輯
-        </router-link>
+        </button>
         <button
           @click="opendelModal(item, index)"
           type="button"
@@ -112,22 +111,38 @@
     </div>
   </div>
   <DoubleCheckModal ref="doubleCheckModal" />
+  <CustomizeBaseDataModal ref="customizeBaseDataModal" />
 </template>
 <script>
 import { mapState, mapActions } from 'pinia'
 import { useCustomizeStore } from '@/stores/customizeStore'
 import { useFoodStore } from '@/stores/foodDataStore'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
-
+import CustomizeBaseDataModal from '@/components/CustomizeBaseDataModal.vue'
 export default {
   data() {
     return {
       updateSortData: [],
     }
   },
-  components: { DoubleCheckModal },
+  watch: {
+    customizeModal: {
+      handler(val) {
+        if (val.switch === false) {
+          location.reload()
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
-    ...mapState(useCustomizeStore, ['customizeDataList', 'customizeData']),
+    ...mapState(useCustomizeStore, [
+      'customizeDataList',
+      'customizeData',
+      'customizeModal',
+    ]),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
   },
   methods: {
@@ -173,6 +188,12 @@ export default {
     },
     isPath(id) {
       return (this.$route.path = `/edit_customize/${id}`)
+    },
+    openModal(item) {
+      this.$refs.customizeBaseDataModal.showModal()
+      if (item) {
+        this.editCustomizeData(item)
+      }
     },
   },
   created() {

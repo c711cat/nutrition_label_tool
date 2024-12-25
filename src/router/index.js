@@ -24,14 +24,6 @@ const router = createRouter({
           component: () => import('@/views/CustomizeList.vue'),
         },
         {
-          path: 'customize',
-          component: () => import('@/views/CustomizeView.vue'),
-        },
-        {
-          path: 'edit_customize/:id',
-          component: () => import('@/views/CustomizeView.vue'),
-        },
-        {
           path: 'edit_nutrition_label/:id',
           component: () => import('@/views/NutritionLabels.vue'),
         },
