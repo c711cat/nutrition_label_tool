@@ -199,18 +199,27 @@
             <div
               v-for="(value, key) in filteredMyAddedNts"
               :key="key"
-              class="form-check px-4 py-1 ms-2"
+              class="form-check px-4 ms-2 d-flex align-items-center"
             >
-              <input
-                v-model="localNewClaimNts"
-                :value="key"
-                :id="key"
-                class="form-check-input"
-                type="checkbox"
-              />
-              <label :for="key" class="form-check-label">
-                {{ value }}
-              </label>
+              <div class="col-4 col-sm-3">
+                <input
+                  v-model="localNewClaimNts"
+                  :value="key"
+                  :id="key"
+                  class="form-check-input"
+                  type="checkbox"
+                />
+                <label :for="key" class="form-check-label">
+                  {{ value }}
+                </label>
+              </div>
+
+              <div class="">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger bi bi-trash3"
+                ></button>
+              </div>
             </div>
 
             <div
