@@ -186,6 +186,17 @@ export default {
       localMyAddedNtsList: [],
     }
   },
+  watch: {
+    // 為了刪除後可以同步更新 this.localMyAddedNtsList 內容，
+    // 刪除後，若馬上又新增相同名稱才不會顯示已存在
+    myAddedNtsList: {
+      handler() {
+        this.getMyAddedNtsList()
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   computed: { ...mapState(useCustomizeStore, ['myAddedNtsList']) },
   methods: {
     ...mapActions(useMsgStore, ['openAlert', 'pushMsg']),
