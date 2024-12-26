@@ -113,9 +113,11 @@ export const useCustomizeStore = defineStore('customStore', {
         this.customizeModal.switch = true
       }, 1000)
     },
-
-    addNts(nts, newNts) {
+    getMyAddedNtsList() {
       this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
+    },
+    addNts(nts, newNts) {
+      this.getMyAddedNtsList()
       this.baseClaimNts = [...nts]
       this.newClaimNts = [...newNts]
       if (!this.customizeData.id) {
@@ -134,10 +136,10 @@ export const useCustomizeStore = defineStore('customStore', {
       }
     },
     delCustomizeNt(index, title) {
-      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
+      this.getMyAddedNtsList()
       this.myAddedNtsList.splice(index, 1)
       localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
-      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts'))
+      this.getMyAddedNtsList()
       const data = {}
       data.title = title + '刪除成功'
       data.style = 'success'
