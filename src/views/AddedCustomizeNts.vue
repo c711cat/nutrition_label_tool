@@ -63,11 +63,11 @@
       </div>
     </div>
   </div>
-  <AddCustomNtsModal ref="addCustomNtsModal" />
+  <NewClaimNtsModal ref="newClaimNtsModal" />
   <DoubleCheckModal ref="doubleCheckModal" />
 </template>
 <script>
-import AddCustomNtsModal from '@/components/CustomNtsModal.vue'
+import NewClaimNtsModal from '@/components/NewClaimNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import { useFoodStore } from '@/stores/foodDataStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
@@ -76,14 +76,14 @@ export default {
   data() {
     return {}
   },
-  components: { AddCustomNtsModal, DoubleCheckModal },
+  components: { NewClaimNtsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['onlyNewAddHeader']),
     ...mapState(useCustomizeStore, ['customizeDataList', 'myAddedNtsList']),
   },
   methods: {
     openAddNtsModal() {
-      this.$refs.addCustomNtsModal.showModal()
+      this.$refs.newClaimNtsModal.showModal()
     },
     openDoubleCheckModal(index, item) {
       this.$refs.doubleCheckModal.showDelAddedNtModal(index, item)
