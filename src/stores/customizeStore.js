@@ -19,7 +19,6 @@ export const useCustomizeStore = defineStore('customStore', {
     newClaimNts: [],
     customizeData: {},
     toDo: '',
-    ntName: { englishName: '', chineseName: '', unit: '' },
     customizeModal: { switch: true, title: '' },
   }),
   getters: {
@@ -34,9 +33,6 @@ export const useCustomizeStore = defineStore('customStore', {
     },
     customizeDataInStore: ({ customizeData }) => {
       return customizeData
-    },
-    nutrientName: ({ ntName }) => {
-      return ntName
     },
     localStorageMyAddedNtsList: ({ myAddedNtsList }) => {
       return myAddedNtsList
@@ -117,18 +113,7 @@ export const useCustomizeStore = defineStore('customStore', {
         this.customizeModal.switch = true
       }, 1000)
     },
-    addCustomNts() {
-      const Nts = {
-        [this.ntName.englishName]:
-          this.ntName.chineseName + '(' + this.ntName.unit + ')',
-      }
-      this.setNewHeaderItem(Nts)
-      setTimeout(() => {
-        this.ntName.englishName = ''
-        this.ntName.chineseName = ''
-        this.ntName.unit = ''
-      }, 2000)
-    },
+
     addNts(nts, newNts) {
       this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
       this.baseClaimNts = [...nts]
