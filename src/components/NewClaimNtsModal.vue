@@ -226,6 +226,12 @@ export default {
       msgData.title = this.enName + '：' + this.chName + '新增成功'
       msgData.style = 'success'
       this.pushMsg(msgData)
+      setTimeout(() => {
+        this.enName = ''
+        this.chName = ''
+        this.unit = '公克(g)'
+        this.type = '以上皆非'
+      }, 1000)
     },
     getMyAddedNtsList() {
       this.localMyAddedNtsList = this.myAddedNtsList
