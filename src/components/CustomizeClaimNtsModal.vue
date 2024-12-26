@@ -143,9 +143,9 @@
                   <i class="text-danger fst-normal me-1">＊</i>
                   營養素類別
                   <i class="bi bi-info-circle ms-2 me-1 text-secondary"></i>
-                  <span class="text-secondary fw-normal"
-                    >以下選擇與熱量計算有關</span
-                  >
+                  <span class="text-secondary fw-normal">
+                    以下選擇與熱量計算有關
+                  </span>
                 </p>
                 <div class="form-check form-check-inline">
                   <input
