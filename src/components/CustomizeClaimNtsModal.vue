@@ -221,17 +221,23 @@
               <div class="d-flex align-items-center">
                 <button
                   @click="openDoubleCheckModal(value, key, index)"
-                  :disabled="localNewClaimNts.includes(key)"
+                  :disabled="localNewClaimNts.includes(key) || used(key)"
                   type="button"
                   class="btn btn-sm btn-outline-danger bi bi-trash3"
                 ></button>
-                <p
-                  v-if="localNewClaimNts.includes(key)"
-                  class="mb-0 px-2 text-secondary"
-                >
-                  <i class="bi bi-info-circle"></i>
-                  若需刪除，則取消勾選
-                </p>
+                <div>
+                  <p
+                    v-if="localNewClaimNts.includes(key) && !used(key)"
+                    class="mb-0 px-2 text-secondary"
+                  >
+                    <i class="bi bi-info-circle"></i>
+                    若需刪除，則取消勾選
+                  </p>
+                  <p v-if="used(key)" class="px-2 text-secondary mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    自定義資料中已使用，不予刪除
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -439,6 +445,19 @@ export default {
     },
     openDoubleCheckModal(value, key, index) {
       this.$refs.doubleCheckModal.showDelNtModal(value, key, index)
+    },
+    used(itemEnName) {
+      let result = false
+      this.customizeDataList.forEach(item => {
+        if (item.newClaimNts) {
+          item.newClaimNts.some(Nt => {
+            if (Nt.enName === itemEnName) {
+              result = true
+            }
+          })
+        }
+      })
+      return result
     },
   },
   created() {
