@@ -5,7 +5,7 @@
       <button
         @click="openAddNtsModal"
         type="button"
-        class="btn btn-outline-primary mb-3 me-3"
+        class="btn btn-outline-primary mb-3"
       >
         新增
       </button>
@@ -17,7 +17,7 @@
         :key="item"
         class="col-md-6 col-lg-4 mb-3"
       >
-        <div class="card">
+        <div class="card bg-light">
           <div
             class="card-body d-flex flex-column justify-content-between"
             :class="used(item.enName) ? 'pb-2' : ''"
