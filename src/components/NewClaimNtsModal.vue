@@ -185,6 +185,7 @@ export default {
       unit: '公克(g)',
       type: '以上皆非',
       localMyAddedNtsList: [],
+      editIndex: '',
     }
   },
   watch: {
@@ -249,13 +250,28 @@ export default {
         }
       })
     },
-    showModal() {
+    showModal(index, item) {
+      if ((index, item)) {
+        this.type = item.type
+        this.enName = item.enName
+        this.chName = item.chName
+        this.unit = item.unit
+        this.editIndex = index
+      }
       this.modal.show()
     },
     hideModal() {
       this.modal.hide()
     },
     submitCustomNts() {
+      if (this.editIndex !== '') {
+        // edit
+        this.localMyAddedNtsList.splice(1, this.editIndex)
+        setTimeout(() => {
+          this.editIndex = ''
+        }, 1000)
+      }
+      // add
       this.addNt()
       this.hideModal()
     },
@@ -273,7 +289,11 @@ export default {
         JSON.stringify(this.localMyAddedNtsList),
       )
       const msgData = {}
-      msgData.title = this.enName + '：' + this.chName + '新增成功'
+      if (this.editIndex === '') {
+        msgData.title = this.enName + '：' + this.chName + ' 新增成功'
+      } else {
+        msgData.title = this.enName + '：' + this.chName + ' 修改成功'
+      }
       msgData.style = 'success'
       this.pushMsg(msgData)
       setTimeout(() => {
@@ -284,7 +304,7 @@ export default {
       }, 1000)
     },
     getMyAddedNtsList() {
-      this.localMyAddedNtsList = this.myAddedNtsList
+      this.localMyAddedNtsList = this.myAddedNtsList || []
     },
   },
   created() {

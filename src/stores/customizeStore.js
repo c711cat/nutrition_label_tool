@@ -85,7 +85,7 @@ export const useCustomizeStore = defineStore('customStore', {
       this.customizeDataList.splice(index, 1)
       this.setCustomizeData(this.customizeDataList)
       const data = {}
-      data.title = title + '刪除成功'
+      data.title = title + ' 刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
@@ -141,7 +141,7 @@ export const useCustomizeStore = defineStore('customStore', {
       localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
       this.getMyAddedNtsList()
       const data = {}
-      data.title = title + '刪除成功'
+      data.title = title + ' 刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },

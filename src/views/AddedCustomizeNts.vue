@@ -43,9 +43,16 @@
 
             <div class="text-end">
               <button
+                @click="openEditModal(index, item)"
+                :disabled="used(item.enName)"
+                class="btn btn-outline-primary me-2"
+              >
+                編輯
+              </button>
+              <button
                 @click="openDoubleCheckModal(index, item)"
                 :disabled="used(item.enName)"
-                class="btn btn-danger"
+                class="btn btn-outline-danger"
               >
                 刪除
               </button>
@@ -55,7 +62,7 @@
               >
                 <i class="bi bi-info-circle pe-1"></i>
                 <span>自定義資料中已使用，</span>
-                <span>不予刪除</span>
+                <span>不予編輯及刪除</span>
               </div>
             </div>
           </div>
@@ -84,6 +91,9 @@ export default {
   methods: {
     openAddNtsModal() {
       this.$refs.newClaimNtsModal.showModal()
+    },
+    openEditModal(index, item) {
+      this.$refs.newClaimNtsModal.showModal(index, item)
     },
     openDoubleCheckModal(index, item) {
       this.$refs.doubleCheckModal.showDelAddedNtModal(index, item)
