@@ -152,17 +152,6 @@ export default {
       })
     },
 
-    transText(item) {
-      const chineseAndUnit = this.headerChineseAndEnglish[item]
-      const chinese = chineseAndUnit.replace(/\(.*\)/, '')
-      const textMapping = {
-        粗蛋白: '蛋白質',
-        粗脂肪: '脂肪',
-        總碳水化合物: '碳水化合物',
-        糖質總量: '糖',
-      }
-      return textMapping[chinese] || chinese
-    },
     transUnitText(unit) {
       const unitMapping = {
         kcal: '大卡',
