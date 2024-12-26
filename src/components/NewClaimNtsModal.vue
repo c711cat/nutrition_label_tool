@@ -289,7 +289,6 @@ export default {
   },
   created() {
     this.getMyAddedNtsList()
-    console.log(this.headerChineseAndEnglish)
   },
   mounted() {
     this.modal = new Modal(this.$refs.newClaimNtsModal)
