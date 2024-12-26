@@ -352,7 +352,7 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'pushNTs']),
-    ...mapActions(useCustomizeStore, ['addNts']),
+    ...mapActions(useCustomizeStore, ['addNts', 'showCustomizeDataClaimNts']),
     ...mapActions(useMsgStore, ['openAlert']),
     updateOptionData() {
       this.getMyAddedNts()
@@ -391,7 +391,10 @@ export default {
         }),
       )
     },
-    showModal() {
+    showModal(customizeData) {
+      if (customizeData) {
+        this.showCustomizeDataClaimNts(customizeData)
+      }
       this.modal.show()
     },
     update() {

@@ -175,6 +175,11 @@ export const useCustomizeStore = defineStore('customStore', {
           ...this.customizeData.baseClaimNts,
           ...data,
         }
+      } else {
+        this.customizeData.baseClaimNts = nts.reduce((acc, key) => {
+          acc[key] = '' // 將 nts 的元素作為 key，其 value = ''，進行累加
+          return acc
+        }, {})
       }
     },
     integrateNewClaimNts(newNts) {
@@ -205,6 +210,10 @@ export const useCustomizeStore = defineStore('customStore', {
           ...this.customizeData.newClaimNts,
           ...newItem,
         ]
+      } else {
+        this.customizeData.newClaimNts = this.myAddedNtsList.filter(item => {
+          return this.newClaimNts.includes(item.enName)
+        })
       }
     },
     showProductClaimNts(item) {
@@ -216,6 +225,15 @@ export const useCustomizeStore = defineStore('customStore', {
       } else {
         this.baseClaimNts = []
         this.newClaimNts = []
+      }
+    },
+    showCustomizeDataClaimNts(customizeData) {
+      if (customizeData.newClaimNts) {
+        customizeData.newClaimNts.forEach(item => {
+          if (!this.newClaimNts.includes(item.enName)) {
+            this.newClaimNts.push(item.enName)
+          }
+        })
       }
     },
   },

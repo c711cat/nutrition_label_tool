@@ -145,7 +145,6 @@ export default {
     },
     // 自行新增營養素清單頁面傳來的參數
     showDelAddedNtModal(index, item) {
-      console.log(index, item)
       this.title = item.enName + ' : ' + item.chName
       this.delNtIndex = index
       this.text = '確定刪除' + '『 ' + item.enName + ' : ' + item.chName + ' 』'
