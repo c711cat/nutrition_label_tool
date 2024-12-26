@@ -174,6 +174,7 @@ import Modal from 'bootstrap/js/dist/modal'
 import { mapActions, mapState } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
+import { useFoodStore } from '@/stores/foodDataStore'
 
 export default {
   data() {
@@ -197,7 +198,10 @@ export default {
       immediate: true,
     },
   },
-  computed: { ...mapState(useCustomizeStore, ['myAddedNtsList']) },
+  computed: {
+    ...mapState(useCustomizeStore, ['myAddedNtsList']),
+    ...mapState(useFoodStore, ['headerChineseAndEnglish']),
+  },
   methods: {
     ...mapActions(useMsgStore, ['openAlert', 'pushMsg']),
     submitForm(e) {
@@ -219,12 +223,28 @@ export default {
           this.enName = ''
         }
       })
+
+      Object.keys(this.headerChineseAndEnglish).forEach(item => {
+        // 去除括號，取得括號前方的文字 ： item.replace(/\(.*\)/, '')
+        if (item.replace(/\(.*\)/, '') === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在內建資料庫！')
+          this.enName = ''
+        }
+      })
     },
     alreadlyHaveChName(e) {
       const text = e.target.value
       this.localMyAddedNtsList.forEach(item => {
         if (item.chName === text) {
           this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
+          this.chName = ''
+        }
+      })
+
+      Object.values(this.headerChineseAndEnglish).forEach(item => {
+        // 去除括號，取得括號前方的文字 ： item.replace(/\(.*\)/, '')
+        if (item.replace(/\(.*\)/, '') === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在內建資料庫！')
           this.chName = ''
         }
       })
@@ -269,6 +289,7 @@ export default {
   },
   created() {
     this.getMyAddedNtsList()
+    console.log(this.headerChineseAndEnglish)
   },
   mounted() {
     this.modal = new Modal(this.$refs.newClaimNtsModal)

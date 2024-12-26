@@ -469,12 +469,26 @@ export default {
           this.enName = ''
         }
       })
+      Object.keys(this.headerChineseAndEnglish).forEach(item => {
+        // 去除括號，取得括號前方的文字 ： item.replace(/\(.*\)/, '')
+        if (item.replace(/\(.*\)/, '') === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在內建資料庫！')
+          this.enName = ''
+        }
+      })
     },
     alreadlyHaveChName(e) {
       const text = e.target.value
       this.localMyAddedNtsList.forEach(item => {
         if (item.chName === text) {
           this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
+          this.chName = ''
+        }
+      })
+      Object.values(this.headerChineseAndEnglish).forEach(item => {
+        // 去除括號，取得括號前方的文字 ： item.replace(/\(.*\)/, '')
+        if (item.replace(/\(.*\)/, '') === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在內建資料庫！')
           this.chName = ''
         }
       })
