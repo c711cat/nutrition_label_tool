@@ -13,7 +13,7 @@
 
     <div class="row">
       <div
-        v-for="item in myAddedNtsList"
+        v-for="(item, index) in myAddedNtsList"
         :key="item"
         class="col-md-6 col-lg-4 mb-3"
       >
@@ -42,7 +42,11 @@
             </div>
 
             <div class="text-end">
-              <button :disabled="used(item.enName)" class="btn btn-danger">
+              <button
+                @click="openDoubleCheckModal(index, item)"
+                :disabled="used(item.enName)"
+                class="btn btn-danger"
+              >
                 刪除
               </button>
               <div
@@ -81,8 +85,8 @@ export default {
     openAddNtsModal() {
       this.$refs.addCustomNtsModal.showModal()
     },
-    openDoubleCheckModal(value, key, index) {
-      this.$refs.doubleCheckModal.showDelNtModal(value, key, index)
+    openDoubleCheckModal(index, item) {
+      this.$refs.doubleCheckModal.showDelAddedNtModal(index, item)
     },
     used(itemEnName) {
       let result = false

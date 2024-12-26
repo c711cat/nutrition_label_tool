@@ -148,11 +148,15 @@ export const useCustomizeStore = defineStore('customStore', {
         this.integrateNewClaimNts(newNts)
       }
     },
-    delCustomizeNt(index) {
+    delCustomizeNt(index, title) {
       this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
       this.myAddedNtsList.splice(index, 1)
       localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
       this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts'))
+      const data = {}
+      data.title = title + '刪除成功'
+      data.style = 'success'
+      this.pushMsg(data)
     },
     integrateBaseClaimNts(nts) {
       let data = [...nts]
