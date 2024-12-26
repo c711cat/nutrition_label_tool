@@ -68,6 +68,7 @@
               <h5 class="ms-1">自行新增營養素</h5>
               <div class="form-floating mb-3">
                 <input
+                  @change="alreadlyHaveEnName($event)"
                   v-model.trim="enName"
                   type="text"
                   class="form-control"
@@ -83,6 +84,7 @@
               </div>
               <div class="form-floating mb-3">
                 <input
+                  @change="alreadlyHaveChName($event)"
                   v-model.trim="chName"
                   type="text"
                   class="form-control"
@@ -458,6 +460,24 @@ export default {
         }
       })
       return result
+    },
+    alreadlyHaveEnName(e) {
+      const text = e.target.value
+      this.localMyAddedNtsList.forEach(item => {
+        if (item.enName === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
+          this.enName = ''
+        }
+      })
+    },
+    alreadlyHaveChName(e) {
+      const text = e.target.value
+      this.localMyAddedNtsList.forEach(item => {
+        if (item.chName === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
+          this.chName = ''
+        }
+      })
     },
   },
   created() {
