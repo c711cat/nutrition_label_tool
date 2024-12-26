@@ -154,7 +154,10 @@
               </div>
             </div>
             <div class="text-end py-4">
-              <button type="submit" class="col-12 col-md-3 col-lg-auto btn btn-primary">
+              <button
+                type="submit"
+                class="col-12 col-md-3 col-lg-auto btn btn-primary"
+              >
                 送出資料
               </button>
             </div>
@@ -220,7 +223,6 @@ export default {
       'baseFoodData',
     ]),
     ...mapState(useCustomizeStore, [
-      'customDataList',
       'newClaimNts',
       'customizeData',
       'baseClaimNts',
@@ -241,7 +243,7 @@ export default {
     hideModal() {
       this.modal.hide()
     },
-    ...mapActions(useCustomizeStore, ['setCustomData']),
+
     ...mapActions(useMsgStore, ['openAlert']),
     getHeader() {
       const data = { ...this.headerChineseAndEnglish }

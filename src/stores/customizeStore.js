@@ -3,17 +3,17 @@ import { useFoodStore } from './foodDataStore'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from './messageStore'
 
-function getCustomData() {
+function getCustomizeData() {
   return JSON.parse(localStorage.getItem('myCustomizeData')) || []
 }
 function getMyAddedNtsList() {
   return JSON.parse(localStorage.getItem('myAddedNts'))
 }
-const localStorageCustomData = getCustomData()
+const localStorageCustomizeData = getCustomizeData()
 const localStorageMyAddedNtsList = getMyAddedNtsList()
 export const useCustomizeStore = defineStore('customStore', {
   state: () => ({
-    customizeDataList: localStorageCustomData,
+    customizeDataList: localStorageCustomizeData,
     myAddedNtsList: localStorageMyAddedNtsList,
     baseClaimNts: [],
     newClaimNts: [],
@@ -49,7 +49,7 @@ export const useCustomizeStore = defineStore('customStore', {
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
     ...mapActions(useFoodStore, ['setNewHeaderItem']),
-    setCustomData(data) {
+    setCustomizeData(data) {
       localStorage.setItem('myCustomizeData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
@@ -87,7 +87,7 @@ export const useCustomizeStore = defineStore('customStore', {
     },
     delItemOfCustomizeList(title, index) {
       this.customizeDataList.splice(index, 1)
-      this.setCustomData(this.customizeDataList)
+      this.setCustomizeData(this.customizeDataList)
       const data = {}
       data.title = title + '刪除成功'
       data.style = 'success'
@@ -110,7 +110,7 @@ export const useCustomizeStore = defineStore('customStore', {
       }
       this.customizeModal.switch = false
       this.customizeModal.title = this.customizeData.sample_name
-      this.setCustomData(this.customizeDataList)
+      this.setCustomizeData(this.customizeDataList)
       this.clearCustomizeData()
       this.clearClaimNts()
       setTimeout(() => {
