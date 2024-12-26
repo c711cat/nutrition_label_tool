@@ -60,8 +60,8 @@
             確定刪除自定義品項
           </button>
           <button
-            v-if="delNtsIndex !== ''"
-            @click="delNtsItem"
+            v-if="delNtIndex !== ''"
+            @click="checkedDelCustomizeNt"
             type="button"
             class="btn btn-danger"
           >
@@ -87,7 +87,7 @@ export default {
       text: '',
       delIndex: '',
       delCustomizeIndex: '',
-      delNtsIndex: '',
+      delNtIndex: '',
       title: '',
     }
   },
@@ -96,6 +96,7 @@ export default {
     ...mapActions(useCustomizeStore, [
       'customizeDoubleCheckedOK',
       'delItemOfCustomizeList',
+      'delCustomizeNt',
     ]),
     showModal(customize) {
       this.text = '資料確認無誤，並送出'
@@ -135,14 +136,14 @@ export default {
       this.delItemOfCustomizeList(this.title, this.delCustomizeIndex)
       this.modal.hide()
     },
-    showDelNtsModal(value, key, index) {
+    showDelNtModal(value, key, index) {
       this.title = key + ' : ' + value
-      this.delNtsIndex = index
+      this.delNtIndex = index
       this.text = '確定刪除' + '『 ' + key + ' : ' + value + ' 』'
       this.modal.show()
     },
-    delNtsItem() {
-      this.delItemOfNts(this.title, this.delNtsIndex)
+    checkedDelCustomizeNt() {
+      this.delCustomizeNt(this.delNtIndex)
       this.hideModal()
     },
     hideModal() {
