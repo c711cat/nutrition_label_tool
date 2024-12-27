@@ -194,10 +194,18 @@
                   <label class="form-check-label" for="none">以上皆非</label>
                 </div>
               </div>
-
+              <div class="d-flex">
+                <button
+                  @click="cancelUpdate"
+                  type="button"
+                  class="col btn btn-sm btn-secondary me-2"
+                >
+                  取消
+                </button>
                 <button type="submit" class="col btn btn-sm btn-primary">
                   {{ toDoText }}
                 </button>
+              </div>
             </form>
           </section>
 
@@ -543,6 +551,10 @@ export default {
           this.chName = ''
         }
       })
+    },
+    cancelUpdate() {
+      this.getMyAddedNts()
+      this.updateOptionData()
     },
   },
   created() {
