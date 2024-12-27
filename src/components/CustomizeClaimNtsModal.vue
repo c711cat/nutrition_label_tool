@@ -222,6 +222,12 @@
 
               <div class="d-flex align-items-center">
                 <button
+                  @click="bringInEditData(value, key, index)"
+                  :disabled="localNewClaimNts.includes(key) || used(key)"
+                  type="button"
+                  class="btn btn-sm btn-outline-primary border-0 bi bi-pencil-square me-1"
+                ></button>
+                <button
                   @click="openDoubleCheckModal(value, key, index)"
                   :disabled="localNewClaimNts.includes(key) || used(key)"
                   type="button"
@@ -314,6 +320,9 @@ export default {
       myAddedNts: [],
       filteredMyAddedNts: [],
       searchText: '',
+      editEnName: '',
+      editChName: '',
+      editIndex: '',
     }
   },
   components: { DoubleCheckModal },
@@ -412,9 +421,14 @@ export default {
         this.openAlert(true, '還有必填欄位喔！')
         return
       }
-      this.addNt()
+      this.addOrEditNt()
     },
-    addNt() {
+    addOrEditNt() {
+      if (this.editIndex !== '') {
+        // edit 先刪除要編輯的營養素，再新增編輯完成的
+        this.localMyAddedNtsList.splice(1, this.editIndex)
+      }
+      // add
       const data = {
         type: this.type,
         enName: this.enName,
@@ -435,6 +449,30 @@ export default {
       this.unit = '公克(g)'
       this.searchText = '' // 清空搜尋欄位
       this.filteredNts = this.nts // 恢復內建資料庫所有選項在畫面中
+    },
+    bringInEditData(value, key, index) {
+      this.filteredMyAddedNts = []
+      this.filteredNts = []
+      this.editIndex = index
+      this.enName = key
+      this.editEnName = key
+      this.chName = value.replace(/\(.*\)/, '')
+      this.editChName = value.replace(/\(.*\)/, '')
+      const unitContent = value.match(/\((.*?)\)/)[1]
+      if (unitContent === 'g') {
+        this.unit = '公克(g)'
+      }
+      if (unitContent === 'mg') {
+        this.unit = '毫克(g)'
+      }
+      if (unitContent === 'ug') {
+        this.unit = '微克(g)'
+      }
+      this.myAddedNtsList.forEach(item => {
+        if (item.enName === this.editEnName) {
+          this.type = item.type
+        }
+      })
     },
     getMyAddedNts() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
