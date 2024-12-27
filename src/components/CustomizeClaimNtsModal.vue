@@ -575,8 +575,4 @@ export default {
 .infoText {
   font-size: 12px;
 }
-
-* {
-  // border: 1px solid;
-}
 </style>
