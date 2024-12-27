@@ -275,6 +275,11 @@ export default {
         this.editIndex = index
         this.editEnName = item.enName
         this.editChName = item.chName
+      } else {
+        this.enName = ''
+        this.chName = ''
+        this.unit = '公克(g)'
+        this.type = '以上皆非'
       }
       this.modal.show()
     },
