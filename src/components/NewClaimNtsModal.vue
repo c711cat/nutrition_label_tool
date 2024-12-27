@@ -12,7 +12,7 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">新增營養素</h5>
+          <h5 class="modal-title">{{ titleText }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -204,6 +204,16 @@ export default {
   computed: {
     ...mapState(useCustomizeStore, ['myAddedNtsList']),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
+    titleText() {
+      let text = ''
+      if (this.editIndex === '') {
+        text = '新增營養素'
+      }
+      if (this.editIndex !== '') {
+        text = '編輯營養素'
+      }
+      return text
+    },
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert', 'pushMsg']),

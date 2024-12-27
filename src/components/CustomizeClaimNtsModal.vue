@@ -65,7 +65,7 @@
             </p>
 
             <form @submit.prevent="submitForm" novalidate>
-              <h5 class="ms-1">自行新增營養素</h5>
+              <h5 class="ms-1">{{ toDoText }}</h5>
               <div class="form-floating mb-3">
                 <input
                   @change="alreadlyHaveEnName($event)"
@@ -195,9 +195,9 @@
                 </div>
               </div>
 
-              <button type="submit" class="w-100 btn btn-sm btn-primary">
-                新增營養素
-              </button>
+                <button type="submit" class="col btn btn-sm btn-primary">
+                  {{ toDoText }}
+                </button>
             </form>
           </section>
 
@@ -335,6 +335,16 @@ export default {
       'customizeDataList',
       'myAddedNtsList',
     ]),
+    toDoText() {
+      let text = ''
+      if (this.editIndex !== '') {
+        text = '更新營養素'
+      }
+      if (this.editIndex === '') {
+        text = '新增營養素'
+      }
+      return text
+    },
   },
   watch: {
     baseClaimNts: {
