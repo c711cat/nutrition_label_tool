@@ -11,7 +11,7 @@ function getMyAddedNtsList() {
 }
 const localStorageCustomizeData = getCustomizeData()
 const localStorageMyAddedNtsList = getMyAddedNtsList()
-export const useCustomizeStore = defineStore('customStore', {
+export const useCustomizeStore = defineStore('customizeStore', {
   state: () => ({
     customizeDataList: localStorageCustomizeData,
     myAddedNtsList: localStorageMyAddedNtsList,

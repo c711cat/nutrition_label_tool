@@ -21,7 +21,7 @@
           ></button>
         </div>
         <div class="modal-body">
-          <form id="submitCustomNts" @submit.prevent="submitForm" novalidate>
+          <form id="submitCustomizeNts" @submit.prevent="submitForm" novalidate>
             <div class="form-floating mb-3">
               <input
                 @change="alreadlyHaveEnName($event)"
@@ -160,7 +160,11 @@
           >
             取消
           </button>
-          <button form="submitCustomNts" type="submit" class="btn btn-primary">
+          <button
+            form="submitCustomizeNts"
+            type="submit"
+            class="btn btn-primary"
+          >
             送出
           </button>
         </div>
@@ -225,7 +229,7 @@ export default {
         this.openAlert(true, '還有必填欄位喔！')
         return
       } else {
-        this.submitCustomNts()
+        this.submitCustomizeNts()
       }
     },
     alreadlyHaveEnName(e) {
@@ -277,7 +281,7 @@ export default {
     hideModal() {
       this.modal.hide()
     },
-    submitCustomNts() {
+    submitCustomizeNts() {
       if (this.editIndex !== '') {
         // edit
         this.localMyAddedNtsList.splice(1, this.editIndex)
