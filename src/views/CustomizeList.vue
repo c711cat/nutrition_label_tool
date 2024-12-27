@@ -2,12 +2,7 @@
   <div class="container">
     <h3 class="text-center mb-5">自定義資料庫</h3>
     <div class="text-end">
-      <router-link to="/added_custom_nts" class="btn btn-outline-primary me-3">
-        已新增營養素列表
-      </router-link>
-      <button @click="openModal" class="btn btn-outline-primary">
-        新增
-      </button>
+      <button @click="openModal" class="btn btn-outline-primary">新增</button>
     </div>
 
     <div
@@ -157,17 +152,6 @@ export default {
       })
     },
 
-    transText(item) {
-      const chineseAndUnit = this.headerChineseAndEnglish[item]
-      const chinese = chineseAndUnit.replace(/\(.*\)/, '')
-      const textMapping = {
-        粗蛋白: '蛋白質',
-        粗脂肪: '脂肪',
-        總碳水化合物: '碳水化合物',
-        糖質總量: '糖',
-      }
-      return textMapping[chinese] || chinese
-    },
     transUnitText(unit) {
       const unitMapping = {
         kcal: '大卡',

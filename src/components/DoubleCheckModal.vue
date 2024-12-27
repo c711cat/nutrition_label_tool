@@ -136,14 +136,22 @@ export default {
       this.delItemOfCustomizeList(this.title, this.delCustomizeIndex)
       this.modal.hide()
     },
+    // 自行新增營養素 modal 傳來的參數
     showDelNtModal(value, key, index) {
       this.title = key + ' : ' + value
       this.delNtIndex = index
       this.text = '確定刪除' + '『 ' + key + ' : ' + value + ' 』'
       this.modal.show()
     },
+    // 自行新增營養素清單頁面傳來的參數
+    showDelAddedNtModal(index, item) {
+      this.title = item.enName + ' : ' + item.chName
+      this.delNtIndex = index
+      this.text = '確定刪除' + '『 ' + item.enName + ' : ' + item.chName + ' 』'
+      this.modal.show()
+    },
     checkedDelCustomizeNt() {
-      this.delCustomizeNt(this.delNtIndex)
+      this.delCustomizeNt(this.delNtIndex, this.title)
       this.hideModal()
     },
     hideModal() {

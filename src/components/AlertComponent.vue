@@ -37,7 +37,6 @@ export default {
   position: fixed;
   top: 50%;
   left: 50%;
-  max-width: 300px;
   z-index: 1056;
 }
 </style>

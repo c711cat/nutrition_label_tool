@@ -3,23 +3,22 @@ import { useFoodStore } from './foodDataStore'
 import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from './messageStore'
 
-function getCustomData() {
+function getCustomizeData() {
   return JSON.parse(localStorage.getItem('myCustomizeData')) || []
 }
 function getMyAddedNtsList() {
   return JSON.parse(localStorage.getItem('myAddedNts'))
 }
-const localStorageCustomData = getCustomData()
+const localStorageCustomizeData = getCustomizeData()
 const localStorageMyAddedNtsList = getMyAddedNtsList()
-export const useCustomizeStore = defineStore('customStore', {
+export const useCustomizeStore = defineStore('customizeStore', {
   state: () => ({
-    customizeDataList: localStorageCustomData,
+    customizeDataList: localStorageCustomizeData,
     myAddedNtsList: localStorageMyAddedNtsList,
     baseClaimNts: [],
     newClaimNts: [],
     customizeData: {},
     toDo: '',
-    ntName: { englishName: '', chineseName: '', unit: '' },
     customizeModal: { switch: true, title: '' },
   }),
   getters: {
@@ -35,9 +34,6 @@ export const useCustomizeStore = defineStore('customStore', {
     customizeDataInStore: ({ customizeData }) => {
       return customizeData
     },
-    nutrientName: ({ ntName }) => {
-      return ntName
-    },
     localStorageMyAddedNtsList: ({ myAddedNtsList }) => {
       return myAddedNtsList
     },
@@ -49,7 +45,7 @@ export const useCustomizeStore = defineStore('customStore', {
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
     ...mapActions(useFoodStore, ['setNewHeaderItem']),
-    setCustomData(data) {
+    setCustomizeData(data) {
       localStorage.setItem('myCustomizeData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
@@ -87,9 +83,9 @@ export const useCustomizeStore = defineStore('customStore', {
     },
     delItemOfCustomizeList(title, index) {
       this.customizeDataList.splice(index, 1)
-      this.setCustomData(this.customizeDataList)
+      this.setCustomizeData(this.customizeDataList)
       const data = {}
-      data.title = title + '刪除成功'
+      data.title = title + ' 刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
@@ -110,27 +106,18 @@ export const useCustomizeStore = defineStore('customStore', {
       }
       this.customizeModal.switch = false
       this.customizeModal.title = this.customizeData.sample_name
-      this.setCustomData(this.customizeDataList)
+      this.setCustomizeData(this.customizeDataList)
       this.clearCustomizeData()
       this.clearClaimNts()
       setTimeout(() => {
         this.customizeModal.switch = true
       }, 1000)
     },
-    addCustomNts() {
-      const Nts = {
-        [this.ntName.englishName]:
-          this.ntName.chineseName + '(' + this.ntName.unit + ')',
-      }
-      this.setNewHeaderItem(Nts)
-      setTimeout(() => {
-        this.ntName.englishName = ''
-        this.ntName.chineseName = ''
-        this.ntName.unit = ''
-      }, 2000)
+    getMyAddedNtsList() {
+      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
     },
     addNts(nts, newNts) {
-      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
+      this.getMyAddedNtsList()
       this.baseClaimNts = [...nts]
       this.newClaimNts = [...newNts]
       if (!this.customizeData.id) {
@@ -148,11 +135,15 @@ export const useCustomizeStore = defineStore('customStore', {
         this.integrateNewClaimNts(newNts)
       }
     },
-    delCustomizeNt(index) {
-      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts')) || []
+    delCustomizeNt(index, title) {
+      this.getMyAddedNtsList()
       this.myAddedNtsList.splice(index, 1)
       localStorage.setItem('myAddedNts', JSON.stringify(this.myAddedNtsList))
-      this.myAddedNtsList = JSON.parse(localStorage.getItem('myAddedNts'))
+      this.getMyAddedNtsList()
+      const data = {}
+      data.title = title + ' 刪除成功'
+      data.style = 'success'
+      this.pushMsg(data)
     },
     integrateBaseClaimNts(nts) {
       let data = [...nts]
@@ -184,6 +175,11 @@ export const useCustomizeStore = defineStore('customStore', {
           ...this.customizeData.baseClaimNts,
           ...data,
         }
+      } else {
+        this.customizeData.baseClaimNts = nts.reduce((acc, key) => {
+          acc[key] = '' // 將 nts 的元素作為 key，其 value = ''，進行累加
+          return acc
+        }, {})
       }
     },
     integrateNewClaimNts(newNts) {
@@ -214,6 +210,10 @@ export const useCustomizeStore = defineStore('customStore', {
           ...this.customizeData.newClaimNts,
           ...newItem,
         ]
+      } else {
+        this.customizeData.newClaimNts = this.myAddedNtsList.filter(item => {
+          return this.newClaimNts.includes(item.enName)
+        })
       }
     },
     showProductClaimNts(item) {
@@ -225,6 +225,15 @@ export const useCustomizeStore = defineStore('customStore', {
       } else {
         this.baseClaimNts = []
         this.newClaimNts = []
+      }
+    },
+    showCustomizeDataClaimNts(customizeData) {
+      if (customizeData.newClaimNts) {
+        customizeData.newClaimNts.forEach(item => {
+          if (!this.newClaimNts.includes(item.enName)) {
+            this.newClaimNts.push(item.enName)
+          }
+        })
       }
     },
   },

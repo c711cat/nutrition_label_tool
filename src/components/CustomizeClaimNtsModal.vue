@@ -65,9 +65,10 @@
             </p>
 
             <form @submit.prevent="submitForm" novalidate>
-              <h5 class="ms-1">自行新增營養素</h5>
+              <h5 class="ms-1">{{ toDoText }}</h5>
               <div class="form-floating mb-3">
                 <input
+                  @change="alreadlyHaveEnName($event)"
                   v-model.trim="enName"
                   type="text"
                   class="form-control"
@@ -83,6 +84,7 @@
               </div>
               <div class="form-floating mb-3">
                 <input
+                  @change="alreadlyHaveChName($event)"
                   v-model.trim="chName"
                   type="text"
                   class="form-control"
@@ -143,9 +145,9 @@
                   <i class="text-danger fst-normal me-1">＊</i>
                   營養素類別
                   <i class="bi bi-info-circle ms-2 me-1 text-secondary"></i>
-                  <span class="text-secondary fw-normal"
-                    >以下選擇與熱量計算有關</span
-                  >
+                  <span class="text-secondary fw-normal">
+                    以下選擇與熱量計算有關
+                  </span>
                 </p>
                 <div class="form-check form-check-inline">
                   <input
@@ -192,10 +194,18 @@
                   <label class="form-check-label" for="none">以上皆非</label>
                 </div>
               </div>
-
-              <button type="submit" class="w-100 btn btn-sm btn-primary">
-                新增營養素
-              </button>
+              <div class="d-flex">
+                <button
+                  @click="cancelUpdate"
+                  type="button"
+                  class="col btn btn-sm btn-secondary me-2"
+                >
+                  取消
+                </button>
+                <button type="submit" class="col btn btn-sm btn-primary">
+                  {{ toDoText }}
+                </button>
+              </div>
             </form>
           </section>
 
@@ -203,7 +213,7 @@
             <div
               v-for="(value, key, index) in filteredMyAddedNts"
               :key="key"
-              class="form-check px-4 ms-2 d-flex align-items-center"
+              class="form-check ps-4 ms-2 d-flex align-items-center"
             >
               <div class="col-4 col-sm-3">
                 <input
@@ -220,18 +230,30 @@
 
               <div class="d-flex align-items-center">
                 <button
-                  @click="openDoubleCheckModal(value, key, index)"
-                  :disabled="localNewClaimNts.includes(key)"
+                  @click="bringInEditData(value, key, index)"
+                  :disabled="localNewClaimNts.includes(key) || used(key)"
                   type="button"
-                  class="btn btn-sm btn-outline-danger bi bi-trash3"
+                  class="btn btn-sm btn-outline-primary border-0 bi bi-pencil-square me-1"
                 ></button>
-                <p
-                  v-if="localNewClaimNts.includes(key)"
-                  class="mb-0 px-2 text-secondary"
-                >
-                  <i class="bi bi-info-circle"></i>
-                  若需刪除，則取消勾選
-                </p>
+                <button
+                  @click="openDoubleCheckModal(value, key, index)"
+                  :disabled="localNewClaimNts.includes(key) || used(key)"
+                  type="button"
+                  class="btn btn-sm btn-outline-danger border-0 bi bi-trash3"
+                ></button>
+                <div>
+                  <p
+                    v-if="localNewClaimNts.includes(key) && !used(key)"
+                    class="infoText mb-0 px-2 text-secondary"
+                  >
+                    <i class="bi bi-info-circle"></i>
+                    若需刪除，則取消勾選
+                  </p>
+                  <p v-if="used(key)" class="infoText px-2 text-secondary mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    自定義資料中已使用，不予編輯及刪除
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -306,6 +328,9 @@ export default {
       myAddedNts: [],
       filteredMyAddedNts: [],
       searchText: '',
+      editEnName: '',
+      editChName: '',
+      editIndex: '',
     }
   },
   components: { DoubleCheckModal },
@@ -318,6 +343,16 @@ export default {
       'customizeDataList',
       'myAddedNtsList',
     ]),
+    toDoText() {
+      let text = ''
+      if (this.editIndex !== '') {
+        text = '更新營養素'
+      }
+      if (this.editIndex === '') {
+        text = '新增營養素'
+      }
+      return text
+    },
   },
   watch: {
     baseClaimNts: {
@@ -344,7 +379,7 @@ export default {
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'pushNTs']),
-    ...mapActions(useCustomizeStore, ['addNts']),
+    ...mapActions(useCustomizeStore, ['addNts', 'showCustomizeDataClaimNts']),
     ...mapActions(useMsgStore, ['openAlert']),
     updateOptionData() {
       this.getMyAddedNts()
@@ -383,7 +418,10 @@ export default {
         }),
       )
     },
-    showModal() {
+    showModal(customizeData) {
+      if (customizeData) {
+        this.showCustomizeDataClaimNts(customizeData)
+      }
       this.modal.show()
     },
     update() {
@@ -401,9 +439,14 @@ export default {
         this.openAlert(true, '還有必填欄位喔！')
         return
       }
-      this.addNt()
+      this.addOrEditNt()
     },
-    addNt() {
+    addOrEditNt() {
+      if (this.editIndex !== '') {
+        // edit 先刪除要編輯的營養素，再新增編輯完成的
+        this.localMyAddedNtsList.splice(1, this.editIndex)
+      }
+      // add
       const data = {
         type: this.type,
         enName: this.enName,
@@ -425,6 +468,30 @@ export default {
       this.searchText = '' // 清空搜尋欄位
       this.filteredNts = this.nts // 恢復內建資料庫所有選項在畫面中
     },
+    bringInEditData(value, key, index) {
+      this.filteredMyAddedNts = []
+      this.filteredNts = []
+      this.editIndex = index
+      this.enName = key
+      this.editEnName = key
+      this.chName = value.replace(/\(.*\)/, '')
+      this.editChName = value.replace(/\(.*\)/, '')
+      const unitContent = value.match(/\((.*?)\)/)[1]
+      if (unitContent === 'g') {
+        this.unit = '公克(g)'
+      }
+      if (unitContent === 'mg') {
+        this.unit = '毫克(g)'
+      }
+      if (unitContent === 'ug') {
+        this.unit = '微克(g)'
+      }
+      this.myAddedNtsList.forEach(item => {
+        if (item.enName === this.editEnName) {
+          this.type = item.type
+        }
+      })
+    },
     getMyAddedNts() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
       this.localMyAddedNtsList = data // 將已新增的先存在 myAddedNtsList
@@ -439,6 +506,55 @@ export default {
     },
     openDoubleCheckModal(value, key, index) {
       this.$refs.doubleCheckModal.showDelNtModal(value, key, index)
+    },
+    used(itemEnName) {
+      let result = false
+      this.customizeDataList.forEach(item => {
+        if (item.newClaimNts) {
+          item.newClaimNts.some(Nt => {
+            if (Nt.enName === itemEnName) {
+              result = true
+            }
+          })
+        }
+      })
+      return result
+    },
+    alreadlyHaveEnName(e) {
+      const text = e.target.value
+      this.localMyAddedNtsList.forEach(item => {
+        if (item.enName === text && this.editEnName !== text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
+          this.enName = ''
+        }
+      })
+      Object.keys(this.headerChineseAndEnglish).forEach(item => {
+        // 去除括號，取得括號前方的文字 ： item.replace(/\(.*\)/, '')
+        if (item.replace(/\(.*\)/, '') === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在內建資料庫！')
+          this.enName = ''
+        }
+      })
+    },
+    alreadlyHaveChName(e) {
+      const text = e.target.value
+      this.localMyAddedNtsList.forEach(item => {
+        if (item.chName === text && this.editChName !== text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
+          this.chName = ''
+        }
+      })
+      Object.values(this.headerChineseAndEnglish).forEach(item => {
+        // 去除括號，取得括號前方的文字 ： item.replace(/\(.*\)/, '')
+        if (item.replace(/\(.*\)/, '') === text) {
+          this.openAlert(true, '『 ' + text + ' 』' + '已存在內建資料庫！')
+          this.chName = ''
+        }
+      })
+    },
+    cancelUpdate() {
+      this.getMyAddedNts()
+      this.updateOptionData()
     },
   },
   created() {
@@ -456,7 +572,7 @@ export default {
   overflow-y: scroll;
 }
 
-* {
-  // border: 1px solid;
+.infoText {
+  font-size: 12px;
 }
 </style>
