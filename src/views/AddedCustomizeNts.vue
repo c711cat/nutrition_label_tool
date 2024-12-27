@@ -1,5 +1,7 @@
 <template>
-  <div class="container col-12 col-md-11 col-xl-10 col-xxl-9 pb-5 mb-5">
+  <div
+    class="container col-12 col-md-11 col-lg-10 col-xl-9 col-xxl-8 pb-5 mb-5"
+  >
     <h3 class="text-center">已新增的營養素</h3>
     <div class="text-end px-1">
       <button
@@ -15,7 +17,7 @@
       <div
         v-for="(item, index) in myAddedNtsList"
         :key="item"
-        class="col-md-6 col-lg-4 mb-3"
+        class="col-md-6 mb-3"
       >
         <div class="card bg-light">
           <div
