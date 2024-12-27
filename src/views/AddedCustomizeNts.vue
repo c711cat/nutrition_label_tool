@@ -114,7 +114,6 @@ export default {
       return result
     },
   },
-  created() {},
 }
 </script>
 <style lang="scss" scoped>

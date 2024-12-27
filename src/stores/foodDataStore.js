@@ -263,14 +263,6 @@ export const useFoodStore = defineStore('foodDataStore', {
   },
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
-    submitForm(e) {
-      const form = e.target
-      if (!form.checkValidity()) {
-        // 若表單無效，添加樣式提示
-        form.classList.add('was-validated')
-        return
-      }
-    },
     doubleCheckedOK() {
       this.loadingStatus = true
       this.toDo = 'edit'
@@ -316,7 +308,6 @@ export const useFoodStore = defineStore('foodDataStore', {
     pushNTs(nts) {
       this.addNts = nts
     },
-
     delItemOfNts(title, index) {
       const keys = Object.keys(this.onlyNewAddHeader) // 得到 key 的陣列 例如：[ 0:lutein, 1:calcium ]
       const keyToDel = keys[index] // 根據 index 找到對應的 key
