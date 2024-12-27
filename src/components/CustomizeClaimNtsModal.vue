@@ -205,7 +205,7 @@
             <div
               v-for="(value, key, index) in filteredMyAddedNts"
               :key="key"
-              class="form-check px-4 ms-2 d-flex align-items-center"
+              class="form-check ps-4 ms-2 d-flex align-items-center"
             >
               <div class="col-4 col-sm-3">
                 <input
@@ -231,19 +231,19 @@
                   @click="openDoubleCheckModal(value, key, index)"
                   :disabled="localNewClaimNts.includes(key) || used(key)"
                   type="button"
-                  class="btn btn-sm btn-outline-danger bi bi-trash3"
+                  class="btn btn-sm btn-outline-danger border-0 bi bi-trash3"
                 ></button>
                 <div>
                   <p
                     v-if="localNewClaimNts.includes(key) && !used(key)"
-                    class="mb-0 px-2 text-secondary"
+                    class="infoText mb-0 px-2 text-secondary"
                   >
                     <i class="bi bi-info-circle"></i>
                     若需刪除，則取消勾選
                   </p>
-                  <p v-if="used(key)" class="px-2 text-secondary mb-0">
+                  <p v-if="used(key)" class="infoText px-2 text-secondary mb-0">
                     <i class="bi bi-info-circle"></i>
-                    自定義資料中已使用，不予刪除
+                    自定義資料中已使用，不予編輯及刪除
                   </p>
                 </div>
               </div>
@@ -505,7 +505,7 @@ export default {
     alreadlyHaveEnName(e) {
       const text = e.target.value
       this.localMyAddedNtsList.forEach(item => {
-        if (item.enName === text) {
+        if (item.enName === text && this.editEnName !== text) {
           this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
           this.enName = ''
         }
@@ -521,7 +521,7 @@ export default {
     alreadlyHaveChName(e) {
       const text = e.target.value
       this.localMyAddedNtsList.forEach(item => {
-        if (item.chName === text) {
+        if (item.chName === text && this.editChName !== text) {
           this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
           this.chName = ''
         }
@@ -548,6 +548,10 @@ export default {
 .addedNts {
   height: 40px;
   overflow-y: scroll;
+}
+
+.infoText {
+  font-size: 12px;
 }
 
 * {

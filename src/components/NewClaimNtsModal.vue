@@ -186,6 +186,8 @@ export default {
       type: '以上皆非',
       localMyAddedNtsList: [],
       editIndex: '',
+      editEnName: '',
+      editChName: '',
     }
   },
   watch: {
@@ -219,7 +221,7 @@ export default {
     alreadlyHaveEnName(e) {
       const text = e.target.value
       this.localMyAddedNtsList.forEach(item => {
-        if (item.enName === text) {
+        if (item.enName === text && this.editEnName !== text) {
           this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
           this.enName = ''
         }
@@ -236,7 +238,7 @@ export default {
     alreadlyHaveChName(e) {
       const text = e.target.value
       this.localMyAddedNtsList.forEach(item => {
-        if (item.chName === text) {
+        if (item.chName === text && this.editChName !== text) {
           this.openAlert(true, '『 ' + text + ' 』' + '已存在！')
           this.chName = ''
         }
@@ -257,6 +259,8 @@ export default {
         this.chName = item.chName
         this.unit = item.unit
         this.editIndex = index
+        this.editEnName = item.enName
+        this.editChName = item.chName
       }
       this.modal.show()
     },
