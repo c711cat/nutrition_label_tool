@@ -330,38 +330,36 @@
         </section>
       </section>
 
-      <div class="d-flex flex-wrap justify-content-between pe-4">
+      <div class="text-end pe-4">
+        <button
+          @click="download(item.id)"
+          type="button"
+          class="btn btn-primary me-3"
+        >
+          下載營養標示
+        </button>
         <button
           @click="openModal(item)"
           type="button"
-          class="btn btn-primary my-3"
+          class="btn btn-outline-primary my-3 me-3"
         >
-          增減營養素
+          增減標示營養素
         </button>
-        <div class="my-3">
-          <button
-            @click="download(item.id)"
-            type="button"
-            class="btn btn-primary me-3"
-          >
-            下載營養標示
-          </button>
-          <router-link
-            :to="isPath(item.id)"
-            @click="edit(item)"
-            type="button"
-            class="btn btn-outline-primary me-3"
-          >
-            編輯
-          </router-link>
-          <button
-            @click="openDoubleCheckModal(item, index)"
-            type="button"
-            class="btn btn-outline-danger"
-          >
-            刪除
-          </button>
-        </div>
+        <router-link
+          :to="isPath(item.id)"
+          @click="edit(item)"
+          type="button"
+          class="btn btn-outline-primary me-3"
+        >
+          編輯
+        </router-link>
+        <button
+          @click="openDoubleCheckModal(item, index)"
+          type="button"
+          class="btn btn-outline-danger"
+        >
+          刪除
+        </button>
       </div>
       <div>
         <p>
