@@ -1,6 +1,11 @@
 <template>
   <div class="mx-auto col-11 col-lg-10">
-    <h3 class="text-center mb-5">產品列表</h3>
+    <h3 class="text-center">產品列表</h3>
+    <div class="mb-3 text-end">
+      <router-link to="/nutrition_label" class="btn btn-primary">
+        新增營養標示
+      </router-link>
+    </div>
     <div
       v-for="(item, index) in myProductList"
       :key="item.id"
