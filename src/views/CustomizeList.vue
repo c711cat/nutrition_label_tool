@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto col-12 col-lg-10 px-xs-3 px-lg-0 mb-5">
+  <div class="mx-auto col-11 col-lg-10">
     <h3 class="text-center mb-5">自定義資料庫</h3>
     <div class="text-end">
       <button @click="openModal" class="btn btn-outline-primary">新增</button>

@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto col-12 col-md-11 col-lg-10 col-xl-9 col-xxl-8 pb-5 mb-5">
+  <div class="mx-auto col-11 col-lg-10 col-xl-9 col-xxl-8">
     <h3 class="text-center">已新增的營養素</h3>
     <div class="text-end px-1">
       <button

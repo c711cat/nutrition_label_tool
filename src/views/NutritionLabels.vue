@@ -1,7 +1,5 @@
 <template>
-  <main
-    class="mx-auto px-3 col-12 col-md-11 col-lg-11 col-xl-11 col-xxl-10 mb-5"
-  >
+  <main class="mx-auto col-11 col-xxl-10">
     <h3 class="text-center mb-4">營養標示製作</h3>
     <section class="form-floating mb-5 mx-1">
       <input

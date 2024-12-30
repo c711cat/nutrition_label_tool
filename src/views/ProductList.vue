@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto mb-5 col-12 col-lg-10 px-sm-3 px-md-0">
+  <div class="mx-auto col-11 col-lg-10">
     <h3 class="text-center mb-5">產品列表</h3>
     <div
       v-for="(item, index) in myProductList"
