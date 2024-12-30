@@ -19,6 +19,6 @@ export default {
 
 <style lang="scss" scoped>
 .routerViewStyle {
-  padding-top: 50px;
+  padding: 50px 0px 100px 0px;
 }
 </style>
