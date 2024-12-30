@@ -2,7 +2,7 @@
   <NavbarComponent />
   <MessageComponent ref="toast" />
   <AlertComponent />
-  <RouterView />
+  <RouterView class="routerViewStyle" />
 </template>
 
 <script>
@@ -16,3 +16,9 @@ export default {
   components: { NavbarComponent, MessageComponent, AlertComponent },
 }
 </script>
+
+<style lang="scss" scoped>
+.routerViewStyle {
+  padding-top: 50px;
+}
+</style>

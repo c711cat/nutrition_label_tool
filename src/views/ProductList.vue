@@ -1,10 +1,10 @@
 <template>
-  <div class="container my-4">
-    <h3 class="text-center mb-5">營養標示列表</h3>
+  <div class="mx-auto mb-5 col-12 col-lg-10 px-sm-3 px-md-0">
+    <h3 class="text-center mb-5">產品列表</h3>
     <div
       v-for="(item, index) in myProductList"
       :key="item.id"
-      class="border rounded row m-0 my-5"
+      class="border rounded row m-0"
     >
       <section class="bg-light p-3 rounded col-12 col-xl markItemsContainer">
         <div class="d-flex">
