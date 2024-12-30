@@ -47,7 +47,7 @@
             <span
               v-for="(value, key) in localNewClaimNts"
               :key="key"
-              class="badge text-dark-emphasis bg-dark-subtle border-dark-subtle fs-6 m-1"
+              class="badge text-light bg-primary border border-primary fs-6 m-1"
             >
               {{ myAddedNts[value].replace(/\(.*\)/, '') }}
             </span>
