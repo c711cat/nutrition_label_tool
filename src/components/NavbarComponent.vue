@@ -30,7 +30,7 @@
             自定義資料庫
           </router-link>
           <router-link
-            v-if="myAddedNtsList.length > 0"
+            v-if="myAddedNts > 0"
             to="/added_customize_nts"
             class="nav-link"
             :class="
@@ -90,7 +90,7 @@
           <p class="xs-md-textStyle mb-0">自定義</p>
         </router-link>
         <router-link
-          v-if="myAddedNtsList.length > 0"
+          v-if="myAddedNts > 0"
           to="/added_customize_nts"
           class="col nav-link"
           :class="
@@ -106,14 +106,20 @@
 </template>
 
 <script>
-import { useCustomizeStore } from '@/stores/customizeStore'
-import { mapState } from 'pinia'
 export default {
   data() {
-    return {}
+    return {
+      myAddedNts: 0,
+    }
   },
-  computed: {
-    ...mapState(useCustomizeStore, ['myAddedNtsList']),
+  methods: {
+    getMyAddedNtsList() {
+      const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
+      this.myAddedNts = data.length
+    },
+  },
+  created() {
+    this.getMyAddedNtsList()
   },
 }
 </script>
