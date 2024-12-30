@@ -1,14 +1,14 @@
 <template>
   <div class="mx-auto col-11 col-lg-10">
-    <h3 class="text-center mb-5">自定義資料庫</h3>
-    <div class="text-end">
-      <button @click="openModal" class="btn btn-outline-primary">新增</button>
+    <h3 class="text-center">自定義資料庫</h3>
+    <div class="text-end mb-3">
+      <button @click="openModal" class="btn btn-primary">新增</button>
     </div>
 
     <div
       v-for="(item, index) in updateSortData"
       :key="item"
-      class="border rounded row m-0 my-5 justify-content-between"
+      class="border rounded row m-0 mb-5 justify-content-between"
     >
       <section class="bg-light p-3 rounded col">
         <div class="d-flex">

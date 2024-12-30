@@ -5,7 +5,7 @@
       <button
         @click="openAddNtsModal"
         type="button"
-        class="btn btn-outline-primary mb-3"
+        class="btn btn-primary mb-3"
       >
         新增
       </button>
