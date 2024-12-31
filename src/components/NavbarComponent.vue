@@ -1,5 +1,5 @@
 <template>
-  <nav class="px-3 navbar navbar-expand-lg" :class="navBg">
+  <nav class="px-3 navbar navbar-expand-lg fixed-top" :class="navBg">
     <div class="container-fluid">
       <div class="collapse navbar-collapse">
         <div class="navbar-nav align-items-center">
