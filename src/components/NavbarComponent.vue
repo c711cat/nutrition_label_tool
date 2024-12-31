@@ -47,6 +47,7 @@
         role="search"
       >
         <input
+          @input="search($event)"
           class="form-control me-2"
           type="search"
           :placeholder="currentPlaceHolder"
@@ -110,6 +111,10 @@
 </template>
 
 <script>
+import { useCustomizeStore } from '@/stores/customizeStore'
+import { useFoodStore } from '@/stores/foodDataStore'
+import { mapActions } from 'pinia'
+
 export default {
   data() {
     return {
@@ -158,9 +163,24 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useFoodStore, ['searchProducts']),
+    ...mapActions(useCustomizeStore, ['searchAddedNts', 'searchCustomizeList']),
     getMyAddedNtsList() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
       this.myAddedNts = data.length
+    },
+    search(e) {
+      const text = e.target.value.trim()
+      const currentPath = this.$router.currentRoute._value.fullPath
+      if (currentPath === '/added_customize_nts') {
+        this.searchAddedNts(text)
+      }
+      if (currentPath === '/customize_list') {
+        this.searchCustomizeList(text)
+      }
+      if (currentPath === '/product_list') {
+        this.searchProducts(text)
+      }
     },
   },
   created() {

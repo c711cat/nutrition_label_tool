@@ -145,6 +145,13 @@ export default {
       deep: true,
       immediate: true,
     },
+    customizeDataList: {
+      handler() {
+        this.sortItem()
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {

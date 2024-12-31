@@ -210,6 +210,7 @@ export const useFoodStore = defineStore('foodDataStore', {
     headerChineseAndEnglish: headerChineseAndEnglish,
     headerMap: headerMap,
     myProductList: localStorageData,
+    filteredMyProductList: localStorageData,
     forSearchData: [],
     product: {
       id: '',
@@ -250,6 +251,9 @@ export const useFoodStore = defineStore('foodDataStore', {
     },
     localStorageData: ({ myProductList }) => {
       return myProductList
+    },
+    localStoragefilteredMyProductList: ({ filteredMyProductList }) => {
+      return filteredMyProductList
     },
     headerData: ({ headerChineseAndEnglish }) => {
       return headerChineseAndEnglish
@@ -326,6 +330,15 @@ export const useFoodStore = defineStore('foodDataStore', {
         }
       })
       this.setMyProducts(this.myProductList)
+    },
+    searchProducts(text) {
+      const data = []
+      this.filteredMyProductList.filter(item => {
+        if (item.title.match(text)) {
+          data.push(item)
+        }
+      })
+      this.myProductList = data
     },
   },
 })
