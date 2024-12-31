@@ -16,8 +16,9 @@
     >
       <i class="bi bi-columns-gap text-secondary"></i>
       <p class="text-center fw-bold fs-5 text-primary">
-        目前無製作的營養標示～
+        {{ noResultText }}
       </p>
+
       <router-link to="/nutrition_label" class="btn btn-primary">
         試著新增一個吧！
       </router-link>
@@ -438,8 +439,29 @@ export default {
   },
   components: { ProductClaimNtsModal, DoubleCheckModal },
   computed: {
-    ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
+    ...mapState(useFoodStore, [
+      'myProductList',
+      'filteredMyProductList',
+      'headerChineseAndEnglish',
+    ]),
     ...mapState(useCustomizeStore, ['myAddedNtsList']),
+    noResultText() {
+      console.log(this.myProductList.length, this.filteredMyProductList.length)
+      if (
+        this.myProductList.length === 0 &&
+        this.filteredMyProductList.length === 0
+      ) {
+        return '目前無製作的營養標示～'
+      }
+      if (
+        this.myProductList.length === 0 &&
+        this.filteredMyProductList.length > 0
+      ) {
+        return '搜尋結果：無符合的營養標示～'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
