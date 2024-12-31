@@ -41,7 +41,11 @@
           </router-link>
         </div>
       </div>
-      <form class="d-flex col-12 col-md-10 col-lg mx-auto" role="search">
+      <form
+        v-if="showSearch"
+        class="d-flex col-12 col-md-10 col-lg-auto mx-auto"
+        role="search"
+      >
         <input
           class="form-control me-2"
           type="search"
@@ -112,6 +116,20 @@ export default {
       myAddedNts: 0,
     }
   },
+  computed: {
+    showSearch() {
+      if (this.$route.path === '/') {
+        return false
+      }
+      if (this.$route.path === '/nutrition_label') {
+        return false
+      }
+      if (this.$route.path === '/mark_items') {
+        return false
+      } else {
+        return true
+      }
+    },
     currentPlaceHolder() {
       if (this.$route.path === '/product_list') {
         return '產品名稱'
