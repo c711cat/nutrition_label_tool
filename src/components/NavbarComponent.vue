@@ -46,17 +46,16 @@
         class="d-flex col-12 col-md-10 col-lg-auto mx-auto"
         role="search"
       >
-        <input
-          @input="search($event)"
-          class="form-control me-2"
-          type="search"
-          :placeholder="currentPlaceHolder"
-          aria-label="Search"
-        />
-        <button
-          class="btn btn-outline-primary bi bi-search"
-          type="submit"
-        ></button>
+        <div class="mx-auto position-relative col-12 col-md-10 col-lg-auto">
+          <i class="bi bi-search position-absolute text-secondary"></i>
+          <input
+            @input="search($event)"
+            class="form-control me-2 searchInput"
+            type="search"
+            :placeholder="currentPlaceHolder"
+            aria-label="Search"
+          />
+        </div>
       </form>
     </div>
   </nav>
@@ -204,5 +203,14 @@ export default {
 
 .active {
   color: #030b7c !important;
+}
+
+.bi-search {
+  top: 7px;
+  left: 11px;
+}
+
+.searchInput {
+  padding-left: 33px;
 }
 </style>
