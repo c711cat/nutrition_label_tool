@@ -45,7 +45,7 @@
         <input
           class="form-control me-2"
           type="search"
-          placeholder="Search"
+          :placeholder="currentPlaceHolder"
           aria-label="Search"
         />
         <button
@@ -112,6 +112,19 @@ export default {
       myAddedNts: 0,
     }
   },
+    currentPlaceHolder() {
+      if (this.$route.path === '/product_list') {
+        return '產品名稱'
+      }
+      if (this.$route.path === '/customize_list') {
+        return '自定義資料品名'
+      }
+      if (this.$route.path === '/added_customize_nts') {
+        return '中文或英文營養素名稱'
+      } else {
+        return ''
+      }
+    },
   methods: {
     getMyAddedNtsList() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
@@ -124,10 +137,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-* {
-  // border: 1px solid;
-}
-
 .xs-md-textStyle {
   font-size: 14px;
 }
