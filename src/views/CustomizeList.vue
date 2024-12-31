@@ -15,7 +15,7 @@
       class="mx-auto py-5 col-12 w-100 text-center"
     >
       <i class="bi bi-clipboard text-secondary"></i>
-      <p class="text-center fw-bold fs-5 text-primary">目前無自定義的資料～</p>
+      <p class="text-center fw-bold fs-5 text-primary">{{ noResultText }}</p>
       <button @click="openModal" class="btn btn-primary">
         試著新增一個吧！
       </button>
@@ -156,11 +156,27 @@ export default {
   components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
     ...mapState(useCustomizeStore, [
-      'customizeDataList',
+      'customizeDataList','filteredCustomizeDataList',
       'customizeData',
       'customizeModal',
     ]),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
+    noResultText() {
+      if (
+        this.customizeDataList.length === 0 &&
+        this.filteredCustomizeDataList.length === 0
+      ) {
+        return '目前無自定義的資料～'
+      }
+      if (
+        this.customizeDataList.length === 0 &&
+        this.filteredCustomizeDataList.length > 0
+      ) {
+        return '搜尋結果：無符合的資料～'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     ...mapActions(useCustomizeStore, [

@@ -17,9 +17,7 @@
         class="mx-auto py-5 col-12 w-100 text-center"
       >
         <i class="bi bi-card-text text-secondary"></i>
-        <p class="text-center fw-bold fs-5 text-primary">
-          目前無新增的營養素
-        </p>
+        <p class="text-center fw-bold fs-5 text-primary">{{ noResultText }}</p>
         <button @click="openAddNtsModal" class="btn btn-primary">
           試著新增一個吧！
         </button>
@@ -98,7 +96,27 @@ export default {
   components: { NewClaimNtsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['onlyNewAddHeader']),
-    ...mapState(useCustomizeStore, ['customizeDataList', 'myAddedNtsList']),
+    ...mapState(useCustomizeStore, [
+      'customizeDataList',
+      'myAddedNtsList',
+      'filteredMyAddedNtsList',
+    ]),
+    noResultText() {
+      if (
+        this.myAddedNtsList.length === 0 &&
+        this.filteredMyAddedNtsList.length === 0
+      ) {
+        return '目前無新增的營養素～'
+      }
+      if (
+        this.myAddedNtsList.length === 0 &&
+        this.filteredMyAddedNtsList.length > 0
+      ) {
+        return '搜尋結果：無符合的營養素～'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     openAddNtsModal() {

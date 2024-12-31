@@ -446,7 +446,6 @@ export default {
     ]),
     ...mapState(useCustomizeStore, ['myAddedNtsList']),
     noResultText() {
-      console.log(this.myProductList.length, this.filteredMyProductList.length)
       if (
         this.myProductList.length === 0 &&
         this.filteredMyProductList.length === 0
