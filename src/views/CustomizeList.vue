@@ -14,6 +14,7 @@
       v-if="updateSortData.length === 0"
       class="mx-auto py-5 col-12 w-100 text-center"
     >
+      <i class="bi bi-clipboard text-secondary"></i>
       <p class="text-center fw-bold fs-5 text-primary">目前無自定義的資料～</p>
       <button @click="openModal" class="btn btn-primary">
         試著新增一個吧！
@@ -199,3 +200,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.bi-clipboard {
+  font-size: 75px;
+}
+</style>

@@ -14,6 +14,7 @@
       v-if="myProductList.length === 0"
       class="mx-auto py-5 col-12 w-100 text-center"
     >
+      <i class="bi bi-columns-gap text-secondary"></i>
       <p class="text-center fw-bold fs-5 text-primary">
         目前無製作的營養標示～
       </p>
@@ -738,5 +739,9 @@ export default {
 
 .pR {
   padding-right: 9px !important;
+}
+
+.bi-columns-gap {
+  font-size: 75px;
 }
 </style>

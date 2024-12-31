@@ -3,6 +3,7 @@
     <header class="text-end px-1">
       <h3 class="text-center">已新增的營養素</h3>
       <button
+        v-if="myAddedNtsList.length > 0"
         @click="openAddNtsModal"
         type="button"
         class="btn btn-primary mb-3"
@@ -13,11 +14,15 @@
     <div class="row">
       <section
         v-if="myAddedNtsList.length === 0"
-        class="mx-auto py-5 col-12 w-100"
+        class="mx-auto py-5 col-12 w-100 text-center"
       >
-        <p class="text-center mb-0 fw-bold fs-5 text-primary">
-          目前已無新增的營養素
+        <i class="bi bi-card-text text-secondary"></i>
+        <p class="text-center fw-bold fs-5 text-primary">
+          目前無新增的營養素
         </p>
+        <button @click="openAddNtsModal" class="btn btn-primary">
+          試著新增一個吧！
+        </button>
       </section>
       <section
         v-for="(item, index) in myAddedNtsList"
@@ -124,5 +129,9 @@ export default {
 <style lang="scss" scoped>
 .card {
   height: 210px;
+}
+
+.bi-card-text {
+  font-size: 75px;
 }
 </style>
