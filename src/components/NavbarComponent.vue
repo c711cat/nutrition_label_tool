@@ -1,5 +1,5 @@
 <template>
-  <nav class="px-3 navbar navbar-expand-lg bg-light">
+  <nav class="px-3 navbar navbar-expand-lg" :class="navBg">
     <div class="container-fluid">
       <div class="collapse navbar-collapse">
         <div class="navbar-nav align-items-center">
@@ -143,6 +143,20 @@ export default {
         return ''
       }
     },
+    navBg() {
+      if (this.$route.path === '/' && window.innerWidth < 992) {
+        return 'bg-white'
+      }
+      if (this.$route.path === '/nutrition_label' && window.innerWidth < 992) {
+        return 'bg-white'
+      }
+      if (this.$route.path === '/mark_items' && window.innerWidth < 992) {
+        return 'bg-white'
+      } else {
+        return 'bg-light'
+      }
+    },
+  },
   methods: {
     getMyAddedNtsList() {
       const data = JSON.parse(localStorage.getItem('myAddedNts')) || []
