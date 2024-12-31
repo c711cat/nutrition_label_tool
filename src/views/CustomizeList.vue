@@ -1,11 +1,25 @@
 <template>
   <div class="mx-auto col-11 col-lg-10">
-    <h3 class="text-center">自定義資料庫</h3>
-    <div class="text-end mb-3">
-      <button @click="openModal" class="btn btn-primary">新增</button>
-    </div>
-
-    <div
+    <header class="text-end mb-3">
+      <h3 class="text-center">自定義資料庫</h3>
+      <button
+        v-if="updateSortData.length > 0"
+        @click="openModal"
+        class="btn btn-primary"
+      >
+        新增
+      </button>
+    </header>
+    <section
+      v-if="updateSortData.length === 0"
+      class="mx-auto py-5 col-12 w-100 text-center"
+    >
+      <p class="text-center fw-bold fs-5 text-primary">目前無自定義的資料～</p>
+      <button @click="openModal" class="btn btn-primary">
+        試著新增一個吧！
+      </button>
+    </section>
+    <section
       v-for="(item, index) in updateSortData"
       :key="item"
       class="border rounded row m-0 mb-5 justify-content-between"
@@ -103,7 +117,7 @@
           刪除
         </button>
       </div>
-    </div>
+    </section>
     <DoubleCheckModal ref="doubleCheckModal" />
     <CustomizeBaseDataModal ref="customizeBaseDataModal" />
   </div>

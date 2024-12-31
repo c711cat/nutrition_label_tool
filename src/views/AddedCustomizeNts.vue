@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto col-11 col-lg-10 col-xl-9 col-xxl-8">
-    <h3 class="text-center">已新增的營養素</h3>
-    <div class="text-end px-1">
+    <header class="text-end px-1">
+      <h3 class="text-center">已新增的營養素</h3>
       <button
         @click="openAddNtsModal"
         type="button"
@@ -9,15 +9,17 @@
       >
         新增
       </button>
-    </div>
-
+    </header>
     <div class="row">
-      <div v-if="myAddedNtsList.length === 0" class="mx-auto py-5 col-12 w-100">
+      <section
+        v-if="myAddedNtsList.length === 0"
+        class="mx-auto py-5 col-12 w-100"
+      >
         <p class="text-center mb-0 fw-bold fs-5 text-primary">
           目前已無新增的營養素
         </p>
-      </div>
-      <div
+      </section>
+      <section
         v-for="(item, index) in myAddedNtsList"
         :key="item"
         class="col-md-6 mb-3"
@@ -72,7 +74,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
     <NewClaimNtsModal ref="newClaimNtsModal" />
     <DoubleCheckModal ref="doubleCheckModal" />

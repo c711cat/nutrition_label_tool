@@ -1,12 +1,27 @@
 <template>
-  <div class="mx-auto col-11 col-lg-10">
-    <h3 class="text-center">產品列表</h3>
-    <div class="mb-3 text-end">
-      <router-link to="/nutrition_label" class="btn btn-primary">
+  <main class="mx-auto col-11 col-lg-10">
+    <header class="mb-3 text-end">
+      <h3 class="text-center">產品列表</h3>
+      <router-link
+        v-if="myProductList.length > 0"
+        to="/nutrition_label"
+        class="btn btn-primary"
+      >
         新增營養標示
       </router-link>
-    </div>
-    <div
+    </header>
+    <section
+      v-if="myProductList.length === 0"
+      class="mx-auto py-5 col-12 w-100 text-center"
+    >
+      <p class="text-center fw-bold fs-5 text-primary">
+        目前無製作的營養標示～
+      </p>
+      <router-link to="/nutrition_label" class="btn btn-primary">
+        試著新增一個吧！
+      </router-link>
+    </section>
+    <section
       v-for="(item, index) in myProductList"
       :key="item.id"
       class="border rounded row m-0"
@@ -388,10 +403,10 @@
           每份熱量計算方式，得以每一百公克(或毫升)之熱量換算之，或以每一百公克(或毫升)之蛋白質、脂肪及碳水化合物含量換算為每份含量後，再以第一款至前款計算方式計算每份之熱量。
         </p>
       </div>
-    </div>
+    </section>
     <ProductClaimNtsModal ref="productClaimNtsModal" />
     <DoubleCheckModal ref="doubleCheckModal" />
-  </div>
+  </main>
 </template>
 
 <script>
