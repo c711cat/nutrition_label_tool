@@ -40,14 +40,14 @@
             <span
               v-for="(nt, index) in localBaseClaimNts"
               :key="nt + index"
-              class="badge text-primary-emphasis bg-primary-subtle border-primary-subtle fs-6 m-1"
+              class="badge text-primary-emphasis bg-primary-subtle fs-6 m-1"
             >
               {{ nts[nt].replace(/\(.*\)/, '') }}
             </span>
             <span
               v-for="(value, key) in localNewClaimNts"
               :key="key"
-              class="badge text-light bg-primary border border-primary fs-6 m-1"
+              class="badge text-light bg-primary fs-6 m-1"
             >
               {{ myAddedNts[value].replace(/\(.*\)/, '') }}
             </span>
