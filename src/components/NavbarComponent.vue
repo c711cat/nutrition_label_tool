@@ -64,9 +64,12 @@
       <div class="col-12 d-flex align-items-center text-center">
         <router-link
           to="/"
-          class="col bi bi-house-fill fs-2 text-dark"
+          class="col nav-link"
           :class="$route.path === '/' ? 'active fw-bold' : ''"
-        ></router-link>
+        >
+          <i class="bi bi-house-fill fs-4"></i>
+          <p class="xs-md-textStyle mb-0">首頁</p>
+        </router-link>
         <router-link
           to="/nutrition_label"
           class="col nav-link"
