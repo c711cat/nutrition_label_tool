@@ -14,7 +14,9 @@ const localStorageMyAddedNtsList = getMyAddedNtsList()
 export const useCustomizeStore = defineStore('customizeStore', {
   state: () => ({
     customizeDataList: localStorageCustomizeData,
+    filteredCustomizeDataList: localStorageCustomizeData,
     myAddedNtsList: localStorageMyAddedNtsList,
+    filteredMyAddedNtsList: localStorageMyAddedNtsList,
     baseClaimNts: [],
     newClaimNts: [],
     customizeData: {},
@@ -24,6 +26,9 @@ export const useCustomizeStore = defineStore('customizeStore', {
   getters: {
     localStorageCustomizeData: ({ customizeDataList }) => {
       return customizeDataList
+    },
+    localStoragefilteredCustomizeData: ({ filteredCustomizeDataList }) => {
+      return filteredCustomizeDataList
     },
     baseClaimNutrients: ({ baseClaimNts }) => {
       return baseClaimNts
@@ -36,6 +41,9 @@ export const useCustomizeStore = defineStore('customizeStore', {
     },
     localStorageMyAddedNtsList: ({ myAddedNtsList }) => {
       return myAddedNtsList
+    },
+    localStoragefilteredMyAddedNtsList: ({ filteredMyAddedNtsList }) => {
+      return filteredMyAddedNtsList
     },
     customizeBaseDataModal: ({ customizeModal }) => {
       return customizeModal
@@ -236,5 +244,24 @@ export const useCustomizeStore = defineStore('customizeStore', {
         })
       }
     },
+    searchAddedNts(text) {
+      const data = []
+      this.filteredMyAddedNtsList.filter(item => {
+        if (item.enName.match(text) || item.chName.match(text)) {
+          data.push(item)
+        }
+      })
+      this.myAddedNtsList = data
+    },
+    searchCustomizeList(text) {
+      const data = []
+      this.filteredCustomizeDataList.filter(item => {
+        if (item.sample_name.match(text)) {
+          data.push(item)
+        }
+      })
+      this.customizeDataList = data
+    },
+    
   },
 })

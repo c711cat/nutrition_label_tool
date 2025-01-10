@@ -1,10 +1,32 @@
 <template>
-  <div class="container my-4">
-    <h3 class="text-center mb-5">營養標示列表</h3>
-    <div
+  <main class="mx-auto col-11 col-lg-10">
+    <header class="mb-3 text-end">
+      <h3 class="text-center">產品列表</h3>
+      <router-link
+        v-if="myProductList.length > 0"
+        to="/nutrition_label"
+        class="btn btn-primary"
+      >
+        新增營養標示
+      </router-link>
+    </header>
+    <section
+      v-if="myProductList.length === 0"
+      class="mx-auto py-5 col-12 w-100 text-center"
+    >
+      <i class="bi bi-columns-gap text-secondary"></i>
+      <p class="text-center fw-bold fs-5 text-primary">
+        {{ noResultText }}
+      </p>
+
+      <router-link to="/nutrition_label" class="btn btn-primary">
+        試著新增一個吧！
+      </router-link>
+    </section>
+    <section
       v-for="(item, index) in myProductList"
       :key="item.id"
-      class="border rounded row m-0 my-5"
+      class="border rounded row m-0"
     >
       <section class="bg-light p-3 rounded col-12 col-xl markItemsContainer">
         <div class="d-flex">
@@ -325,38 +347,36 @@
         </section>
       </section>
 
-      <div class="d-flex flex-wrap justify-content-between pe-4">
+      <div class="text-end pe-4">
+        <button
+          @click="download(item.id)"
+          type="button"
+          class="btn btn-primary me-3"
+        >
+          下載營養標示
+        </button>
         <button
           @click="openModal(item)"
           type="button"
-          class="btn btn-primary my-3"
+          class="btn btn-outline-primary my-3 me-3"
         >
-          增減營養素
+          增減標示營養素
         </button>
-        <div class="my-3">
-          <button
-            @click="download(item.id)"
-            type="button"
-            class="btn btn-primary me-3"
-          >
-            下載營養標示
-          </button>
-          <router-link
-            :to="isPath(item.id)"
-            @click="edit(item)"
-            type="button"
-            class="btn btn-outline-primary me-3"
-          >
-            編輯
-          </router-link>
-          <button
-            @click="openDoubleCheckModal(item, index)"
-            type="button"
-            class="btn btn-outline-danger"
-          >
-            刪除
-          </button>
-        </div>
+        <router-link
+          :to="isPath(item.id)"
+          @click="edit(item)"
+          type="button"
+          class="btn btn-outline-primary me-3"
+        >
+          編輯
+        </router-link>
+        <button
+          @click="openDoubleCheckModal(item, index)"
+          type="button"
+          class="btn btn-outline-danger"
+        >
+          刪除
+        </button>
       </div>
       <div>
         <p>
@@ -385,10 +405,10 @@
           每份熱量計算方式，得以每一百公克(或毫升)之熱量換算之，或以每一百公克(或毫升)之蛋白質、脂肪及碳水化合物含量換算為每份含量後，再以第一款至前款計算方式計算每份之熱量。
         </p>
       </div>
-    </div>
+    </section>
     <ProductClaimNtsModal ref="productClaimNtsModal" />
     <DoubleCheckModal ref="doubleCheckModal" />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -419,8 +439,28 @@ export default {
   },
   components: { ProductClaimNtsModal, DoubleCheckModal },
   computed: {
-    ...mapState(useFoodStore, ['myProductList', 'headerChineseAndEnglish']),
+    ...mapState(useFoodStore, [
+      'myProductList',
+      'filteredMyProductList',
+      'headerChineseAndEnglish',
+    ]),
     ...mapState(useCustomizeStore, ['myAddedNtsList']),
+    noResultText() {
+      if (
+        this.myProductList.length === 0 &&
+        this.filteredMyProductList.length === 0
+      ) {
+        return '目前無製作的營養標示～'
+      }
+      if (
+        this.myProductList.length === 0 &&
+        this.filteredMyProductList.length > 0
+      ) {
+        return '搜尋結果：無符合的營養標示～'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'edit']),
@@ -720,5 +760,9 @@ export default {
 
 .pR {
   padding-right: 9px !important;
+}
+
+.bi-columns-gap {
+  font-size: 75px;
 }
 </style>

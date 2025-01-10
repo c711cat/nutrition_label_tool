@@ -1,14 +1,29 @@
 <template>
-  <div class="container">
-    <h3 class="text-center mb-5">自定義資料庫</h3>
-    <div class="text-end">
-      <button @click="openModal" class="btn btn-outline-primary">新增</button>
-    </div>
-
-    <div
+  <div class="mx-auto col-11 col-lg-10">
+    <header class="text-end mb-3">
+      <h3 class="text-center">自定義資料庫</h3>
+      <button
+        v-if="updateSortData.length > 0"
+        @click="openModal"
+        class="btn btn-primary"
+      >
+        新增
+      </button>
+    </header>
+    <section
+      v-if="updateSortData.length === 0"
+      class="mx-auto py-5 col-12 w-100 text-center"
+    >
+      <i class="bi bi-clipboard text-secondary"></i>
+      <p class="text-center fw-bold fs-5 text-primary">{{ noResultText }}</p>
+      <button @click="openModal" class="btn btn-primary">
+        試著新增一個吧！
+      </button>
+    </section>
+    <section
       v-for="(item, index) in updateSortData"
       :key="item"
-      class="border rounded row m-0 my-5 justify-content-between"
+      class="border rounded row m-0 mb-5 justify-content-between"
     >
       <section class="bg-light p-3 rounded col">
         <div class="d-flex">
@@ -103,10 +118,10 @@
           刪除
         </button>
       </div>
-    </div>
+    </section>
+    <DoubleCheckModal ref="doubleCheckModal" />
+    <CustomizeBaseDataModal ref="customizeBaseDataModal" />
   </div>
-  <DoubleCheckModal ref="doubleCheckModal" />
-  <CustomizeBaseDataModal ref="customizeBaseDataModal" />
 </template>
 <script>
 import { mapState, mapActions } from 'pinia'
@@ -130,15 +145,38 @@ export default {
       deep: true,
       immediate: true,
     },
+    customizeDataList: {
+      handler() {
+        this.sortItem()
+      },
+      deep: true,
+      immediate: true,
+    },
   },
   components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
     ...mapState(useCustomizeStore, [
-      'customizeDataList',
+      'customizeDataList','filteredCustomizeDataList',
       'customizeData',
       'customizeModal',
     ]),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
+    noResultText() {
+      if (
+        this.customizeDataList.length === 0 &&
+        this.filteredCustomizeDataList.length === 0
+      ) {
+        return '目前無自定義的資料～'
+      }
+      if (
+        this.customizeDataList.length === 0 &&
+        this.filteredCustomizeDataList.length > 0
+      ) {
+        return '搜尋結果：無符合的資料～'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     ...mapActions(useCustomizeStore, [
@@ -185,3 +223,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.bi-clipboard {
+  font-size: 75px;
+}
+</style>

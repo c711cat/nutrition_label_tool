@@ -1,20 +1,28 @@
 <template>
-  <div
-    class="container col-12 col-md-11 col-lg-10 col-xl-9 col-xxl-8 pb-5 mb-5"
-  >
-    <h3 class="text-center">已新增的營養素</h3>
-    <div class="text-end px-1">
+  <div class="mx-auto col-11 col-lg-10 col-xl-9 col-xxl-8">
+    <header class="text-end px-1">
+      <h3 class="text-center">已新增的營養素</h3>
       <button
+        v-if="myAddedNtsList.length > 0"
         @click="openAddNtsModal"
         type="button"
-        class="btn btn-outline-primary mb-3"
+        class="btn btn-primary mb-3"
       >
         新增
       </button>
-    </div>
-
+    </header>
     <div class="row">
-      <div
+      <section
+        v-if="myAddedNtsList.length === 0"
+        class="mx-auto py-5 col-12 w-100 text-center"
+      >
+        <i class="bi bi-card-text text-secondary"></i>
+        <p class="text-center fw-bold fs-5 text-primary">{{ noResultText }}</p>
+        <button @click="openAddNtsModal" class="btn btn-primary">
+          試著新增一個吧！
+        </button>
+      </section>
+      <section
         v-for="(item, index) in myAddedNtsList"
         :key="item"
         class="col-md-6 mb-3"
@@ -69,11 +77,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
+    <NewClaimNtsModal ref="newClaimNtsModal" />
+    <DoubleCheckModal ref="doubleCheckModal" />
   </div>
-  <NewClaimNtsModal ref="newClaimNtsModal" />
-  <DoubleCheckModal ref="doubleCheckModal" />
 </template>
 <script>
 import NewClaimNtsModal from '@/components/NewClaimNtsModal.vue'
@@ -88,7 +96,27 @@ export default {
   components: { NewClaimNtsModal, DoubleCheckModal },
   computed: {
     ...mapState(useFoodStore, ['onlyNewAddHeader']),
-    ...mapState(useCustomizeStore, ['customizeDataList', 'myAddedNtsList']),
+    ...mapState(useCustomizeStore, [
+      'customizeDataList',
+      'myAddedNtsList',
+      'filteredMyAddedNtsList',
+    ]),
+    noResultText() {
+      if (
+        this.myAddedNtsList.length === 0 &&
+        this.filteredMyAddedNtsList.length === 0
+      ) {
+        return '目前無新增的營養素～'
+      }
+      if (
+        this.myAddedNtsList.length === 0 &&
+        this.filteredMyAddedNtsList.length > 0
+      ) {
+        return '搜尋結果：無符合的營養素～'
+      } else {
+        return ''
+      }
+    },
   },
   methods: {
     openAddNtsModal() {
@@ -119,5 +147,9 @@ export default {
 <style lang="scss" scoped>
 .card {
   height: 210px;
+}
+
+.bi-card-text {
+  font-size: 75px;
 }
 </style>
