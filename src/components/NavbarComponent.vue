@@ -67,7 +67,7 @@
           :class="$route.path === '/' ? 'active fw-bold' : ''"
         >
           <i class="bi bi-house-fill fs-4"></i>
-          <p class="xs-md-textStyle mb-0">首頁</p>
+          <p class="xs-md-textStyle mb-0 adjustFZ">首頁</p>
         </router-link>
         <router-link
           to="/nutrition_label"
@@ -76,7 +76,7 @@
           aria-current="page"
         >
           <i class="bi bi-plus-square fs-4"></i>
-          <p class="xs-md-textStyle mb-0">新增標示</p>
+          <p class="xs-md-textStyle mb-0 adjustFZ">新增標示</p>
         </router-link>
         <router-link
           to="/product_list"
@@ -84,7 +84,7 @@
           :class="$route.path === '/product_list' ? 'active fw-bold' : ''"
         >
           <i class="bi bi-postcard fs-4"></i>
-          <p class="xs-md-textStyle mb-0">產品列表</p>
+          <p class="xs-md-textStyle mb-0 adjustFZ">產品列表</p>
         </router-link>
 
         <router-link
@@ -93,7 +93,7 @@
           :class="$route.path === '/customize_list' ? 'active fw-bold' : ''"
         >
           <i class="bi bi-pen fs-4"></i>
-          <p class="xs-md-textStyle mb-0">自定義</p>
+          <p class="xs-md-textStyle mb-0 adjustFZ">自定義</p>
         </router-link>
         <router-link
           v-if="myAddedNts > 0"
@@ -104,7 +104,7 @@
           "
         >
           <i class="bi bi-list-check fs-4"></i>
-          <p class="xs-md-textStyle mb-0">新增營養素</p>
+          <p class="xs-md-textStyle mb-0 adjustFZ">新增營養素</p>
         </router-link>
       </div>
     </div>
@@ -201,5 +201,9 @@ export default {
 
 .searchInput {
   padding-left: 33px;
+}
+
+.adjustFZ {
+  font-size: clamp(12px, 2vw, 14px);
 }
 </style>
