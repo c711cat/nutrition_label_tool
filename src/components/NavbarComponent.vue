@@ -1,5 +1,7 @@
 <template>
-  <nav class="px-3 navbar navbar-expand-lg fixed-top" :class="navBg">
+  <nav
+    class="d-none d-lg-block px-3 navbar navbar-expand-lg fixed-top bg-light"
+  >
     <div class="container-fluid">
       <div class="collapse navbar-collapse">
         <div class="navbar-nav align-items-center">
@@ -41,12 +43,8 @@
           </router-link>
         </div>
       </div>
-      <form
-        v-if="showSearch"
-        class="d-flex col-12 col-md-10 col-lg-auto mx-auto"
-        role="search"
-      >
-        <div class="mx-auto position-relative col-12 col-md-10 col-lg-auto">
+      <form v-if="showSearch" class="" role="search">
+        <div class="position-relative col-lg-auto">
           <i class="bi bi-search position-absolute text-secondary"></i>
           <input
             @input="search($event)"
@@ -59,6 +57,7 @@
       </form>
     </div>
   </nav>
+
   <nav class="d-block d-lg-none navbar fixed-bottom bg-light">
     <div class="container-fluid w-100">
       <div class="col-12 d-flex align-items-center text-center">
@@ -150,19 +149,6 @@ export default {
         return ''
       }
     },
-    navBg() {
-      if (this.$route.path === '/' && window.innerWidth < 992) {
-        return 'bg-white'
-      }
-      if (this.$route.path === '/nutrition_label' && window.innerWidth < 992) {
-        return 'bg-white'
-      }
-      if (this.$route.path === '/mark_items' && window.innerWidth < 992) {
-        return 'bg-white'
-      } else {
-        return 'bg-light'
-      }
-    },
   },
   methods: {
     ...mapActions(useFoodStore, ['searchProducts']),
@@ -196,16 +182,16 @@ export default {
 }
 
 .bi-house-fill:hover {
-  color: #111a9e !important;
+  color: #142aa6 !important;
 }
 
 .nav-link:hover {
-  color: #111a9e !important;
+  color: #142aa6 !important;
   font-weight: bold;
 }
 
 .active {
-  color: #111a9e !important;
+  color: #142aa6 !important;
 }
 
 .bi-search {
