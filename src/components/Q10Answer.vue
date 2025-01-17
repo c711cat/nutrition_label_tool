@@ -10,3 +10,8 @@
   </a>
   <p class="mb-0 d-inline-block">【 更新日期為：2024 / 08 / 09 】</p>
 </template>
+<style lang="scss" scoped>
+a:hover {
+  filter: brightness(1.7) !important;
+}
+</style>

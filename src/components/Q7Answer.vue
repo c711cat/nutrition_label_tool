@@ -56,3 +56,8 @@
     食品衛生安全管理法
   </a>
 </template>
+<style lang="scss" scoped>
+a:hover {
+  filter: brightness(1.7) !important;
+}
+</style>

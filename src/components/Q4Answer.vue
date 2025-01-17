@@ -32,3 +32,8 @@
     不具啟封辨識性：看不得出來是否被開封過
   </p>
 </template>
+<style lang="scss" scoped>
+a:hover {
+  filter: brightness(1.7) !important;
+}
+</style>

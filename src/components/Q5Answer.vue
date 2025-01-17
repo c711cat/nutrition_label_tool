@@ -182,4 +182,8 @@
 span {
   font-size: 14px;
 }
+
+a:hover {
+  filter: brightness(1.7) !important;
+}
 </style>

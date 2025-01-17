@@ -18,3 +18,8 @@
     包裝食品營養標示應遵行事項 Q&A
   </a>
 </template>
+<style lang="scss" scoped>
+a:hover {
+  filter: brightness(1.7) !important;
+}
+</style>

@@ -1,8 +1,8 @@
 <template>
   <!-- Ｑ8. 營養標示標錯會有罰則嗎？ -->
   <p>
-    如有標示不實，則違反食品衛生安全管理法第 28 條，將依據食品衛生安全管理法
-    第 45 條 第一款，處新臺幣<span class="fw-bold"> 4 萬元以上 400 萬元以下</span
+    如有標示不實，則違反食品衛生安全管理法第 28 條，將依據食品衛生安全管理法 第
+    45 條 第一款，處新臺幣<span class="fw-bold"> 4 萬元以上 400 萬元以下</span
     >罰鍰。
   </p>
   <p class="mb-1 fw-bold">食品衛生安全管理法 第 28 條</p>
@@ -45,3 +45,8 @@
     食品衛生安全管理法
   </a>
 </template>
+<style lang="scss" scoped>
+a:hover {
+  filter: brightness(1.7) !important;
+}
+</style>

@@ -43,3 +43,8 @@
     </li>
   </ol>
 </template>
+<style lang="scss" scoped>
+a:hover {
+  filter: brightness(1.7) !important;
+}
+</style>
