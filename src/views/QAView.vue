@@ -12,7 +12,7 @@
         >
           <h2 class="accordion-header">
             <button
-              class="accordion-button fw-bold text-dark"
+              class="accordion-button fw-bold text-dark bg-light"
               :class="index === 0 ? '' : collapsed"
               type="button"
               data-bs-toggle="collapse"
@@ -121,22 +121,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-a:hover {
-  filter: brightness(1.7);
-}
-
-button {
-  background: #d0d4ed;
-}
 button:hover {
-  filter: brightness(1.06);
-}
-
-.itemBtn:hover {
-  filter: brightness(0.97);
-}
-
-span {
-  font-size: 14px;
+  filter: brightness(0.98);
 }
 </style>

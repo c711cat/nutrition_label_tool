@@ -177,3 +177,9 @@
     如需精準的數值，建議將產品送檢至可信賴的檢驗單位，進行檢驗。
   </p>
 </template>
+
+<style lang="scss" scoped>
+span {
+  font-size: 14px;
+}
+</style>
