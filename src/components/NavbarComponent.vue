@@ -41,6 +41,13 @@
           >
             已新增營養素清單
           </router-link>
+          <router-link
+            to="/QA"
+            class="nav-link"
+            :class="$route.path === '/QA' ? 'active fw-bold' : ''"
+          >
+            QA
+          </router-link>
         </div>
       </div>
       <form v-if="showSearch" class="" role="search">
@@ -105,6 +112,14 @@
         >
           <i class="bi bi-list-check fs-4"></i>
           <p class="xs-md-textStyle mb-0 adjustFZ">新增營養素</p>
+        </router-link>
+        <router-link
+          to="/QA"
+          class="col nav-link"
+          :class="$route.path === '/QA' ? 'active fw-bold' : ''"
+        >
+          <i class="bi bi-question-circle fs-4"></i>
+          <p class="xs-md-textStyle mb-0 adjustFZ">QA</p>
         </router-link>
       </div>
     </div>

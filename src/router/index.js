@@ -35,6 +35,10 @@ const router = createRouter({
           path: 'added_customize_nts',
           component: () => import('@/views/AddedCustomizeNts.vue'),
         },
+        {
+          path: 'QA',
+          component: () => import('@/views/QAView.vue'),
+        },
       ],
     },
   ],
