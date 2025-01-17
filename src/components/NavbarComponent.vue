@@ -147,6 +147,9 @@ export default {
       }
       if (this.$route.path === '/mark_items') {
         return false
+      }
+      if (this.$route.path === '/QA') {
+        return false
       } else {
         return true
       }
