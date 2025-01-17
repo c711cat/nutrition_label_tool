@@ -1,14 +1,7 @@
 <template>
   <!-- Ｑ3.『 包裝食品 』應該要遵守什麼規範？ 『 得免營養標示之包裝食品規定 』 是什麼？ -->
   <p class="mb-0">
-    若為『 包裝食品 』則必須遵守
-    <a
-      class="fw-bold text-decoration-none"
-      target="_blank"
-      href="https://pse.is/6rwt74"
-    >
-      『 包裝食品營養標示應遵行事項 』
-    </a>
+    若為『 包裝食品 』則必須遵守『 包裝食品營養標示應遵行事項 』。
   </p>
   <hr />
   <p>其中『 包裝食品營養標示應遵行事項 』Q&A 之 Q2.6 提到：</p>
@@ -58,15 +51,35 @@
         三、非直接販售予消費者之食品及食品原料，得免營養標示。
       </li>
     </ul>
-    <p class="mb-0">
-      參考資料：
-      <a
-        class="text-decoration-none fw-bold"
-        target="_blank"
-        href="https://www.mohw.gov.tw/cp-3792-40173-1.html"
-      >
-        得免營養標示之包裝食品規定
-      </a>
-    </p>
+    <p class="mb-0">參考資料：</p>
+    <ul class="mb-0">
+      <li class="ps-0">
+        <a
+          class="fw-bold text-decoration-none"
+          target="_blank"
+          href="https://www.foodlabel.org.tw/FdaFrontEndApp/Law/Edit?SystemId=ffecbbc0-eac3-4bb1-a91e-5ace76bbe31b&clPublishStatus=1"
+        >
+          包裝食品營養標示應遵行事項
+        </a>
+      </li>
+      <li>
+        <a
+          class="fw-bold text-decoration-none"
+          target="_blank"
+          href="https://pse.is/6rwt74"
+        >
+          包裝食品營養標示應遵行事項 Q&A
+        </a>
+      </li>
+      <li>
+        <a
+          class="text-decoration-none fw-bold"
+          target="_blank"
+          href="https://www.mohw.gov.tw/cp-3792-40173-1.html"
+        >
+          得免營養標示之包裝食品規定
+        </a>
+      </li>
+    </ul>
   </div>
 </template>

@@ -12,7 +12,7 @@
         >
           <h2 class="accordion-header">
             <button
-              class="accordion-button fw-bold"
+              class="accordion-button fw-bold text-dark"
               :class="index === 0 ? '' : collapsed"
               type="button"
               data-bs-toggle="collapse"
@@ -45,6 +45,11 @@ import Q2Answer from '@/components/Q2Answer.vue'
 import Q3Answer from '@/components/Q3Answer.vue'
 import Q4Answer from '@/components/Q4Answer.vue'
 import Q5Answer from '@/components/Q5Answer.vue'
+import Q6Answer from '@/components/Q6Answer.vue'
+import Q7Answer from '@/components/Q7Answer.vue'
+import Q8Answer from '@/components/Q8Answer.vue'
+import Q9Answer from '@/components/Q9Answer.vue'
+import Q10Answer from '@/components/Q10Answer.vue'
 export default {
   data() {
     return {
@@ -71,10 +76,41 @@ export default {
           question: 'Ｑ5. 如果以計算方式來得到營養成分之含量，應該如何進行？',
           component: Q5Answer,
         },
+        {
+          question: 'Ｑ6. 為什麼需要營養標示？',
+          component: Q6Answer,
+        },
+        {
+          question: 'Ｑ7. 營養標示不標可以嗎？',
+          component: Q7Answer,
+        },
+        {
+          question: 'Ｑ8. 營養標示標錯會有罰則嗎？',
+          component: Q8Answer,
+        },
+        {
+          question: 'Ｑ9. 想了解更多關於『 食品標示 』相關法規，可由何處獲得？',
+          component: Q9Answer,
+        },
+        {
+          question: 'Ｑ10. 此網站內建資料庫取自何處？',
+          component: Q10Answer,
+        },
       ],
     }
   },
-  components: { Q1Answer, Q2Answer, Q3Answer, Q4Answer, Q5Answer },
+  components: {
+    Q1Answer,
+    Q2Answer,
+    Q3Answer,
+    Q4Answer,
+    Q5Answer,
+    Q6Answer,
+    Q7Answer,
+    Q8Answer,
+    Q9Answer,
+    Q10Answer,
+  },
   created() {
     const collapseElementList = document.querySelectorAll('.collapse')
     this.QAList = [...collapseElementList].map(
