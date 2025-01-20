@@ -26,9 +26,11 @@
     <section
       v-for="(item, index) in myProductList"
       :key="item.id"
-      class="border rounded row m-0"
+      class="border rounded row m-0 mb-4"
     >
-      <section class="bg-light p-3 rounded col-12 col-xl markItemsContainer">
+      <section
+        class="bg-light p-3 rounded-start col-12 col-xl markItemsContainer"
+      >
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
           <i class="fst-normal">：</i>
@@ -378,32 +380,52 @@
           刪除
         </button>
       </div>
-      <div>
-        <p>
-          依據
+      <div
+        v-if="
+          item.claimNts?.includes('dietary_fiber') ||
+          item.claimNts?.includes('Erythritol') ||
+          isOtherSugarAlcohols(item) ||
+          isNewAddedSA(item.newClaimNts) ||
+          isOrganicAcid(item) ||
+          item.claimNts?.includes('alcohol')
+        "
+      >
+        <p class="mb-1">
+          備註：依據
           <a
+            class="fw-bold text-decoration-none"
             href="https://www.foodlabel.org.tw/FdaFrontEndApp/Law/Edit?SystemId=f27b8c5e-35c2-4a86-9b8b-d7cbbef409ab&clPublishStatus=undefined"
             target="_blank"
             rel="noopener noreferrer"
           >
             包裝食品營養標示應遵行事項
           </a>
-          第一章 之 第十一條：包裝食品營養標示之熱量計算方式，應依下列規定辦理：
+          第一章 之 第十一條：包裝食品營養標示之熱量計算方式：
         </p>
-        <p>(一) 蛋白質之熱量，以每公克四大卡計算。</p>
-        <p>(二) 脂肪之熱量，以每公克九大卡計算。</p>
-        <p>
-          (三)
-          碳水化合物之熱量，以每公克四大卡計算，但加以標示膳食纖維者，其膳食纖維熱量得以每公克二大卡計算。
-        </p>
-        <p>
-          (四)
-          赤藻糖醇之熱量得以零大卡計算，其他糖醇之熱量得以每公克二‧四大卡計算；有機酸之熱量得以每公克三大卡計算；酒精(乙醇)之熱量得以每公克七大卡計算。並應將糖醇含量標示於營養標示格式中，有機酸及酒精(乙醇)含量應於營養標示格式外明顯處註明。
-        </p>
-        <p>
-          (五)
-          每份熱量計算方式，得以每一百公克(或毫升)之熱量換算之，或以每一百公克(或毫升)之蛋白質、脂肪及碳水化合物含量換算為每份含量後，再以第一款至前款計算方式計算每份之熱量。
-        </p>
+        <ol class="ps-4">
+          <li v-if="item.claimNts?.includes('dietary_fiber')">
+            碳水化合物之熱量，以每公克 4
+            大卡計算，但加以標示膳食纖維者，其膳食纖維熱量得以每公克 2
+            大卡計算。
+          </li>
+          <li v-if="item.claimNts?.includes('Erythritol')">
+            赤藻糖醇之熱量得以 零 大卡計算。
+          </li>
+          <li
+            v-if="isOtherSugarAlcohols(item) || isNewAddedSA(item.newClaimNts)"
+          >
+            除了赤藻糖醇得以 零 大卡計算以外，其他糖醇之熱量得以每公克 2.4
+            大卡計算。
+          </li>
+          <li v-if="isOrganicAcid(item)">
+            有機酸之熱量得以每公克 3
+            大卡計算。有機酸含量應於營養標示格式外明顯處註明。
+          </li>
+          <li v-if="item.claimNts?.includes('alcohol')">
+            酒精 ( 乙醇 ) 之熱量得以每公克 7 大卡計算。酒精 ( 乙醇 )
+            含量應於營養標示格式外明顯處註明。
+          </li>
+        </ol>
       </div>
     </section>
     <ProductClaimNtsModal ref="productClaimNtsModal" />
@@ -541,7 +563,7 @@ export default {
       const fiber = item.claimNts?.includes('dietary_fiber')
         ? parseFloat(this.calculatePer100g(item, 'dietary_fiber')) || 0
         : 0
-      // erythritol 赤藻糖醇 熱量為零
+      // Erythritol 赤藻糖醇 熱量為零
       const erythritol = item.claimNts?.includes('Erythritol')
         ? parseFloat(this.calculatePer100g(item, 'Erythritol')) || 0
         : 0
@@ -739,6 +761,37 @@ export default {
         return false
       }
     },
+    isOrganicAcid(item) {
+      let organicAcid = false
+      item.newClaimNts?.forEach(nt => {
+        if (this.organicAcid.includes(nt)) {
+          organicAcid = true
+        } else {
+          organicAcid = false
+        }
+      })
+      return organicAcid
+    },
+    isOtherSugarAlcohols(item) {
+      let otherSA = false
+      item.claimNts?.filter(item => {
+        return (otherSA = this.sugarAlcohols.includes(item))
+      })
+      return otherSA
+    },
+    isNewAddedSA(item) {
+      let othersSA = false
+      const localStorageNts =
+        JSON.parse(localStorage.getItem('myAddedNts')) || []
+      if (item) {
+        localStorageNts.filter(nt => {
+          return (othersSA = nt.type === '糖醇' && item?.includes(nt.enName))
+        })
+      } else {
+        return (othersSA = false)
+      }
+      return othersSA
+    },
   },
   created() {
     this.adjustData()
@@ -764,5 +817,10 @@ export default {
 
 .bi-columns-gap {
   font-size: 75px;
+}
+
+.rounded-start {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0.375rem !important;
 }
 </style>

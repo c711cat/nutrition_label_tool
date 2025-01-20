@@ -13,7 +13,7 @@
           <h2 class="accordion-header">
             <button
               class="accordion-button fw-bold text-dark bg-light"
-              :class="index === 0 ? '' : collapsed"
+              :class="index === 0 ? '' : 'collapsed'"
               type="button"
               data-bs-toggle="collapse"
               :data-bs-target="`#QA${index}`"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { markRaw } from 'vue'
 import Collapse from 'bootstrap/js/dist/collapse'
 import Q1Answer from '@/components/Q1Answer.vue'
 import Q2Answer from '@/components/Q2Answer.vue'
@@ -50,6 +51,7 @@ import Q7Answer from '@/components/Q7Answer.vue'
 import Q8Answer from '@/components/Q8Answer.vue'
 import Q9Answer from '@/components/Q9Answer.vue'
 import Q10Answer from '@/components/Q10Answer.vue'
+import Q11Answer from '@/components/Q11Answer.vue'
 export default {
   data() {
     return {
@@ -57,44 +59,48 @@ export default {
       QAData: [
         {
           question: 'Ｑ1. 我的產品需要標示營養標示嗎？',
-          component: Q1Answer,
+          component: markRaw(Q1Answer),
         },
         {
           question: 'Ｑ2. 何謂『 散裝食品 』與『 包裝食品 』？',
-          component: Q2Answer,
+          component: markRaw(Q2Answer),
         },
         {
           question:
             'Ｑ3.『 包裝食品 』應該要遵守什麼規範？ 『 得免營養標示之包裝食品規定 』 是什麼？',
-          component: Q3Answer,
+          component: markRaw(Q3Answer),
         },
         {
           question: 'Ｑ4. 網路販售『 散裝食品 』如何標示？',
-          component: Q4Answer,
+          component: markRaw(Q4Answer),
         },
         {
           question: 'Ｑ5. 如果以計算方式來得到營養成分之含量，應該如何進行？',
-          component: Q5Answer,
+          component: markRaw(Q5Answer),
         },
         {
           question: 'Ｑ6. 為什麼需要營養標示？',
-          component: Q6Answer,
+          component: markRaw(Q6Answer),
         },
         {
           question: 'Ｑ7. 營養標示不標可以嗎？',
-          component: Q7Answer,
+          component: markRaw(Q7Answer),
         },
         {
           question: 'Ｑ8. 營養標示標錯會有罰則嗎？',
-          component: Q8Answer,
+          component: markRaw(Q8Answer),
         },
         {
           question: 'Ｑ9. 想了解更多關於『 食品標示 』相關法規，可由何處獲得？',
-          component: Q9Answer,
+          component: markRaw(Q9Answer),
         },
         {
           question: 'Ｑ10. 此網站內建資料庫取自何處？',
-          component: Q10Answer,
+          component: markRaw(Q10Answer),
+        },
+        {
+          question: 'Ｑ11. 營養標示的熱量計算方式？',
+          component: markRaw(Q11Answer),
         },
       ],
     }
@@ -110,6 +116,7 @@ export default {
     Q8Answer,
     Q9Answer,
     Q10Answer,
+    Q11Answer,
   },
   created() {
     const collapseElementList = document.querySelectorAll('.collapse')
