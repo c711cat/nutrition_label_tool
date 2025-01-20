@@ -124,4 +124,8 @@ export default {
 button:hover {
   filter: brightness(0.98);
 }
+
+.accordion {
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem #e9e9eb;
+}
 </style>
