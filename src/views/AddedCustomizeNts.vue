@@ -30,7 +30,7 @@
         <div class="card bg-light">
           <div
             class="card-body d-flex flex-column justify-content-between"
-            :class="used(item.enName) ? 'pb-2' : ''"
+            :class="used(item.enName) || productUsed(item.enName) ? 'pb-2' : ''"
           >
             <div>
               <p class="card-text mb-0 fw-bold">
@@ -54,25 +54,29 @@
             <div class="text-end">
               <button
                 @click="openEditModal(index, item)"
-                :disabled="used(item.enName)"
+                :disabled="used(item.enName) || productUsed(item.enName)"
                 class="btn btn-outline-primary me-2"
               >
                 編輯
               </button>
               <button
                 @click="openDoubleCheckModal(index, item)"
-                :disabled="used(item.enName)"
+                :disabled="used(item.enName) || productUsed(item.enName)"
                 class="btn btn-outline-danger"
               >
                 刪除
               </button>
               <div
-                v-if="used(item.enName)"
+                v-if="used(item.enName) || productUsed(item.enName)"
                 class="py-1 text-secondary d-flex flex-wrap justify-content-end"
               >
                 <i class="bi bi-info-circle pe-1"></i>
-                <span>自定義資料中已使用，</span>
-                <span>不予編輯及刪除</span>
+                <span v-if="used(item.enName)">自定義資料</span>
+                <span v-if="used(item.enName) && productUsed(item.enName)">
+                  及
+                </span>
+                <span v-if="productUsed(item.enName)">產品營養標示</span>
+                <span>已使用，不予編輯及刪除</span>
               </div>
             </div>
           </div>
@@ -95,7 +99,7 @@ export default {
   },
   components: { NewClaimNtsModal, DoubleCheckModal },
   computed: {
-    ...mapState(useFoodStore, ['onlyNewAddHeader']),
+    ...mapState(useFoodStore, ['onlyNewAddHeader', 'myProductList']),
     ...mapState(useCustomizeStore, [
       'customizeDataList',
       'myAddedNtsList',
@@ -141,14 +145,21 @@ export default {
       })
       return result
     },
+    productUsed(itemEnName) {
+      let used = false
+      this.myProductList?.forEach(item => {
+        item.newClaimNts?.some(nt => {
+          if (nt === itemEnName) {
+            used = true
+          }
+        })
+      })
+      return used
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
-.card {
-  height: 210px;
-}
-
 .bi-card-text {
   font-size: 75px;
 }
