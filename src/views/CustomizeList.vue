@@ -25,7 +25,7 @@
       :key="item"
       class="border rounded row m-0 mb-5 justify-content-between"
     >
-      <section class="bg-light p-3 rounded col">
+      <section class="bg-light p-3 rounded-start col">
         <div class="d-flex">
           <p class="mb-0">品名</p>
           <i class="fst-normal">：</i>
@@ -156,7 +156,8 @@ export default {
   components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
     ...mapState(useCustomizeStore, [
-      'customizeDataList','filteredCustomizeDataList',
+      'customizeDataList',
+      'filteredCustomizeDataList',
       'customizeData',
       'customizeModal',
     ]),
@@ -227,5 +228,10 @@ export default {
 <style lang="scss" scoped>
 .bi-clipboard {
   font-size: 75px;
+}
+
+.rounded-start {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0.375rem !important;
 }
 </style>
