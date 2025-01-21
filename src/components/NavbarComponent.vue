@@ -3,7 +3,7 @@
     class="d-none d-lg-block px-3 navbar navbar-expand-lg fixed-top bg-light"
   >
     <div class="container-fluid">
-      <div class="collapse navbar-collapse">
+      <div class="navbar-collapse">
         <div class="navbar-nav align-items-center">
           <router-link
             to="/"
@@ -200,16 +200,16 @@ export default {
 }
 
 .bi-house-fill:hover {
-  color: #142aa6 !important;
+  color: #00309f !important;
 }
 
 .nav-link:hover {
-  color: #142aa6 !important;
+  color: #00309f !important;
   font-weight: bold;
 }
 
 .active {
-  color: #142aa6 !important;
+  color: #00309f !important;
 }
 
 .bi-search {

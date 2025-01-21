@@ -25,7 +25,7 @@
       :key="item"
       class="border rounded row m-0 mb-5 justify-content-between"
     >
-      <section class="bg-light p-3 rounded col">
+      <section class="bg-light p-3 rounded-start col">
         <div class="d-flex">
           <p class="mb-0">品名</p>
           <i class="fst-normal">：</i>
@@ -37,8 +37,10 @@
           <p class="mb-0">{{ item.content_description }}</p>
         </div>
       </section>
-      <section class="col-auto d-flex justify-content-end p-3">
-        <table class="border border-black">
+      <section
+        class="col-12 col-sm-7 col-md-5 col-lg-5 col-xl-4 col-xxl-3 d-flex flex-wrap justify-content-end p-3"
+      >
+        <table class="border border-2 border-black col-12">
           <thead>
             <tr class="border-bottom border-black">
               <th colspan="2" class="text-center fw-normal">營養標示</th>
@@ -47,7 +49,7 @@
           <tbody>
             <tr>
               <th class="border-bottom border-black"></th>
-              <td class="px-2 border-bottom border-black">
+              <td class="text-end px-2 border-bottom border-black">
                 每 100 公克 / 毫升
               </td>
             </tr>
@@ -84,23 +86,64 @@
               <td class="text-end px-2">{{ item.sodium }} 毫克</td>
             </tr>
             <tr v-for="(value, key) in item.baseClaimNts" :key="key">
-              <th class="px-2 fw-normal">
+              <th v-if="key !== 'alcohol'" class="px-2 fw-normal">
                 {{ headerChineseAndEnglish[key].replace(/\(.*\)/, '') }}
               </th>
-              <td class="text-end px-2">
+              <td v-if="key !== 'alcohol'" class="text-end px-2">
                 {{ value }} {{ transUnitText(headerChineseAndEnglish[key]) }}
               </td>
             </tr>
             <tr v-for="(item, index) in item.newClaimNts" :key="item + index">
-              <th class="px-2 fw-normal">
+              <th v-if="item.type !== '有機酸'" class="px-2 fw-normal">
                 {{ item.chName }}
               </th>
-              <td class="text-end px-2">
+              <td v-if="item.type !== '有機酸'" class="text-end px-2">
                 {{ item.quantity }} {{ item.unit.replace(/\(.*\)/, '') }}
               </td>
             </tr>
           </tbody>
         </table>
+        <section class="col-12">
+          <table
+            v-if="isOtherIngredients(item)"
+            class="table table-sm table-borderless border border-2 border-black mt-1 mb-0"
+          >
+            <thead>
+              <tr class="lh-sm">
+                <th
+                  class="ps-2 fw-normal border-bottom border-black align-middle col"
+                >
+                  其他成分
+                </th>
+                <td
+                  class="text-end pe-2 border-bottom border-black col align-middle"
+                >
+                  每 100 公克 / 毫升
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(value, key) in item.baseClaimNts"
+                :key="key"
+                class="lh-1"
+              >
+                <th v-if="key === 'alcohol'" class="fw-normal ps-2">酒精</th>
+                <td v-if="key === 'alcohol'" class="text-end pe-2 align-middle">
+                  {{ value }} 公克
+                </td>
+              </tr>
+              <tr v-for="nt in item.newClaimNts" :key="nt" class="lh-1">
+                <th v-if="nt.type === '有機酸'" class="fw-normal ps-2">
+                  {{ nt.chName }}
+                </th>
+                <td v-if="nt.type === '有機酸'" class="text-end pe-2">
+                  {{ nt.quantity }} {{ nt.unit.replace(/\(.*\)/, '') }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
       </section>
       <div class="text-end my-3">
         <button
@@ -133,6 +176,7 @@ export default {
   data() {
     return {
       updateSortData: [],
+      organicAcid: [],
     }
   },
   watch: {
@@ -156,9 +200,11 @@ export default {
   components: { DoubleCheckModal, CustomizeBaseDataModal },
   computed: {
     ...mapState(useCustomizeStore, [
-      'customizeDataList','filteredCustomizeDataList',
+      'customizeDataList',
+      'filteredCustomizeDataList',
       'customizeData',
       'customizeModal',
+      'myAddedNtsList',
     ]),
     ...mapState(useFoodStore, ['headerChineseAndEnglish']),
     noResultText() {
@@ -217,9 +263,39 @@ export default {
         this.editCustomizeData(item)
       }
     },
+    getOrganicAcidName() {
+      // 將自行新增的 有機酸 名稱加入到 this.organicAcid 陣列中
+      const OAName = []
+      this.myAddedNtsList?.forEach(item => {
+        if (item.type === '有機酸') {
+          OAName.push(item.enName)
+        }
+      })
+      this.organicAcid = OAName
+    },
+    isOtherIngredients(item) {
+      let isOrganicAcid = false
+      item.newClaimNts?.forEach(nt => {
+        if (this.organicAcid.includes(nt)) {
+          isOrganicAcid = true
+        } else {
+          isOrganicAcid = false
+        }
+      })
+      if (
+        (item.baseClaimNts &&
+          Object.keys(item.baseClaimNts).includes('alcohol')) ||
+        isOrganicAcid === true
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   created() {
     this.sortItem()
+    this.getOrganicAcidName()
   },
 }
 </script>
@@ -227,5 +303,10 @@ export default {
 <style lang="scss" scoped>
 .bi-clipboard {
   font-size: 75px;
+}
+
+.rounded-start {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0.375rem !important;
 }
 </style>
