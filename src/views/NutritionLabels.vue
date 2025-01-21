@@ -536,6 +536,6 @@ ul.list-group {
 
 .list-group-item-action:hover,
 .list-group-item-action:focus {
-  --bs-list-group-action-hover-bg: #e9e9eb !important;
+  --bs-list-group-action-hover-bg: #f9fafb !important;
 }
 </style>
