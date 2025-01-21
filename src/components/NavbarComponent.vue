@@ -200,16 +200,16 @@ export default {
 }
 
 .bi-house-fill:hover {
-  color: #142aa6 !important;
+  color: #00309f !important;
 }
 
 .nav-link:hover {
-  color: #142aa6 !important;
+  color: #00309f !important;
   font-weight: bold;
 }
 
 .active {
-  color: #142aa6 !important;
+  color: #00309f !important;
 }
 
 .bi-search {
