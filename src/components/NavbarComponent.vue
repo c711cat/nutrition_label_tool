@@ -3,7 +3,7 @@
     class="d-none d-lg-block px-3 navbar navbar-expand-lg fixed-top bg-light"
   >
     <div class="container-fluid">
-      <div class="collapse navbar-collapse">
+      <div class="navbar-collapse">
         <div class="navbar-nav align-items-center">
           <router-link
             to="/"
