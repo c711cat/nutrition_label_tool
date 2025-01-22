@@ -1,24 +1,11 @@
 <template>
-  <main>
+  <main class="col-12 col-lg-10 mx-auto">
     <section>
-      <h2>這個網站對誰有幫助？</h2>
-      <div>
-        <ul>
-          <li>
-            對於自製食物營養成分有興趣者，提供對日常生活中攝取食品所含營養成分之參考。
-          </li>
-          <li>
-            特殊飲食控制者，例如：減醣飲食、低蛋白飲食、高蛋白飲食或低油飲食...等。
-          </li>
-          <li>
-            剛創業的業者，產品成分單純，例如：饅頭、紅豆湯、泡菜...等，暫無足夠經費送檢，可先暫時利用此網站製作，待經費足夠再進行送檢。
-          </li>
-          <li>想了解營養標示相關規定者。</li>
-        </ul>
-      </div>
+      <HomeFirstSection />
     </section>
+
     <section>
-      <h2>有哪些功能及優點？</h2>
+      <h2>特色與功能介紹</h2>
       <div>
         <ul>
           <li>
@@ -46,13 +33,13 @@
             若內建資料庫中查無相符食物，可提供自定義食材建檔使用。在使用上更為靈活。
           </li>
           <li>
-            另外，此網站不會儲存或搜集任何使用者輸入的產品資料，其資料只會保存在使用者的電腦或手機中，只有自己可查看，不用擔心配方外流問題。
+            此網站不會儲存或搜集任何使用者輸入的產品資料，其資料只會保存在使用者的電腦或手機中，只有自己可查看，不用擔心配方外流問題。
           </li>
         </ul>
       </div>
     </section>
     <section>
-      <h2>小提醒</h2>
+      <h2>相關規定須知</h2>
       <div>
         <ul>
           <li>
@@ -83,6 +70,16 @@
     </section>
   </main>
 </template>
+<script>
+import HomeFirstSection from '@/components/HomeFirstSection.vue'
+export default {
+  data() {
+    return {}
+  },
+  components: { HomeFirstSection },
+}
+</script>
+
 <style lang="scss" scoped>
 a:hover {
   filter: brightness(1.7);
