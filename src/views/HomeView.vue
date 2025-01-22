@@ -1,5 +1,5 @@
 <template>
-  <main class="col-12 col-lg-10 mx-auto">
+  <main class="col-11 col-lg-10 mx-auto">
     <section>
       <HomeFirstSection />
     </section>
