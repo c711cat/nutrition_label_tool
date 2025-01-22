@@ -52,6 +52,7 @@ import Q8Answer from '@/components/Q8Answer.vue'
 import Q9Answer from '@/components/Q9Answer.vue'
 import Q10Answer from '@/components/Q10Answer.vue'
 import Q11Answer from '@/components/Q11Answer.vue'
+import Q12Answer from '@/components/Q12Answer.vue'
 export default {
   data() {
     return {
@@ -101,6 +102,10 @@ export default {
         {
           question: 'Ｑ11. 營養標示的熱量計算方式？',
           component: markRaw(Q11Answer),
+        },
+        {
+          question: 'Ｑ12. 我的產品配方會外流嗎？',
+          component: markRaw(Q12Answer),
         },
       ],
     }
