@@ -23,9 +23,9 @@
     <section
       v-for="(item, index) in updateSortData"
       :key="item"
-      class="border rounded row m-0 mb-5 justify-content-between"
+      class="bg-light border rounded row m-0 mb-5 justify-content-between"
     >
-      <section class="bg-light p-3 rounded-start col">
+      <section class="p-3 col">
         <div class="d-flex">
           <p class="mb-0">品名</p>
           <i class="fst-normal">：</i>
@@ -40,52 +40,63 @@
       <section
         class="col-12 col-sm-7 col-md-5 col-lg-5 col-xl-4 col-xxl-3 d-flex flex-wrap justify-content-end p-3"
       >
-        <table class="border border-2 border-black col-12">
+        <table
+          class="table table-sm table-borderless border border-2 border-black col-12 mb-1"
+        >
           <thead>
-            <tr class="border-bottom border-black">
-              <th colspan="2" class="text-center fw-normal">營養標示</th>
+            <tr class="lh-sm">
+              <th
+                colspan="2"
+                class="text-center fw-normal border-bottom border-black"
+              >
+                營養標示
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr class="lh-sm">
               <th class="border-bottom border-black"></th>
               <td class="text-end px-2 border-bottom border-black">
                 每 100 公克 / 毫升
               </td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="px-2 fw-normal">熱量</th>
               <td class="text-end px-2">{{ item.calories }} 大卡</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="px-2 fw-normal">蛋白質</th>
               <td class="text-end px-2">{{ item.protein }} 公克</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="px-2 fw-normal">脂肪</th>
               <td class="text-end px-2">{{ item.fat }} 公克</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="pe-2 ps-4 fw-normal">飽和脂肪</th>
               <td class="text-end px-2">{{ item.saturated_fat }} 公克</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="pe-2 ps-4 fw-normal">反式脂肪</th>
               <td class="text-end px-2">{{ item.trans_fat }} 公克</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="px-2 fw-normal">碳水化合物</th>
               <td class="text-end px-2">{{ item.total_carbohydrates }} 公克</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="pe-2 ps-4 fw-normal">糖</th>
               <td class="text-end px-2">{{ item.total_sugar }} 公克</td>
             </tr>
-            <tr>
+            <tr class="lh-1">
               <th class="px-2 fw-normal">鈉</th>
               <td class="text-end px-2">{{ item.sodium }} 毫克</td>
             </tr>
-            <tr v-for="(value, key) in item.baseClaimNts" :key="key">
+            <tr
+              v-for="(value, key) in item.baseClaimNts"
+              :key="key"
+              class="lh-1"
+            >
               <th v-if="key !== 'alcohol'" class="px-2 fw-normal">
                 {{ headerChineseAndEnglish[key].replace(/\(.*\)/, '') }}
               </th>
@@ -93,7 +104,11 @@
                 {{ value }} {{ transUnitText(headerChineseAndEnglish[key]) }}
               </td>
             </tr>
-            <tr v-for="(item, index) in item.newClaimNts" :key="item + index">
+            <tr
+              v-for="(item, index) in item.newClaimNts"
+              :key="item + index"
+              class="lh-1"
+            >
               <th v-if="item.type !== '有機酸'" class="px-2 fw-normal">
                 {{ item.chName }}
               </th>
@@ -103,47 +118,45 @@
             </tr>
           </tbody>
         </table>
-        <section class="col-12">
-          <table
-            v-if="isOtherIngredients(item)"
-            class="table table-sm table-borderless border border-2 border-black mt-1 mb-0"
-          >
-            <thead>
-              <tr class="lh-sm">
-                <th
-                  class="ps-2 fw-normal border-bottom border-black align-middle col"
-                >
-                  其他成分
-                </th>
-                <td
-                  class="text-end pe-2 border-bottom border-black col align-middle"
-                >
-                  每 100 公克 / 毫升
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(value, key) in item.baseClaimNts"
-                :key="key"
-                class="lh-1"
+        <table
+          v-if="isOtherIngredients(item)"
+          class="table table-sm table-borderless border border-2 border-black col-12"
+        >
+          <thead>
+            <tr class="lh-sm">
+              <th
+                class="ps-2 fw-normal border-bottom border-black align-middle col"
               >
-                <th v-if="key === 'alcohol'" class="fw-normal ps-2">酒精</th>
-                <td v-if="key === 'alcohol'" class="text-end pe-2 align-middle">
-                  {{ value }} 公克
-                </td>
-              </tr>
-              <tr v-for="nt in item.newClaimNts" :key="nt" class="lh-1">
-                <th v-if="nt.type === '有機酸'" class="fw-normal ps-2">
-                  {{ nt.chName }}
-                </th>
-                <td v-if="nt.type === '有機酸'" class="text-end pe-2">
-                  {{ nt.quantity }} {{ nt.unit.replace(/\(.*\)/, '') }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
+                其他成分
+              </th>
+              <td
+                class="text-end pe-2 border-bottom border-black col align-middle"
+              >
+                每 100 公克 / 毫升
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(value, key) in item.baseClaimNts"
+              :key="key"
+              class="lh-1"
+            >
+              <th v-if="key === 'alcohol'" class="fw-normal ps-2">酒精</th>
+              <td v-if="key === 'alcohol'" class="text-end pe-2 align-middle">
+                {{ value }} 公克
+              </td>
+            </tr>
+            <tr v-for="nt in item.newClaimNts" :key="nt" class="lh-1">
+              <th v-if="nt.type === '有機酸'" class="fw-normal ps-2">
+                {{ nt.chName }}
+              </th>
+              <td v-if="nt.type === '有機酸'" class="text-end pe-2">
+                {{ nt.quantity }} {{ nt.unit.replace(/\(.*\)/, '') }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
       <div class="text-end my-3">
         <button
@@ -303,10 +316,5 @@ export default {
 <style lang="scss" scoped>
 .bi-clipboard {
   font-size: 75px;
-}
-
-.rounded-start {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0.375rem !important;
 }
 </style>

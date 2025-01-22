@@ -26,11 +26,9 @@
     <section
       v-for="(item, index) in myProductList"
       :key="item.id"
-      class="border rounded row m-0 mb-4"
+      class="bg-light border rounded row m-0 mb-4"
     >
-      <section
-        class="bg-light p-3 rounded-start col-12 col-xl markItemsContainer"
-      >
+      <section class="p-3 col-12 col-xl markItemsContainer">
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
           <i class="fst-normal">：</i>
@@ -380,6 +378,7 @@
           刪除
         </button>
       </div>
+
       <div
         v-if="
           item.claimNts?.includes('dietary_fiber') ||
@@ -390,6 +389,7 @@
           item.claimNts?.includes('alcohol')
         "
       >
+        <hr class="mt-0 mb-2" />
         <p class="mb-1">
           備註：依據
           <a
@@ -817,10 +817,5 @@ export default {
 
 .bi-columns-gap {
   font-size: 75px;
-}
-
-.rounded-start {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0.375rem !important;
 }
 </style>
