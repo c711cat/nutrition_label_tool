@@ -24,15 +24,15 @@
             slidesPerView: 1,
             spaceBetween: 45,
           },
-          '700': {
+          '780': {
             slidesPerView: 2,
             spaceBetween: 45,
           },
-          '1100': {
+          '1255': {
             slidesPerView: 3,
             spaceBetween: 45,
           },
-          '1350': {
+          '1600': {
             slidesPerView: 4,
             spaceBetween: 45,
           },
