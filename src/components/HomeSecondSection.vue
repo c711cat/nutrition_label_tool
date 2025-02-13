@@ -32,7 +32,7 @@
             slidesPerView: 3,
             spaceBetween: 45,
           },
-          '1600': {
+          '1700': {
             slidesPerView: 4,
             spaceBetween: 45,
           },
@@ -42,7 +42,7 @@
       >
         <SwiperSlide v-for="item in content" :key="item">
           <div
-            class="contentBox mt-5 border border-dark rounded-4 position-relative pt-4 d-flex justify-content-center align-items-center"
+            class="contentBox mt-5 border border-light border-5 rounded-4 position-relative pt-4 d-flex justify-content-center align-items-center"
           >
             <h4 class="title px-2 position-absolute">
               <i :class="item.icon"></i>
@@ -115,7 +115,7 @@ export default {
         },
         {
           icon: 'bi bi-file-earmark-diff-fill',
-          title: '可自由增減標示',
+          title: '自由增減標示',
           text: [
             '可自行增加呈現其他非 8 大營養標示的營養素。',
             '提供對日常生活中攝取食品所含營養成分有興趣者參考。',
@@ -123,7 +123,7 @@ export default {
         },
         {
           icon: 'bi bi-file-spreadsheet-fill',
-          title: '符合規定的熱量計算',
+          title: '熱量計算符合規定',
           text: [
             '額外呈現的營養素，若屬於與熱量計算有關者，計算方式則有不同。',
             '例如：膳食纖維、糖醇、酒精及有機酸，則可依呈現的內容，計算出相符之熱量。',
@@ -132,7 +132,7 @@ export default {
         },
         {
           icon: 'bi bi-clipboard-check-fill',
-          title: '符合規定的標示',
+          title: '標示符合法規',
           text: ['若有標示酒精及有機酸，依法規：於營養標示格式外明顯處註明。'],
         },
         {
