@@ -40,9 +40,9 @@
       @slideChange="onSlideChange"
     >
       <SwiperSlide v-for="item in firstContent" :key="item" class="pb-4">
-        <div class="card cardStyle shadow border-0">
+        <div class="card cardStyle shadow border-0 rounded-3">
           <img
-            class="section1Img object-fit-cover card-img-top"
+            class="section1Img object-fit-cover card-img-top rounded-top-3"
             :src="item.img"
             alt="carouselImg"
           />
