@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto col-11 col-lg-10">
+  <div class="mx-auto col-11 col-lg-10 pb-5 mb-5">
     <header class="text-end mb-3">
       <h3 class="text-center">自定義資料庫</h3>
       <button

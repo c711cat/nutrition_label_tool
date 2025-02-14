@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto mb-5 col-11">
+  <main class="mx-auto mb-5 col-11 pb-5 mb-5">
     <header class="">
       <h3 class="text-center my-4">外包裝資訊標示</h3>
     </header>
