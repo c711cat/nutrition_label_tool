@@ -4,6 +4,8 @@
   <MessageComponent ref="toast" />
   <AlertComponent />
   <RouterView class="routerViewStyle" />
+  <a target="_blank" href="https://icons8.com/icon/1274/paper-plane"></a>
+  noitice icons by <a target="_blank" href="https://icons8.com">Icons8</a>
 </template>
 
 <script>
