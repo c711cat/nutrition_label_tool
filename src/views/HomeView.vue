@@ -13,8 +13,8 @@
   </main>
 </template>
 <script>
-import HomeFirstSection from '@/components/HomeFirstSection.vue'
-import HomeSecondSection from '@/components/HomeSecondSection.vue'
+import HomeFirstSection from '@/components/HomeApplicableGroups.vue'
+import HomeSecondSection from '@/components/HomeFeatures.vue'
 import HomeNotice from '@/components/HomeNotice.vue'
 export default {
   data() {
