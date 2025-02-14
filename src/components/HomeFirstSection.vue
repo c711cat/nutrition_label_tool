@@ -1,5 +1,5 @@
 <template>
-  <h2 class="pt-5 text-center mb-4 w-100">這個營養標示工具適用對象？</h2>
+  <h2 class="pt-5 text-center mb-4 w-100">營養標示工具適用對象？</h2>
   <div class="pt-3 pb-4">
     <Swiper
       style="padding: 0px 35px"
@@ -62,6 +62,7 @@
   </div>
 </template>
 <script>
+import nutritionFacts from '@/assets/img/nutrition facts.jpg'
 import {
   Navigation,
   Pagination,
@@ -80,7 +81,7 @@ export default {
       firstContent: [
         {
           title: '對於自製食物營養成分有興趣者',
-          img: 'https://images.unsplash.com/photo-1627309302198-09a50ae1b209?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          img: 'https://images.unsplash.com/photo-1563263427-708318a97183?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           text: '對於自製食物營養成分有興趣者，提供對日常生活中攝取食品所含營養成分之參考。',
         },
         {
@@ -95,7 +96,7 @@ export default {
         },
         {
           title: '有興趣了解營養標示者',
-          img: 'https://images.unsplash.com/photo-1660593089599-f8e50f5204b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          img: nutritionFacts,
           text: '想了解營養標示相關規定者。',
         },
       ],
