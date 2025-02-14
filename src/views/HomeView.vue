@@ -7,6 +7,7 @@
     <section>
       <HomeSecondSection />
     </section>
+
     <section>
       <HomeNotice />
     </section>

@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto col-11 col-lg-10 mb-5">
+  <main class="mx-auto col-11 col-lg-10 pb-5 mb-5">
     <header class="mb-3 text-end">
       <h3 class="text-center">Q&A</h3>
     </header>
