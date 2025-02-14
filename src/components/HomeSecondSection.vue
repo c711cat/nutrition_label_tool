@@ -1,6 +1,6 @@
 <template>
   <div class="bg pt-5 pb-3">
-    <div class="col-11 col-lg-10 mx-auto">
+    <div class="pt-3 col-11 col-lg-10 mx-auto">
       <h2 class="text-center">特色與功能介紹</h2>
       <Swiper
         style="padding: 0px 35px"

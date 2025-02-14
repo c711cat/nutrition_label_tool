@@ -1,6 +1,6 @@
 <template>
-  <h2 class="text-center mb-4 w-100">誰適合使用這個營養標示工具？</h2>
-  <div>
+  <h2 class="pt-5 text-center mb-4 w-100">誰適合使用這個營養標示工具？</h2>
+  <div class="pt-3 pb-4">
     <Swiper
       style="padding: 0px 35px"
       class="d-flex align-items-center m-0"
