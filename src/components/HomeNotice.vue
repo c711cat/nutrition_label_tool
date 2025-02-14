@@ -1,22 +1,8 @@
 <template>
-  <div class="py-5 bg-light">
-    <div class="mx-auto col-11 col-lg-10">
+  <div class="pt-5 pb-3 bg-light">
+    <div class="mx-auto pt-3 col-11 col-lg-10">
       <h2 class="text-center mb-5">營養標示須知</h2>
-      <!-- <div class="mx-auto col-11 col-lg-10 d-flex">
-      <div
-        v-for="item in noitices"
-        :key="item"
-        class="noiticeBox px-4 col-3 d-flex flex-column align-items-center"
-      >
-        <div
-          class="imgBox d-flex justify-content-center align-items-center mb-4"
-        >
-          <img :src="item.img" alt="noitice icons" />
-        </div>
-        <h4 class="mb-3">{{ item.title }}</h4>
-        <p class="mb-0" v-html="item.content"></p>
-      </div>
-    </div> -->
+
       <Swiper
         style="padding: 0px 75px"
         class="d-flex align-items-center m-0 pb-5"
@@ -66,7 +52,12 @@
             <img :src="item.img" alt="noitice icons" />
           </div>
           <h4 class="mb-3">{{ item.title }}</h4>
-          <p class="mb-0" v-html="item.content"></p>
+          <p
+            v-for="text in item.content"
+            :key="text"
+            class="mb-1"
+            v-html="text"
+          ></p>
         </SwiperSlide>
 
         <div class="swiper-button-prev text-dark"></div>
@@ -101,31 +92,62 @@ export default {
         {
           img: admin_settings,
           title: '自主管理',
-          content:
+          content: [
             '食品業者須秉持自主管理之精神，確認產品品質、衛生安全及標示，並對其負完全責任。',
+          ],
         },
         {
           img: report_card,
           title: '標示值產生方式',
-          content:
-            '依據「包裝食品營養標示應遵行事項」第10點，包裝食品各項營養標示值產生方式，得以檢驗分析或計算方式依實際需要為之。',
+          content: [
+            `依據
+            <a href="https://www.foodlabel.org.tw/FdaFrontEndApp/Law/Edit?SystemId=f27b8c5e-35c2-4a86-9b8b-d7cbbef409ab&clPublishStatus=undefined" target="_blank" class="text-decoration-none">
+            「包裝食品營養標示應遵行事項」第 10 點
+            </a>
+            ，包裝食品各項營養標示值產生方式，得以檢驗分析或計算方式依實際需要為之。`,
+          ],
         },
         {
           img: responsible,
           title: '業者責任',
-          content:
-            '產品倘屬完整包裝食品，應依上開規定辦理標示。倘業者欲參考食品營養成分資料庫之樣品數值進行計算，仍應自行確認自家產品實際情況是否適用，且業者須對產品標示值負完全責任。',
+          content: [
+            '產品倘屬完整包裝食品，應依上開規定辦理標示。',
+            '倘業者欲參考食品營養成分資料庫之樣品數值進行計算，仍應自行確認自家產品實際情況是否適用，且業者須對產品標示值負完全責任。',
+          ],
         },
         {
           img: law,
           title: '食安法',
-          content:
+          content: [
             '上述內容未提及之處，仍請就整體標示宣稱所傳達之訊息，依食品安全衛生管理法相關規定辦理。',
+          ],
         },
         {
           img: paper_plane,
           title: '諮詢服務',
-          content: `食藥署-食品標示法規諮詢服務專線0800-035-958、03-561-9633、食品標示諮詢服務信箱foodlabel@hibox.biz及 <a href="http://www.foodlabel.org.tw" target="_blank" class="text-decoration-none">食品標示諮詢服務平台</a> ，以上資訊歡迎多加利用。`,
+          content: [
+            `食品標示法規諮詢專線：`,
+
+            `0800-035-958
+             <a href="tel:0800035958" target="_blank" class="text-decoration-none text-primary ms-1">
+                <i class="bi bi-telephone-forward fs-5 ms-1"></i>
+             </a>`,
+
+            `03-561-9633
+            <a href="tel:035619633" target="_blank" class="text-decoration-none text-primary ms-1">
+              <i class="bi bi-telephone-forward fs-5 ms-1"></i>
+            </a>`,
+
+            `食品標示諮詢信箱：`,
+
+            `foodlabel@hibox.biz<a href="mailto:foodlabel@hibox.biz" target="_blank" class="text-decoration-none text-primary">
+               <i class="bi bi-envelope-arrow-up fs-5 ms-2"></i>
+            </a>`,
+
+            `<a href="http://www.foodlabel.org.tw" target="_blank" class="text-decoration-none">食品標示諮詢服務平台</a>`,
+
+            '以上資訊歡迎多加利用。',
+          ],
         },
       ],
       modules: [Navigation, Pagination, Scrollbar, A11y, Autoplay],
