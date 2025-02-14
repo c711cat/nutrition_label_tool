@@ -86,7 +86,7 @@ export default {
         },
         {
           title: '特殊飲食控制者',
-          img: 'https://images.unsplash.com/photo-1685485276224-d78ce78f3b95?q=80&w=1956&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          img: 'https://images.unsplash.com/photo-1682342287771-ba352ea7e315?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           text: '特殊飲食控制者，例如：低醣飲食、低蛋白飲食、高蛋白飲食或低油飲食...等。',
         },
         {
