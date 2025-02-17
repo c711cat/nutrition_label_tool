@@ -47,7 +47,7 @@
           class="d-flex flex-column align-items-center"
         >
           <div
-            class="imgBox d-flex justify-content-center align-items-center mb-4"
+            class="imgBox bg-primary100 d-flex justify-content-center align-items-center mb-4"
           >
             <img :src="item.img" alt="noitice icons" />
           </div>
@@ -162,7 +162,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .imgBox {
-  background-color: #ebeef7;
   width: 100px;
   height: 100px;
   border-radius: 50%;
