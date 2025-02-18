@@ -162,7 +162,7 @@
                 <span class="me-1">以下食材總量共可製成幾份成品？</span>
                 <i
                   @click="openInstructionModal('productQty')"
-                  class="bi bi-question-circle text-primary fw-normal fst-normal infoStyle d-inline-block"
+                  class="showInfo bi bi-question-circle text-primary fw-normal fst-normal infoStyle d-inline-block"
                 >
                   說明
                 </i>
@@ -290,7 +290,7 @@
               從左邊資料庫點選成分，並填入各欄位所需資料
               <i
                 @click="openInstructionModal('totalWeight')"
-                class="bi bi-question-circle text-primary fw-normal fst-normal ps-1 infoStyle d-inline-block"
+                class="showInfo bi bi-question-circle text-primary fw-normal fst-normal ps-1 infoStyle d-inline-block"
               >
                 說明
               </i>
