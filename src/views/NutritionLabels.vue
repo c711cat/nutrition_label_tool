@@ -155,18 +155,18 @@
           <section class="col-12 col-xl-6 mb-3">
             <label
               for="number_of_copies"
-              class="form-label fw-bold d-flex flex-wrap justify-content-start align-items-center"
+              class="form-label fw-bold d-flex flex-wrap justify-content-start"
             >
-              <div class="pe-1 d-flex align-items-center">
-                <i class="text-danger fst-normal">＊</i>
+              <div class="pe-1">
+                <i class="text-danger fst-normal pe-1">＊</i>
+                <span class="me-1">以下食材總量共可製成幾份成品？</span>
+                <i
+                  @click="openInstructionModal('productQty')"
+                  class="bi bi-question-circle text-primary fw-normal fst-normal infoStyle d-inline-block"
+                >
+                  說明
+                </i>
               </div>
-              以下食材總量共可製成幾份成品？
-              <i
-                @click="openInstructionModal('productQty')"
-                class="bi bi-question-circle text-primary fw-normal fst-normal ps-2 infoStyle"
-              >
-                說明
-              </i>
             </label>
 
             <input
@@ -190,20 +190,20 @@
                 <div class="pe-1 d-flex align-items-center">
                   <i class="text-danger fst-normal">＊</i>
                 </div>
-                每一份量
+                <span class="me-2">每一份量</span>
+
                 <div
-                  class="infoStyle px-3 text-secondary d-flex align-items-center"
+                  class="infoStyle text-secondary fw-normal d-flex flex-wrap align-items-center"
                 >
-                  <span class="fw-normal">
-                    <i class="bi bi-info-circle"></i>
+                  <i class="bi bi-info-circle fst-normal">
                     將顯示在每一份量的位置
                     <i
                       @click="openInstructionModal('perServing')"
-                      class="bi bi-question-circle text-primary fst-normal ms-1"
+                      class="showInfo bi bi-question-circle fst-normal text-primary d-inline-block"
                     >
                       顯示圖示
                     </i>
-                  </span>
+                  </i>
                 </div>
               </label>
 
@@ -257,20 +257,19 @@
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
               </div>
-              本包裝含幾份成品？
+              <span class="me-1">本包裝含幾份成品？</span>
               <div
-                class="infoStyle px-3 text-secondary d-flex align-items-center"
+                class="infoStyle text-secondary fw-normal d-flex flex-wrap align-items-center"
               >
-                <span class="fw-normal">
-                  <i class="bi bi-info-circle"></i>
+                <i class="bi bi-info-circle me-2 fst-normal">
                   將顯示在本包裝含幾份的位置
                   <i
                     @click="openInstructionModal('howMany')"
-                    class="bi bi-question-circle text-primary fst-normal ms-1"
+                    class="showInfo bi bi-question-circle fst-normal text-primary d-inline-block"
                   >
                     顯示圖示
                   </i>
-                </span>
+                </i>
               </div>
             </label>
 
@@ -288,10 +287,10 @@
           <section class="col-12">
             <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
-              從左邊資料庫點選成分，並填入各欄位所需資料，總克數欄位須為總重
+              從左邊資料庫點選成分，並填入各欄位所需資料
               <i
                 @click="openInstructionModal('totalWeight')"
-                class="bi bi-question-circle text-primary fw-normal fst-normal ps-2 infoStyle"
+                class="bi bi-question-circle text-primary fw-normal fst-normal ps-1 infoStyle d-inline-block"
               >
                 說明
               </i>
@@ -569,11 +568,11 @@ ul.list-group {
   --bs-list-group-action-hover-bg: #f9fafb !important;
 }
 
-.bi-question-circle {
+.showInfo {
   cursor: pointer;
 }
 
-.bi-question-circle:hover {
+.showInfo:hover {
   filter: brightness(1.5);
 }
 </style>
