@@ -44,19 +44,23 @@
           <h5 class="modal-title text-white">說明 外包裝成分 及 總克數 欄位</h5>
         </div>
         <div class="modal-body">
-          <h5 class="ps-2 mb-3">
-            1. 總共有以下食材：娃娃菜 238 公克、洋蔥 172 公克、鴻喜菇 136
-            公克、干貝 20 公克...等。
-          </h5>
+          <p class="fw-bold fs-5 ps-2 mb-3">
+            舉例，總共食材：娃娃菜 238 公克、洋蔥 172 公克、鴻喜菇 136
+            公克、干貝 20 公克...等，將用來製成 7 份的成品。
+          </p>
+
+          <p class="fw-bold fs-5 ps-2 mb-3">
+            以下欄位需填入這 7 份各食材所用的總克數。
+          </p>
           <img
-            class="ingredientImg mb-5"
+            class="ingredientImg mb-5 border"
             src="@/assets/img/ingredient-2.png"
             alt="ingredientImg"
           />
 
-          <h5 class="ps-2 mb-3">2. 外包裝成分呈現範例</h5>
+          <p class="fw-bold fs-5 ps-2 mb-3">2. 外包裝成分呈現範例</p>
           <img
-            class="ingredientImg"
+            class="ingredientImg border"
             src="@/assets/img/ingredient-1.png"
             alt="ingredientImg"
           />
