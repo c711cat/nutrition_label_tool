@@ -155,13 +155,20 @@
           <section class="col-12 col-xl-6 mb-3">
             <label
               for="number_of_copies"
-              class="form-label fw-bold d-flex justify-content-start"
+              class="form-label fw-bold d-flex flex-wrap justify-content-start align-items-center"
             >
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
               </div>
               以下食材總量共可製成幾份成品？
+              <i
+                @click="openInstructionModal('productQty')"
+                class="bi bi-question-circle text-primary fw-normal fst-normal ps-2 infoStyle"
+              >
+                說明
+              </i>
             </label>
+
             <input
               v-model="product.numberOfCopy"
               type="number"
@@ -189,7 +196,13 @@
                 >
                   <span class="fw-normal">
                     <i class="bi bi-info-circle"></i>
-                    將會顯示在營養標示上，每一份量的位置
+                    將顯示在每一份量的位置
+                    <i
+                      @click="openInstructionModal('perServing')"
+                      class="bi bi-question-circle text-primary fst-normal ms-1"
+                    >
+                      顯示圖示
+                    </i>
                   </span>
                 </div>
               </label>
@@ -250,7 +263,13 @@
               >
                 <span class="fw-normal">
                   <i class="bi bi-info-circle"></i>
-                  將會顯示在營養標示上，本包裝含幾份的位置
+                  將顯示在本包裝含幾份的位置
+                  <i
+                    @click="openInstructionModal('howMany')"
+                    class="bi bi-question-circle text-primary fst-normal ms-1"
+                  >
+                    顯示圖示
+                  </i>
                 </span>
               </div>
             </label>
@@ -269,7 +288,13 @@
           <section class="col-12">
             <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
-              從左邊資料庫點選成分，並填入各欄位所需資料
+              從左邊資料庫點選成分，並填入各欄位所需資料，總克數欄位須為總重
+              <i
+                @click="openInstructionModal('totalWeight')"
+                class="bi bi-question-circle text-primary fw-normal fst-normal ps-2 infoStyle"
+              >
+                說明
+              </i>
             </p>
 
             <ul
@@ -363,6 +388,7 @@
       </div>
     </div>
     <CustomizeBaseDataModal ref="customizeBaseDataModal" />
+    <InstructionModal ref="instructionModal" />
   </main>
 </template>
 
@@ -372,6 +398,7 @@ import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
 import CustomizeBaseDataModal from '@/components/CustomizeBaseDataModal.vue'
+import InstructionModal from '@/components/InstructionModal.vue'
 export default {
   data() {
     return {
@@ -382,7 +409,7 @@ export default {
       isCustomize: false,
     }
   },
-  components: { CustomizeBaseDataModal },
+  components: { CustomizeBaseDataModal, InstructionModal },
   watch: {
     customizeModal: {
       handler(val) {
@@ -501,6 +528,9 @@ export default {
     openCustomizeBaseDataModal() {
       this.$refs.customizeBaseDataModal.showModal()
     },
+    openInstructionModal(text) {
+      this.$refs.instructionModal.showModal(text)
+    },
   },
   created() {
     this.getAllData()
@@ -537,5 +567,13 @@ ul.list-group {
 .list-group-item-action:hover,
 .list-group-item-action:focus {
   --bs-list-group-action-hover-bg: #f9fafb !important;
+}
+
+.bi-question-circle {
+  cursor: pointer;
+}
+
+.bi-question-circle:hover {
+  filter: brightness(1.5);
 }
 </style>
