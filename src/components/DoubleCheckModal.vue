@@ -24,6 +24,7 @@
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
+            :disabled="loadingStatus"
           >
             取消
           </button>
@@ -40,6 +41,7 @@
             @click="checkedOK"
             type="button"
             class="btn btn-primary"
+            :disabled="loadingStatus"
           >
             確定送出
           </button>
@@ -77,7 +79,7 @@
 import Modal from 'bootstrap/js/dist/modal'
 import { useFoodStore } from '@/stores/foodDataStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
-import { mapActions } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 export default {
   data() {
     return {
@@ -91,6 +93,7 @@ export default {
       title: '',
     }
   },
+  computed: { ...mapState(useFoodStore, ['loadingStatus']) },
   methods: {
     ...mapActions(useFoodStore, ['doubleCheckedOK', 'del', 'delItemOfNts']),
     ...mapActions(useCustomizeStore, [

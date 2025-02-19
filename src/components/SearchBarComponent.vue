@@ -82,7 +82,6 @@ export default {
       this.bar = false
     },
     search(e) {
-      console.log(e)
       const text = e.target.value.trim()
       const currentPath = this.$router.currentRoute._value.fullPath
       if (currentPath === '/added_customize_nts') {

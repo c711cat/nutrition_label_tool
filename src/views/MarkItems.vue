@@ -1,5 +1,6 @@
 <template>
-  <main class="mx-auto mb-5 col-11 pb-5 mb-5">
+  <LoadingView v-if="loadingStatus" />
+  <main v-else class="mx-auto mb-5 col-11 pb-5 mb-5">
     <header class="">
       <h3 class="text-center my-4">外包裝資訊標示</h3>
     </header>
@@ -381,6 +382,7 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
 import { useMsgStore } from '@/stores/messageStore'
+import LoadingView from '@/components/LoadingView.vue'
 export default {
   data() {
     return {
@@ -418,7 +420,7 @@ export default {
       validItemsInput: '',
     }
   },
-  components: { DoubleCheckModal },
+  components: { DoubleCheckModal, LoadingView },
   watch: {
     'product.validDaysInformation.validDaysStatus'(status) {
       if (status === '標示於外包裝') {
@@ -448,6 +450,9 @@ export default {
         this.$refs.doubleCheckModal.showModal()
       }
     },
+  },
+  mounted() {
+    window.scrollTo(0, 0)
   },
 }
 </script>
