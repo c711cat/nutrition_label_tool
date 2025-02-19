@@ -3,14 +3,17 @@
     <div class="rounded-4 modal-dialog modal-dialog-scrollable">
       <div class="rounded-4 modal-content">
         <div
-          class="border-0 pt-2 pb-3 bg-light modal-header flex-column align-items-start"
+          class="border-0 pt-2 pb-3 bg-primary text-white modal-header flex-column align-items-start"
           :class="
             localBaseClaimNts.length > 0 || localNewClaimNts.length > 0
               ? ''
               : 'border-bottom'
           "
         >
-          <div class="w-100 mb-2 d-flex justify-content-between">
+          <div
+            class="w-100 mb-2 d-flex justify-content-between"
+            data-bs-theme="dark"
+          >
             <h4 class="modal-title p-1">新增其他營養素</h4>
             <button
               type="button"

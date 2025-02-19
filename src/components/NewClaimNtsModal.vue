@@ -11,7 +11,7 @@
   >
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-primary text-white" data-bs-theme="dark">
           <h5 class="modal-title">{{ titleText }}</h5>
           <button
             type="button"
@@ -152,7 +152,7 @@
             </div>
           </form>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer bg-light">
           <button
             type="button"
             class="btn btn-secondary"
