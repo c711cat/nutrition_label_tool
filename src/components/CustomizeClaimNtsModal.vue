@@ -22,18 +22,22 @@
               aria-label="Close"
             ></button>
           </div>
-          <section class="w-100 form-floating">
-            <input
-              v-model="searchText"
-              @change="search($event.target.value)"
-              type="search"
-              class="form-control"
-              id="searchInput"
-              placeholder="請輸入欲新增營養素搜尋"
-            />
-            <label for="searchInput">搜尋 中文 或 英文 營養素</label>
-          </section>
         </div>
+        <section
+          class="p-2 bg-light form-floating d-flex justify-content-center"
+        >
+          <input
+            v-model="searchText"
+            @change="search($event.target.value)"
+            type="search"
+            class="form-control"
+            id="searchInput"
+            placeholder="請輸入欲新增營養素搜尋"
+          />
+          <label for="searchInput" class="m-2">
+            搜尋 中文 或 英文 營養素
+          </label>
+        </section>
         <section
           v-if="localBaseClaimNts.length > 0 || localNewClaimNts.length > 0"
           class="bg-light pb-2 border-bottom d-flex flex-wrap justify-content-start align-items-center"
