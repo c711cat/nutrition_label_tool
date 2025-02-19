@@ -1,5 +1,5 @@
 <template>
-  <div class="bg pt-5 pb-3">
+  <div class="bg-primary100 pt-5 pb-3">
     <div class="pt-3 col-11 col-lg-10 mx-auto">
       <h2 class="text-center">特色與功能介紹</h2>
       <Swiper
@@ -44,7 +44,7 @@
           <div
             class="contentBox mt-5 border border-light border-5 rounded-4 position-relative pt-4 d-flex justify-content-center align-items-center"
           >
-            <h4 class="title px-2 position-absolute">
+            <h4 class="title bg-primary100 px-2 position-absolute">
               <i :class="item.icon"></i>
               {{ item.title }}
             </h4>
@@ -156,17 +156,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bg {
-  background-color: #ebeef7;
-}
-
 .contentBox {
   min-height: 270px;
 }
 
 .title {
   top: -14px;
-  background-color: #ebeef7;
 }
 
 // 使用深層選擇器覆蓋 swiper 內建樣式

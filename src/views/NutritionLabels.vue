@@ -125,7 +125,6 @@
             </div>
           </section>
         </section>
-
         <form
           id="form_id"
           @submit.prevent="submitForm"
@@ -155,12 +154,18 @@
           <section class="col-12 col-xl-6 mb-3">
             <label
               for="number_of_copies"
-              class="form-label fw-bold d-flex justify-content-start"
+              class="form-label fw-bold d-flex flex-wrap justify-content-start"
             >
-              <div class="pe-1 d-flex align-items-center">
-                <i class="text-danger fst-normal">＊</i>
+              <div class="pe-1">
+                <i class="text-danger fst-normal pe-1">＊</i>
+                <span class="me-1">以下食材總量共可製成幾份成品？</span>
+                <i
+                  @click="openInstructionModal('productQty')"
+                  class="showInfo bi bi-question-circle text-primary fw-normal fst-normal infoStyle d-inline-block"
+                >
+                  說明
+                </i>
               </div>
-              以下食材總量共可製成幾份成品？
             </label>
             <input
               v-model="product.numberOfCopy"
@@ -171,7 +176,6 @@
               placeholder="輸入共可製成幾份成品"
               required
             />
-
             <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
           </section>
           <section class="col-12 col-xl-6 d-flex mb-3">
@@ -183,17 +187,22 @@
                 <div class="pe-1 d-flex align-items-center">
                   <i class="text-danger fst-normal">＊</i>
                 </div>
-                每一份量
+                <span class="me-2">每一份量</span>
+
                 <div
-                  class="infoStyle px-3 text-secondary d-flex align-items-center"
+                  class="infoStyle text-secondary fw-normal d-flex flex-wrap align-items-center"
                 >
-                  <span class="fw-normal">
-                    <i class="bi bi-info-circle"></i>
-                    將會顯示在營養標示上，每一份量的位置
-                  </span>
+                  <i class="bi bi-info-circle fst-normal">
+                    將顯示在每一份量的位置
+                    <i
+                      @click="openInstructionModal('perServing')"
+                      class="showInfo bi bi-question-circle fst-normal text-primary d-inline-block"
+                    >
+                      顯示圖示
+                    </i>
+                  </i>
                 </div>
               </label>
-
               <div class="col-12 d-flex flex-wrap justify-content-between">
                 <div class="col-12 col-xl-6">
                   <input
@@ -244,17 +253,21 @@
               <div class="pe-1 d-flex align-items-center">
                 <i class="text-danger fst-normal">＊</i>
               </div>
-              本包裝含幾份成品？
+              <span class="me-1">本包裝含幾份成品？</span>
               <div
-                class="infoStyle px-3 text-secondary d-flex align-items-center"
+                class="infoStyle text-secondary fw-normal d-flex flex-wrap align-items-center"
               >
-                <span class="fw-normal">
-                  <i class="bi bi-info-circle"></i>
-                  將會顯示在營養標示上，本包裝含幾份的位置
-                </span>
+                <i class="bi bi-info-circle me-2 fst-normal">
+                  將顯示在本包裝含幾份的位置
+                  <i
+                    @click="openInstructionModal('howMany')"
+                    class="showInfo bi bi-question-circle fst-normal text-primary d-inline-block"
+                  >
+                    顯示圖示
+                  </i>
+                </i>
               </div>
             </label>
-
             <input
               v-model="product.productQty"
               type="number"
@@ -270,8 +283,13 @@
             <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
               從左邊資料庫點選成分，並填入各欄位所需資料
+              <i
+                @click="openInstructionModal('totalWeight')"
+                class="showInfo bi bi-question-circle text-primary fw-normal fst-normal ps-1 infoStyle d-inline-block"
+              >
+                說明
+              </i>
             </p>
-
             <ul
               v-for="(item, index) in product.ingredients"
               :key="item.id"
@@ -363,6 +381,7 @@
       </div>
     </div>
     <CustomizeBaseDataModal ref="customizeBaseDataModal" />
+    <InstructionModal ref="instructionModal" />
   </main>
 </template>
 
@@ -372,6 +391,7 @@ import { mapState, mapActions } from 'pinia'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
 import CustomizeBaseDataModal from '@/components/CustomizeBaseDataModal.vue'
+import InstructionModal from '@/components/InstructionModal.vue'
 export default {
   data() {
     return {
@@ -382,7 +402,7 @@ export default {
       isCustomize: false,
     }
   },
-  components: { CustomizeBaseDataModal },
+  components: { CustomizeBaseDataModal, InstructionModal },
   watch: {
     customizeModal: {
       handler(val) {
@@ -501,6 +521,9 @@ export default {
     openCustomizeBaseDataModal() {
       this.$refs.customizeBaseDataModal.showModal()
     },
+    openInstructionModal(text) {
+      this.$refs.instructionModal.showModal(text)
+    },
   },
   created() {
     this.getAllData()
@@ -537,5 +560,13 @@ ul.list-group {
 .list-group-item-action:hover,
 .list-group-item-action:focus {
   --bs-list-group-action-hover-bg: #f9fafb !important;
+}
+
+.showInfo {
+  cursor: pointer;
+}
+
+.showInfo:hover {
+  filter: brightness(1.5);
 }
 </style>
