@@ -116,7 +116,7 @@ a:hover {
 }
 
 .section1Img {
-  height: 300px;
+  height: 30vh;
 }
 
 .cardStyle {
