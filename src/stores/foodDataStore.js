@@ -279,7 +279,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.clearInput()
       setTimeout(() => {
         this.loadingStatus = false
-      }, 5000)
+      }, 9000)
     },
     setMyProducts(productList) {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
