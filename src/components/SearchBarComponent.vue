@@ -103,6 +103,7 @@ export default {
 .wrap {
   width: 80px;
   transition: 1s;
+  height: 50px !important;
 }
 
 .search-form {

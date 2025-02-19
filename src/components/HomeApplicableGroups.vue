@@ -1,5 +1,5 @@
 <template>
-  <h2 class="pt-5 text-center mb-4 w-100">營養標示工具適用對象</h2>
+  <h2 class="pt-4 text-center mb-4 w-100">營養標示工具適用對象</h2>
   <div class="pt-3 pb-4">
     <Swiper
       style="padding: 0px 35px"
@@ -116,7 +116,7 @@ a:hover {
 }
 
 .section1Img {
-  height: 300px;
+  height: 30vh;
 }
 
 .cardStyle {

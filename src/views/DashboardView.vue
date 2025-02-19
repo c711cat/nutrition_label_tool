@@ -5,7 +5,7 @@
       <SearchBarComponent class="d-block d-lg-none fixed-top" />
       <MessageComponent ref="toast" />
       <AlertComponent />
-      <RouterView class="routerViewStyle" />
+      <RouterView class="pt-5 pt-lg-5 mt-lg-5" />
     </div>
     <div>
       <FooterComponent />
@@ -36,9 +36,5 @@ export default {
 <style lang="scss" scoped>
 .wrap {
   height: 100vh;
-}
-
-.routerViewStyle {
-  padding: 100px 0px 0px 0px;
 }
 </style>
