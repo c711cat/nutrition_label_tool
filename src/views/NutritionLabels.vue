@@ -125,7 +125,6 @@
             </div>
           </section>
         </section>
-
         <form
           id="form_id"
           @submit.prevent="submitForm"
@@ -168,7 +167,6 @@
                 </i>
               </div>
             </label>
-
             <input
               v-model="product.numberOfCopy"
               type="number"
@@ -178,7 +176,6 @@
               placeholder="輸入共可製成幾份成品"
               required
             />
-
             <div class="invalid-feedback">此欄位為必填，且需大於等於 1</div>
           </section>
           <section class="col-12 col-xl-6 d-flex mb-3">
@@ -206,7 +203,6 @@
                   </i>
                 </div>
               </label>
-
               <div class="col-12 d-flex flex-wrap justify-content-between">
                 <div class="col-12 col-xl-6">
                   <input
@@ -272,7 +268,6 @@
                 </i>
               </div>
             </label>
-
             <input
               v-model="product.productQty"
               type="number"
@@ -295,7 +290,6 @@
                 說明
               </i>
             </p>
-
             <ul
               v-for="(item, index) in product.ingredients"
               :key="item.id"
