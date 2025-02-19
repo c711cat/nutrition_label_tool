@@ -110,8 +110,8 @@
             $route.path === '/added_customize_nts' ? 'active fw-bold' : ''
           "
         >
-          <i class="bi bi-list-check fs-4"></i>
-          <p class="xs-md-textStyle mb-0 adjustFZ">新增營養素</p>
+          <i class="bi bi-folder-plus fs-4"></i>
+          <p class="xs-md-textStyle mb-0 adjustFZ">＋營養素</p>
         </router-link>
         <router-link
           to="/QA"
