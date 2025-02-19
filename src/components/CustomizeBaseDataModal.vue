@@ -10,11 +10,11 @@
     aria-hidden="true"
   >
     <div
-      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-fullscreen"
+      class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl"
     >
-      <div class="modal-content px-3">
-        <div class="modal-header border-0 mx-auto col-12 col-lg-11 col-xl-10">
-          <h3 class="py-2">新增自訂義資料</h3>
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white" data-bs-theme="dark">
+          <h3 class="modal-title">新增自訂義資料</h3>
           <button
             type="button"
             class="btn-close"
@@ -22,13 +22,14 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body p-0 mx-auto col-12 col-lg-11 col-xl-10">
+        <div class="modal-body">
           <form
+            id="form_id"
             @submit.prevent="submitForm"
-            class="row m-0 justify-content-between"
+            class="row m-0 flex-wrap justify-content-between"
             novalidate
           >
-            <div class="py-3 col-12 col-md">
+            <div class="py-3 col-12 col-lg">
               <div class="form-floating mb-3">
                 <input
                   v-model.trim="customizeData.sample_name"
@@ -58,12 +59,12 @@
                 <div class="invalid-feedback">此欄位為必填</div>
                 <label for="content_description" class="text-wrap">
                   <i class="text-danger fst-normal">＊</i>
-                  成分 （ 填入相同於包裝上的成分，順序也必須相同 ）
+                  成分：填入包裝上成分，內容及順序須相同
                 </label>
               </div>
             </div>
 
-            <div class="py-3 col-12 col-md-auto mb-5">
+            <div class="py-3 col-auto mb-5 mx-auto">
               <table class="mb-4">
                 <thead>
                   <tr>
@@ -153,15 +154,12 @@
                 </button>
               </div>
             </div>
-            <div class="text-end py-4">
-              <button
-                type="submit"
-                class="col-12 col-md-3 col-lg-auto btn btn-primary"
-              >
-                送出資料
-              </button>
-            </div>
           </form>
+        </div>
+        <div class="modal-footer bg-light">
+          <button form="form_id" type="submit" class="btn btn-primary">
+            送出資料
+          </button>
         </div>
       </div>
     </div>

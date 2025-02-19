@@ -2,8 +2,13 @@
   <div ref="productModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-header flex-column align-items-start">
-          <div class="w-100 mb-3 p-2 d-flex justify-content-between">
+        <div
+          class="modal-header bg-primary text-white flex-column align-items-start"
+        >
+          <div
+            class="w-100 mb-3 p-2 d-flex justify-content-between"
+            data-bs-theme="dark"
+          >
             <h4 class="modal-title">新增或刪除營養素</h4>
             <button
               type="button"
@@ -89,7 +94,7 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer bg-light">
           <button
             type="button"
             class="btn btn-secondary"

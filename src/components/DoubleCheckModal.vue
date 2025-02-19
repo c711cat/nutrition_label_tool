@@ -7,7 +7,7 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="bg-primary text-white modal-header">
+        <div class="bg-primary text-white modal-header" data-bs-theme="dark">
           <h5 class="modal-title">再次確認</h5>
           <button
             type="button"
@@ -19,7 +19,7 @@
         <div class="modal-body">
           <p>{{ text }}</p>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer bg-light">
           <button
             type="button"
             class="btn btn-secondary"
