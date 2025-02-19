@@ -5,7 +5,7 @@
       <SearchBarComponent class="d-block d-lg-none fixed-top" />
       <MessageComponent ref="toast" />
       <AlertComponent />
-      <RouterView class="pt-3 pt-lg-5 mt-lg-5" />
+      <RouterView class="pt-5 pt-lg-5 mt-lg-5" />
     </div>
     <div>
       <FooterComponent />
