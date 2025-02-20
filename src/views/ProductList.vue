@@ -724,13 +724,13 @@ export default {
       })
       return text.join('、')
     },
-    download(id) {
+    download(id, title) {
       const data = {}
       const targetElement = document.getElementById('nutritionLabel' + id)
-      html2canvas(targetElement, { scale: 2 }) // 解析度為目標元素實際大小的 2 倍
+      html2canvas(targetElement, { scale: 2, logging: false }) // 解析度為目標元素實際大小的 2 倍
         .then(canvas => {
           const link = document.createElement('a')
-          link.download = '營養標示.png' // 設定檔名
+          link.download = `${title}.png` // 設定檔名
           link.href = canvas.toDataURL('image/png') //導出 png 格式，支援透明背景
           link.click() // 自動點擊下載
           data.title = '圖片下載成功'
