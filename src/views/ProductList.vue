@@ -28,7 +28,10 @@
       :key="item.id"
       class="bg-light border rounded row m-0 mb-4"
     >
-      <section class="p-3 col-12 col-xl markItemsContainer">
+      <section
+        :id="`text${item.id}`"
+        class="p-3 col-12 col-xl markItemsContainer"
+      >
         <div class="d-flex">
           <p class="markItemsTitle">品名</p>
           <i class="fst-normal">：</i>
@@ -349,7 +352,14 @@
 
       <div class="text-end pe-4">
         <button
-          @click="download(item.id)"
+          @click="copy(item.id)"
+          type="button"
+          class="btn btn-primary me-3"
+        >
+          複製包裝文字
+        </button>
+        <button
+          @click="download(item.id, item.title)"
           type="button"
           class="btn btn-primary me-3"
         >
@@ -791,6 +801,37 @@ export default {
         return (othersSA = false)
       }
       return othersSA
+    },
+    copy(id) {
+      const sectionEl = document.getElementById('text' + id)
+      const data = {}
+      if (sectionEl) {
+        const arrayContent = Array.from(
+          sectionEl.querySelectorAll('p.markItemsTitle'),
+        )?.map(p => {
+          const title = p.textContent.trim() || ''
+          const text =
+            p.closest('div')?.querySelector('.col')?.textContent?.trim() || ''
+          return title + '：' + text
+        })
+        const finishText = arrayContent.join('\n')
+        navigator.clipboard
+          .writeText(finishText)
+          .then(() => {
+            data.title = '已複製外包裝文字'
+            data.style = 'success'
+            this.pushMsg(data)
+          })
+          .catch(err => {
+            data.title = '複製失敗:' + err
+            data.style = 'failure'
+            this.pushMsg(data)
+          })
+      } else {
+        data.title = '找不到複製內容:'
+        data.style = 'failure'
+        this.pushMsg(data)
+      }
     },
   },
   created() {
