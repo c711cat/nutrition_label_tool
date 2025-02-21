@@ -16,7 +16,7 @@
       <p
         class="mb-0 pe-1 inline-block col-lg col-xs-auto text-xs-start text-lg-end"
       >
-        © 2025 Nutrition Label Generator
+        © 2025 Nutrition Label Tool
       </p>
       <span class="inline-block">營養標示工具</span>
     </div>
