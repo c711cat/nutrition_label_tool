@@ -33,4 +33,4 @@ yarn build
 ```sh
 yarn lint
 ```
-# nutrition_label_generator
+# nutrition_label_tool
