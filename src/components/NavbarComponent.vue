@@ -64,6 +64,16 @@
       </form>
     </div>
   </nav>
+  <nav
+    v-if="$route.path === '/'"
+    class="moveNav d-block d-lg-none navbar bg-light bg-opacity-75 fixed-top"
+    :class="{ hidden: isNavHidden }"
+  >
+    <div class="container-fluid w-100">
+      <p class="text-center w-100 mb-0">營樣標示工具</p>
+      <p class="text-center w-100 mb-0">Nutrition Label Tool</p>
+    </div>
+  </nav>
 
   <nav class="d-block d-lg-none navbar fixed-bottom bg-light">
     <div class="container-fluid w-100">
@@ -135,6 +145,8 @@ export default {
   data() {
     return {
       myAddedNts: 0,
+      lastScrollY: 0, // 記錄上一次Ｙ滾動位置
+      isNavHidden: false, // 控制 navbar 是否隱藏
     }
   },
   computed: {
@@ -188,9 +200,27 @@ export default {
         this.searchProducts(text)
       }
     },
+    handleScroll() {
+      const currentScrollY = window.scrollY
+      if (currentScrollY > this.lastScrollY) {
+        // 向下滾動：隱藏 navbar
+        this.isNavHidden = true
+      } else {
+        // 向上滾動：顯示 navbar
+        this.isNavHidden = false
+      }
+
+      this.lastScrollY = currentScrollY
+    },
   },
   created() {
     this.getMyAddedNtsList()
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
   },
 }
 </script>
@@ -223,5 +253,16 @@ export default {
 
 .adjustFZ {
   font-size: clamp(12px, 2vw, 14px);
+}
+
+.moveNav {
+  transition: transform 0.3s ease-in-out;
+  font-size: clamp(14px, 2vw, 16px);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.moveNav.hidden {
+  transform: translateY(-100%);
+  box-shadow: none;
 }
 </style>
