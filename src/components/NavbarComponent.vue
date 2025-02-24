@@ -66,7 +66,7 @@
   </nav>
   <nav
     v-if="$route.path === '/'"
-    class="moveNav d-block d-lg-none navbar bg-light bg-opacity-75 fixed-top"
+    class="moveNav py-1 d-block d-lg-none navbar bg-light bg-opacity-75 fixed-top"
     :class="{ hidden: isNavHidden }"
   >
     <div class="container-fluid w-100">
@@ -202,14 +202,14 @@ export default {
     },
     handleScroll() {
       const currentScrollY = window.scrollY
-      if (currentScrollY > this.lastScrollY) {
-        // 向下滾動：隱藏 navbar
+      if (currentScrollY > 150) {
+        // 向下滾動 Y 大於 150：隱藏 navbar
         this.isNavHidden = true
-      } else {
-        // 向上滾動：顯示 navbar
+      }
+      if (currentScrollY < this.lastScrollY) {
+        // 向上滾動：一律顯示 navbar
         this.isNavHidden = false
       }
-
       this.lastScrollY = currentScrollY
     },
   },
