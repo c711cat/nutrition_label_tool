@@ -702,6 +702,7 @@ export default {
       this.myAddedNts = data
     },
     transAllergenText(data) {
+      console.log(data)
       const text = []
       const allergenItem = [
         '麩質',
@@ -713,6 +714,7 @@ export default {
         '芝麻',
         '堅果類',
         '大豆',
+        '魚類',
         '亞硫酸鹽',
       ]
       data.forEach(item => {
