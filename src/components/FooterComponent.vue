@@ -16,9 +16,9 @@
       <p
         class="mb-0 pe-1 inline-block col-lg col-xs-auto text-xs-start text-lg-end"
       >
-        © 2025 Nutrition Label Tool
+        © 2025 營養標示工具
       </p>
-      <span class="inline-block">營養標示工具</span>
+      <span class="inline-block">Nutrition Label Tool</span>
     </div>
   </div>
 </template>
