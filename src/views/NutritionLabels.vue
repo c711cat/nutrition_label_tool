@@ -297,7 +297,7 @@
           <section class="col-12">
             <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
-              先從左邊資料庫點選成分，再填入各欄位所需資料
+              先從資料庫點選成分，再填入各欄位所需資料
               <i
                 @click="openInstructionModal('totalWeight')"
                 class="showInfo bi bi-question-circle text-primary fw-normal fst-normal ps-1 infoStyle d-inline-block"
