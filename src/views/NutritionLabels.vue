@@ -385,7 +385,7 @@
           </section>
         </form>
       </div>
-      <div class="col-12 text-end mb-4 px-3">
+      <div class="col-12 text-end mb-4">
         <button
           form="form_id"
           type="submit"
