@@ -21,7 +21,7 @@
       <div class="row col-12 mx-0 mb-5">
         <section
           v-if="showDataBase"
-          class="bg-light py-2 border rounded-3 col-12 col-xl-3"
+          class="bg-light py-2 mb-3 me-2 border rounded-3 col-12 col-xl-3"
         >
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
@@ -137,7 +137,10 @@
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row mx-0 mt-2 pe-1 align-content-start col-12 col-xl formVisibleHeight overflow-y-auto"
+          class="row mx-0 pt-3 pe-1 bg-primary100 rounded-3 align-content-start col-12 col-xl border"
+          :class="{
+            'd-xl-flex': 'formVisibleHeight overflow-y-auto',
+          }"
           novalidate
         >
           <section class="col-12 col-xl-6 mb-3">
@@ -307,15 +310,15 @@
               v-for="(item, index) in product.ingredients"
               :key="item.id"
               class="rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
-              :class="item.sample_name === '' ? '' : 'border-top'"
+              :class="item.sample_name === '' ? '' : 'border-white border-top'"
             >
               <li
                 v-if="item.sample_name"
-                class="px-1 list-group-item col-12 col-xl-3 d-flex"
+                class="px-1 bg-primary100 list-group-item col-12 col-xl-3 d-flex"
               >
                 <i class="pe-1 fst-normal">{{ index + 1 }}.</i>
                 <div>
-                  <p class="border mb-0">
+                  <p class="mb-0">
                     {{ item.sample_name }}
                   </p>
                   <p v-if="item.common_name" class="mb-0">
@@ -326,7 +329,7 @@
 
               <li
                 v-if="item.sample_name"
-                class="px-0 list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
+                class="px-0 bg-primary100 list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
               >
                 <input
                   v-model.trim="item.foodName"
@@ -341,7 +344,7 @@
               </li>
               <li
                 v-if="item.sample_name"
-                class="px-0 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
+                class="px-0 bg-primary100 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
               >
                 <input
                   v-model="item.grams"
@@ -357,7 +360,7 @@
               </li>
               <li
                 v-if="item.sample_name"
-                class="d-none d-xl-block list-group-item col-1 align-content-center"
+                class="bg-primary100 d-none d-xl-block list-group-item col-1 align-content-center"
               >
                 <button
                   @click="delField(item)"
@@ -369,7 +372,7 @@
               </li>
               <li
                 v-if="item.sample_name"
-                class="d-block d-xl-none position-absolute delBtn-xs list-group"
+                class="bg-primary100 d-block d-xl-none position-absolute delBtn-xs list-group"
               >
                 <button
                   @click="delField(item)"
