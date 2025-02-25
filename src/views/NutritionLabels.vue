@@ -282,7 +282,7 @@
           <section class="col-12">
             <p class="mb-0 py-2 fw-bold">
               <span class="text-danger">＊</span>
-              從左邊資料庫點選成分，並填入各欄位所需資料
+              先從左邊資料庫點選成分，再填入各欄位所需資料
               <i
                 @click="openInstructionModal('totalWeight')"
                 class="showInfo bi bi-question-circle text-primary fw-normal fst-normal ps-1 infoStyle d-inline-block"
@@ -290,12 +290,17 @@
                 說明
               </i>
             </p>
+
             <ul
               v-for="(item, index) in product.ingredients"
               :key="item.id"
-              class="border-top rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
+              class="rounded-0 position-relative col-12 list-group list-group-horizontal-xl d-flex flex-wrap justify-content-between"
+              :class="item.sample_name === '' ? '' : 'border-top'"
             >
-              <li class="px-1 list-group-item col-12 col-xl-3 d-flex">
+              <li
+                v-if="item.sample_name"
+                class="px-1 list-group-item col-12 col-xl-3 d-flex"
+              >
                 <i class="pe-1 fst-normal">{{ index + 1 }}.</i>
                 <div>
                   <p class="mb-0 col-10 col-sm-auto">
@@ -306,7 +311,9 @@
                   </p>
                 </div>
               </li>
+
               <li
+                v-if="item.sample_name"
                 class="px-0 list-group-item col-12 col-xl-4 d-flex flex-column justify-content-center"
               >
                 <input
@@ -321,6 +328,7 @@
                 <div class="invalid-feedback">此欄位為必填</div>
               </li>
               <li
+                v-if="item.sample_name"
                 class="px-0 list-group-item col-12 col-xl-3 d-flex flex-column justify-content-center"
               >
                 <input
@@ -336,6 +344,7 @@
                 <div class="invalid-feedback">此欄位為必填，且需大於 0</div>
               </li>
               <li
+                v-if="item.sample_name"
                 class="d-none d-xl-block list-group-item col-1 align-content-center"
               >
                 <button
@@ -347,6 +356,7 @@
                 </button>
               </li>
               <li
+                v-if="item.sample_name"
                 class="d-block d-xl-none position-absolute delBtn-xs list-group"
               >
                 <button
@@ -358,15 +368,6 @@
                 </button>
               </li>
             </ul>
-            <div class="my-3 col-12">
-              <button
-                type="button"
-                class="btn btn-outline-primary w-100"
-                @click="addNewField"
-              >
-                新增欄位
-              </button>
-            </div>
           </section>
         </form>
       </div>
@@ -422,6 +423,7 @@ export default {
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
+
     showBuiltInDataBase() {
       this.isBuiltIn = true
       this.isCustomize = false
@@ -463,9 +465,13 @@ export default {
       }
     },
     chooseSample(chooseItem) {
+      // 新增一個空白欄位
+      this.addNewField()
+      // 尋找 product.ingredients 陣列中第一個 sample_name 為空字串的項目
       const empty = this.product.ingredients.find(item => {
         return item.sample_name === ''
       })
+      // 確定是空欄位再填入對應資料，避免覆蓋之前選取的項目
       if (empty) {
         empty.id = Date.now()
         empty.details = chooseItem
@@ -501,6 +507,12 @@ export default {
       this.product.ingredients.splice(index, 1)
     },
     submitForm(e) {
+      // 刪除空白欄位
+      this.product.ingredients.filter(item => {
+        if (item.sample_name === '') {
+          this.delField(item)
+        }
+      })
       const form = e.target
       if (!form.checkValidity()) {
         // 若表單無效，添加樣式提示
