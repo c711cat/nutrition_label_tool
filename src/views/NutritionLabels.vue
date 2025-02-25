@@ -1,7 +1,13 @@
 <template>
   <main class="mx-auto col-11 col-xxl-10 pb-5 mb-5">
     <h3 class="text-center mb-4">營養標示製作</h3>
-    <section class="form-floating mb-5 mx-1">
+    <div class="text-end mb-2 me-1 d-block d-xl-none">
+      <button @click="toggleDataBase" class="btn btn-primary" type="button">
+        {{ toggleBtnText }}
+      </button>
+    </div>
+
+    <section v-if="showDataBase" class="form-floating mb-5 mx-1">
       <input
         @change="e => searchFood(e.target.value)"
         type="search"
@@ -13,7 +19,10 @@
     </section>
     <div class="col-12 ps-1">
       <div class="row col-12 mx-0 mb-5">
-        <section class="bg-light py-2 border rounded-3 col-5 col-xl-3">
+        <section
+          v-if="showDataBase"
+          class="bg-light py-2 border rounded-3 col-12 col-xl-3"
+        >
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
               @click="showBuiltInDataBase"
@@ -128,7 +137,7 @@
         <form
           id="form_id"
           @submit.prevent="submitForm"
-          class="row mx-0 mt-2 pe-1 align-content-start col-7 col-xl formVisibleHeight overflow-y-auto"
+          class="row mx-0 mt-2 pe-1 align-content-start col-12 col-xl formVisibleHeight overflow-y-auto"
           novalidate
         >
           <section class="col-12 col-xl-6 mb-3">
@@ -306,7 +315,7 @@
               >
                 <i class="pe-1 fst-normal">{{ index + 1 }}.</i>
                 <div>
-                  <p class="mb-0 col-10 col-sm-auto">
+                  <p class="border mb-0">
                     {{ item.sample_name }}
                   </p>
                   <p v-if="item.common_name" class="mb-0">
@@ -404,6 +413,7 @@ export default {
       filteredCustomizeData: [],
       isBuiltIn: true,
       isCustomize: false,
+      showDataBase: true,
     }
   },
   components: { CustomizeBaseDataModal, InstructionModal },
@@ -423,9 +433,19 @@ export default {
   computed: {
     ...mapState(useFoodStore, ['baseFoodData', 'product']),
     ...mapState(useCustomizeStore, ['customizeDataList', 'customizeModal']),
+    toggleBtnText() {
+      if (this.showDataBase === true) {
+        return '隱藏資料庫'
+      } else {
+        return '開啟資料庫'
+      }
+    },
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
+    toggleDataBase() {
+      this.showDataBase = !this.showDataBase
+    },
 
     showBuiltInDataBase() {
       this.isBuiltIn = true
