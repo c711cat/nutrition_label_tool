@@ -92,7 +92,7 @@
           <p class="markItemsTitle">有效日期</p>
           <i class="fst-normal">：</i>
           <p v-if="item.validDateInformation.validDate" class="col">
-            {{ item.validDateInformation.validDate }}
+            {{ item.validDateInformation.validDate }} (西元年/月/日)
           </p>
           <p v-else class="col">
             {{ item.validDateInformation.validDateStatus }}
@@ -702,7 +702,6 @@ export default {
       this.myAddedNts = data
     },
     transAllergenText(data) {
-      console.log(data)
       const text = []
       const allergenItem = [
         '麩質',
