@@ -21,7 +21,7 @@
       <div class="row col-12 mx-0 mb-5">
         <section
           v-if="showDataBase"
-          class="bg-light py-2 mb-3 me-2 border rounded-3 col-12 col-xl-3"
+          class="dataWrap bg-light py-2 mb-3 me-2 border rounded-3 col-12 col-xl-3"
         >
           <div class="d-flex flex-wrap justify-content-center mb-2">
             <button
@@ -62,7 +62,8 @@
             <div v-else>
               <section
                 v-if="isBuiltIn"
-                class="list-group rounded visibleHeight overflow-y-auto overflow-x-hidden"
+                class="list-group rounded overflow-y-auto overflow-x-hidden"
+                :class="['xsVisibleHeight', 'visibleHeight']"
               >
                 <button
                   v-for="item in filteredData"
@@ -100,7 +101,8 @@
               </section>
               <section
                 v-if="isCustomize"
-                class="list-group rounded visibleHeight overflow-y-auto overflow-x-hidden"
+                class="list-group rounded overflow-y-auto overflow-x-hidden"
+                :class="['xsVisibleHeight', 'visibleHeight']"
               >
                 <button
                   v-for="item in filteredCustomizeData"
@@ -138,9 +140,6 @@
           id="form_id"
           @submit.prevent="submitForm"
           class="row mx-0 pt-3 pe-1 bg-primary100 rounded-3 align-content-start col-12 col-xl border"
-          :class="{
-            'd-xl-flex': 'formVisibleHeight overflow-y-auto',
-          }"
           novalidate
         >
           <section class="col-12 col-xl-6 mb-3">
@@ -573,13 +572,22 @@ export default {
 ul.list-group {
   --bs-list-group-border-width: none;
 }
-
-.visibleHeight {
-  height: 72vh;
+.dataWrap {
+  height: 82vh;
 }
 
-.formVisibleHeight {
-  height: 77vh;
+@media (min-width: 768px) {
+  //視窗寬度 >= 768px
+  .visibleHeight {
+    height: 72vh;
+  }
+}
+
+@media (max-width: 767px) {
+  //視窗寬度 <= 767px
+  .xsVisibleHeight {
+    height: 66vh;
+  }
 }
 
 .delBtn-xs {
