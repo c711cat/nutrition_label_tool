@@ -702,7 +702,6 @@ export default {
       this.myAddedNts = data
     },
     transAllergenText(data) {
-      console.log(data)
       const text = []
       const allergenItem = [
         '麩質',
