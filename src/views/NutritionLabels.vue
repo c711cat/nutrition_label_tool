@@ -251,9 +251,12 @@
               class="form-label fw-bold d-flex flex-wrap justify-content-start"
             >
               <div class="pe-1 d-flex align-items-center">
-                <i class="text-danger fst-normal">＊</i>
+                <i class="text-danger fst-normal">
+                  ＊
+                  <span class="me-1 text-dark">本包裝含幾份成品？</span>
+                </i>
               </div>
-              <span class="me-1">本包裝含幾份成品？</span>
+
               <div
                 class="infoStyle text-secondary fw-normal d-flex flex-wrap align-items-center"
               >
