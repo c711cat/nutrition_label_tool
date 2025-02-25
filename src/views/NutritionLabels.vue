@@ -490,29 +490,40 @@ export default {
       }
     },
     chooseSample(chooseItem) {
-      // 新增一個空白欄位
-      this.addNewField()
-      // 尋找 product.ingredients 陣列中第一個 sample_name 為空字串的項目
-      const empty = this.product.ingredients.find(item => {
-        return item.sample_name === ''
+      // 檢查是否已經選取過相同的項目
+      const repeat = this.product.ingredients.some(item => {
+        return (
+          item.sample_name === chooseItem.sample_name &&
+          item.common_name === chooseItem.common_name
+        )
       })
-      // 確定是空欄位再填入對應資料，避免覆蓋之前選取的項目
-      if (empty) {
-        empty.id = Date.now()
-        empty.details = chooseItem
-        empty.sample_name = chooseItem.sample_name
-        if (chooseItem.common_name) {
-          empty.common_name = chooseItem.common_name
-        }
-        if (empty.details.category === '自定義') {
-          if (chooseItem.sample_name === chooseItem.content_description) {
-            empty.foodName = chooseItem.sample_name
-          } else {
-            empty.foodName =
-              chooseItem.sample_name +
-              ' ( ' +
-              chooseItem.content_description +
-              ' ) '
+      if (repeat) {
+        this.openAlert(true, '已經選取囉！')
+      } else {
+        // 新增一個空白欄位
+        this.addNewField()
+        // 尋找 product.ingredients 陣列中第一個 sample_name 為空字串的項目
+        const empty = this.product.ingredients.find(item => {
+          return item.sample_name === ''
+        })
+        // 確定是空欄位再填入對應資料，避免覆蓋之前選取的項目
+        if (empty) {
+          empty.id = Date.now()
+          empty.details = chooseItem
+          empty.sample_name = chooseItem.sample_name
+          if (chooseItem.common_name) {
+            empty.common_name = chooseItem.common_name
+          }
+          if (empty.details.category === '自定義') {
+            if (chooseItem.sample_name === chooseItem.content_description) {
+              empty.foodName = chooseItem.sample_name
+            } else {
+              empty.foodName =
+                chooseItem.sample_name +
+                ' ( ' +
+                chooseItem.content_description +
+                ' ) '
+            }
           }
         }
       }
