@@ -725,25 +725,7 @@ export default {
       })
       return text.join('、')
     },
-    download(id, title) {
-      const data = {}
-      const targetElement = document.getElementById('nutritionLabel' + id)
-      html2canvas(targetElement, { scale: 2, logging: false }) // 解析度為目標元素實際大小的 2 倍
-        .then(canvas => {
-          const link = document.createElement('a')
-          link.download = `${title}.png` // 設定檔名
-          link.href = canvas.toDataURL('image/png') //導出 png 格式，支援透明背景
-          link.click() // 自動點擊下載
-          data.title = '圖片下載成功'
-          data.style = 'success'
-          this.pushMsg(data)
-        })
-        .catch(err => {
-          data.title = '圖片生成失敗:' + err
-          data.style = 'failure'
-          this.pushMsg(data)
-        })
-    },
+
     getOrganicAcidName() {
       // 將自行新增的 有機酸 名稱加入到 this.organicAcid 陣列中
       const OAName = []
@@ -803,6 +785,33 @@ export default {
       }
       return othersSA
     },
+    download(id, title) {
+      const data = {}
+      const targetElement = document.getElementById('nutritionLabel' + id)
+      html2canvas(targetElement, { scale: 2, logging: false }) // 解析度為目標元素實際大小的 2 倍
+        .then(canvas => {
+          const link = document.createElement('a')
+          link.download = `${title}.png` // 設定檔名
+          link.href = canvas.toDataURL('image/png') //導出 png 格式，支援透明背景
+          link.click() // 自動點擊下載
+          data.title = '圖片下載成功'
+          data.style = 'success'
+          this.pushMsg(data)
+          // GA 事件追蹤
+          if (window.gtag) {
+            window.gtag('event', 'download_button_click', {
+              event_category: 'download',
+              event_label: 'product_label',
+              file_format: 'png',
+            })
+          }
+        })
+        .catch(err => {
+          data.title = '圖片生成失敗:' + err
+          data.style = 'failure'
+          this.pushMsg(data)
+        })
+    },
     copy(id) {
       const sectionEl = document.getElementById('text' + id)
       const data = {}
@@ -822,6 +831,14 @@ export default {
             data.title = '已複製外包裝文字'
             data.style = 'success'
             this.pushMsg(data)
+            // GA 事件追蹤
+            if (window.gtag) {
+              window.gtag('event', 'copy_text', {
+                event_category: 'copy',
+                event_label: 'copy packaging text',
+                file_format: 'text',
+              })
+            }
           })
           .catch(err => {
             data.title = '複製失敗:' + err
