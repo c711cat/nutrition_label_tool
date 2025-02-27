@@ -24,7 +24,7 @@
         </div>
         <div class="modal-body">
           <form
-            id="form_id"
+            id="AddCustomizeForm_id"
             @submit.prevent="submitForm"
             class="row m-0 flex-wrap justify-content-between"
             novalidate
@@ -157,7 +157,11 @@
           </form>
         </div>
         <div class="modal-footer bg-light">
-          <button form="form_id" type="submit" class="btn btn-primary">
+          <button
+            form="AddCustomizeForm_id"
+            type="submit"
+            class="btn btn-primary"
+          >
             送出資料
           </button>
         </div>
