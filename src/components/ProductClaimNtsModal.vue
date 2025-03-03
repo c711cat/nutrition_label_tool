@@ -198,13 +198,13 @@ export default {
     search(e) {
       // Object.entries(this.nts) [key:value] key 英文名稱，value 中文名稱
       this.filteredNts = Object.entries(this.nts).filter(([key, value]) => {
-        return key.match(e.target.value) || value.match(e.target.value)
+        return key.match(e.target.value.trim()) || value.match(e.target.value.trim())
       })
       this.filteredNts = Object.fromEntries(this.filteredNts) // 再組裝回去
 
       this.filteredMyAddedNts = Object.entries(this.myAddedNts).filter(
         ([key, value]) => {
-          return key.match(e.target.value) || value.match(e.target.value)
+          return key.match(e.target.value.trim()) || value.match(e.target.value.trim())
         },
       )
       this.filteredMyAddedNts = Object.fromEntries(this.filteredMyAddedNts)
