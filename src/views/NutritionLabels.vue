@@ -9,7 +9,7 @@
 
     <section v-if="showDataBase" class="form-floating mb-5 mx-1">
       <input
-        @change="e => searchFood(e.target.value)"
+        @input="e => searchFood(e.target.value.trim())"
         type="search"
         class="form-control"
         id="searchInput"

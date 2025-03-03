@@ -28,7 +28,7 @@
         >
           <input
             v-model="searchText"
-            @change="search($event.target.value)"
+            @change="search($event.target.value.trim())"
             type="search"
             class="form-control"
             id="searchInput"
