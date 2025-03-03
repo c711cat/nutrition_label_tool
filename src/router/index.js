@@ -48,4 +48,14 @@ const router = createRouter({
   ],
 })
 
+// 監聽路由變更並發送 GA 事件，想知道每個頁面被瀏覽的次數
+router.afterEach(to => {
+  if (window.gtag) {
+    window.gtag('event', 'page_view', {
+      page_location: window.location.href,
+      page_path: to.fullPath,
+    })
+  }
+})
+
 export default router
