@@ -3,7 +3,9 @@
     <section class="mb-5 col-11 col-lg-10 mx-auto">
       <HomeFirstSection />
     </section>
-
+    <section>
+      <HomeExampleVideo />
+    </section>
     <section>
       <HomeSecondSection />
     </section>
@@ -17,11 +19,18 @@
 import HomeFirstSection from '@/components/HomeApplicableGroups.vue'
 import HomeSecondSection from '@/components/HomeFeatures.vue'
 import HomeNotice from '@/components/HomeNotice.vue'
+import HomeExampleVideo from '@/components/HomeExampleVideo.vue'
+
 export default {
   data() {
     return {}
   },
-  components: { HomeFirstSection, HomeSecondSection, HomeNotice },
+  components: {
+    HomeFirstSection,
+    HomeSecondSection,
+    HomeNotice,
+    HomeExampleVideo,
+  },
 }
 </script>
 
