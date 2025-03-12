@@ -144,7 +144,7 @@ export default {
                <i class="bi bi-envelope-arrow-up fs-5 ms-2"></i>
             </a>`,
 
-            `<a href="http://www.foodlabel.org.tw" target="_blank" class="text-decoration-none">食品標示諮詢服務平台</a>`,
+            `<a href="https://www.foodlabel.org.tw" target="_blank" class="text-decoration-none">食品標示諮詢服務平台</a>`,
 
             '以上資訊歡迎多加利用。',
           ],
