@@ -48,6 +48,20 @@
       }
       gtag('js', new Date())
 
+      // 檢查 URL 是否包含 debug_mode=1 參數，如果有則設置 localStorage
+      const urlParams = new URLSearchParams(window.location.search)
+      if (urlParams.has('debug_mode') && urlParams.get('debug_mode') === '1') {
+        // 設置 debug_mode 為 1 並儲存到 localStorage
+        localStorage.setItem('debug_mode', '1')
+      }
+
+      // 每次頁面加載時，檢查 localStorage 中是否有 debug_mode
+      if (localStorage.getItem('debug_mode') === '1') {
+        // 設定 GA4 追蹤內部流量
+        gtag('set', 'traffic_type', 'internal')
+      }
+
+      // 初始化 GA4 追蹤
       gtag('config', 'G-8NE5GHFL0Z')
     </script>
   </head>
