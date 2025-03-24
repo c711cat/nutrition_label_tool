@@ -267,6 +267,12 @@ export const useFoodStore = defineStore('foodDataStore', {
   },
   actions: {
     ...mapActions(useMsgStore, ['pushMsg']),
+    showChosenMsg(title) {
+      const data = {}
+      data.title = title + ' 選取成功'
+      data.style = 'success'
+      this.pushMsg(data)
+    },
     doubleCheckedOK() {
       this.loadingStatus = true
       this.toDo = 'edit'

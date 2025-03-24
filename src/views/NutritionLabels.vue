@@ -448,6 +448,7 @@ export default {
   },
   methods: {
     ...mapActions(useMsgStore, ['openAlert']),
+    ...mapActions(useFoodStore, ['showChosenMsg']),
     toggleDataBase() {
       this.showDataBase = !this.showDataBase
     },
@@ -528,6 +529,7 @@ export default {
                 ' ) '
             }
           }
+          this.showChosenMsg(chooseItem.sample_name)
         }
       }
     },
