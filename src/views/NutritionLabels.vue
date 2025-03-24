@@ -1,6 +1,6 @@
 <template>
   <main class="mx-auto col-11 col-xxl-10 pb-5 mb-5">
-    <h3 class="text-center mb-4">營養標示製作</h3>
+    <h3 class="text-center mb-4">{{ titleText }}</h3>
     <div class="text-end mb-2 me-1 d-block d-xl-none">
       <button @click="toggleDataBase" class="btn btn-primary" type="button">
         {{ toggleBtnText }}
@@ -441,6 +441,9 @@ export default {
       } else {
         return '開啟資料庫'
       }
+    },
+    titleText() {
+      return this.product.id ? '編輯營養標示' : '營養標示製作'
     },
   },
   methods: {
