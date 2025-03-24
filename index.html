@@ -48,21 +48,39 @@
       }
       gtag('js', new Date())
 
-      // 檢查 URL 是否包含 debug_mode=1 參數，如果有則設置 localStorage
-      const urlParams = new URLSearchParams(window.location.search)
-      if (urlParams.has('debug_mode') && urlParams.get('debug_mode') === '1') {
-        // 設置 debug_mode 為 1 並儲存到 localStorage
-        localStorage.setItem('debug_mode', '1')
-      }
+      document.addEventListener('DOMContentLoaded', function () {
+        // 1. 檢查 URL 是否包含 debug_mode=1 參數，表示曾經有過這段網址 /?debug_mode=1 訪問過網頁，
+        // 即使後續沒有這段網址 debug_mode=1 參數，仍會被 GA4 標記為內部流量
+        const urlParams = new URLSearchParams(window.location.search)
+        if (
+          // 檢查當前 URL 查詢參數中，是否有 debug_mode=1 &&
+          // 檢查 localStorage 中，是否 沒有 存在 debug_mode 的值
+          urlParams.get('debug_mode') === '1' &&
+          !localStorage.getItem('debug_mode')
+        ) {
+          // 同時滿足 上述兩個條件（URL 包含 debug_mode=1 且 localStorage 中沒有該值），則將 debug_mode=1 存入 localStorage。
+          localStorage.setItem('debug_mode', '1')
+        }
 
-      // 每次頁面加載時，檢查 localStorage 中是否有 debug_mode
-      if (localStorage.getItem('debug_mode') === '1') {
-        // 設定 GA4 追蹤內部流量
-        gtag('set', 'traffic_type', 'internal')
-      }
+        // 初始化 GA4 追蹤（一定要先執行）
+        gtag('config', 'G-8NE5GHFL0Z')
 
-      // 初始化 GA4 追蹤
-      gtag('config', 'G-8NE5GHFL0Z')
+        // 如果 localStorage 中 debug_mode 存在 並且 值為 1，則執行內部流量的設定
+        if (localStorage.getItem('debug_mode') === '1') {
+          // 2. 在 GA4 內，設定自訂資料屬性，將測試資料篩選器名稱設為 internal_traffic
+          gtag('set', 'internal_traffic', 'true')
+          // 3. 透過 debug_mode_active 事件，可在 GA4 的事件報表中，確認內部流量是否生效
+          // 送出一個 GA4 事件 debug_mode_active，並包含 { debug_mode: '1' } 作為事件參數
+          // 可在 GA4 的 事件報表 或 探索報表 中查詢這個事件，來確認有哪些使用者被標記為內部流量
+          gtag('event', 'debug_mode_active', { debug_mode: '1' })
+
+          // 設置開發人員流量標記
+          gtag('set', 'internal_user', 'true')
+
+          // 送出開發人員流量事件
+          gtag('event', 'internal_user_active', { internal_user: 'true' })
+        }
+      })
     </script>
   </head>
   <body>
