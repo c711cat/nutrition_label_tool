@@ -3,49 +3,53 @@
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div
-          class="modal-header bg-primary text-white flex-column align-items-start"
+          class="p-0 modal-header bg-primary text-white flex-column align-items-start"
         >
           <div
-            class="w-100 mb-3 p-2 d-flex justify-content-between"
+            class="w-100 mb-3 pt-3 ps-3 pe-3 d-flex justify-content-between"
             data-bs-theme="dark"
           >
             <h4 class="modal-title">新增或刪除營養素</h4>
             <button
               type="button"
-              class="btn-close"
+              class="btn-close pt-3"
               data-bs-dismiss="modal"
               aria-label="Close"
             ></button>
           </div>
 
-          <section class="w-100 form-floating">
+          <section class="w-100 p-2 bg-light form-floating">
             <input
               @change="search($event)"
               type="search"
               class="form-control"
               id="searchInput"
-              placeholder="請輸入欲新增營養素搜尋"
             />
-            <label for="searchInput">請輸入營養素搜尋</label>
+            <label for="searchInput" class="m-2">
+              搜尋 中文 或 英文 營養素
+            </label>
           </section>
           <section
-            class="mt-3 d-flex flex-wrap justify-content-start align-items-center"
+            v-if="localClaimNts.length > 0 || localNewClaimNts.length > 0"
+            class="w-100 bg-light text-dark pb-2 d-flex flex-wrap justify-content-start align-items-center"
           >
-            <span class="ms-1">已新增營養素：</span>
-            <span
-              v-for="(nt, index) in localClaimNts"
-              :key="nt + index"
-              class="badge text-primary-emphasis bg-primary-subtle fs-6 m-1"
-            >
-              {{ nts[nt].replace(/\(.*\)/, '') }}
-            </span>
-            <span
-              v-for="(nt, index) in localNewClaimNts"
-              :key="nt + index"
-              class="badge text-primary bg-secondary-subtle fs-6 m-1"
-            >
-              {{ myAddedNts[nt].replace(/\(.*\)/, '') }}
-            </span>
+            <p class="ms-3 ps-1 mb-0">已新增營養素：</p>
+            <div class="addedNts w-100 ms-3">
+              <span
+                v-for="(nt, index) in localClaimNts"
+                :key="nt + index"
+                class="badge text-primary-emphasis bg-primary-subtle fs-6 m-1"
+              >
+                {{ nts[nt].replace(/\(.*\)/, '') }}
+              </span>
+              <span
+                v-for="(nt, index) in localNewClaimNts"
+                :key="nt + index"
+                class="badge text-primary bg-secondary-subtle fs-6 m-1"
+              >
+                {{ myAddedNts[nt].replace(/\(.*\)/, '') }}
+              </span>
+            </div>
           </section>
         </div>
 
@@ -198,13 +202,18 @@ export default {
     search(e) {
       // Object.entries(this.nts) [key:value] key 英文名稱，value 中文名稱
       this.filteredNts = Object.entries(this.nts).filter(([key, value]) => {
-        return key.match(e.target.value.trim()) || value.match(e.target.value.trim())
+        return (
+          key.match(e.target.value.trim()) || value.match(e.target.value.trim())
+        )
       })
       this.filteredNts = Object.fromEntries(this.filteredNts) // 再組裝回去
 
       this.filteredMyAddedNts = Object.entries(this.myAddedNts).filter(
         ([key, value]) => {
-          return key.match(e.target.value.trim()) || value.match(e.target.value.trim())
+          return (
+            key.match(e.target.value.trim()) ||
+            value.match(e.target.value.trim())
+          )
         },
       )
       this.filteredMyAddedNts = Object.fromEntries(this.filteredMyAddedNts)
@@ -228,3 +237,9 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.addedNts {
+  height: 40px;
+  overflow-y: scroll;
+}
+</style>

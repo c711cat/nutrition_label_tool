@@ -14,7 +14,7 @@
     >
       <div class="modal-content">
         <div class="modal-header bg-primary text-white" data-bs-theme="dark">
-          <h3 class="modal-title">新增自訂義資料</h3>
+          <h3 class="modal-title">{{ titleText }}自訂義資料</h3>
           <button
             type="button"
             class="btn-close"
@@ -236,6 +236,9 @@ export default {
       } else {
         return ''
       }
+    },
+    titleText() {
+      return this.customizeData.id ? '編輯' : '新增'
     },
   },
   methods: {

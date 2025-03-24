@@ -2,7 +2,7 @@
   <LoadingView v-if="loadingStatus" />
   <main v-else class="mx-auto mb-5 col-11 pb-5 mb-5">
     <header class="">
-      <h3 class="text-center my-4">外包裝資訊標示</h3>
+      <h3 class="text-center my-4">{{ titleText }}</h3>
     </header>
     <form @submit.prevent="submitForm" class="needs-validation" novalidate>
       <div class="bg-light rounded row m-0 g-5 pb-5 mb-4">
@@ -435,6 +435,9 @@ export default {
   },
   computed: {
     ...mapState(useFoodStore, ['product', 'myProductList', 'loadingStatus']),
+    titleText() {
+      return this.product.id ? '編輯外包裝資訊標示' : '外包裝資訊標示製作'
+    },
   },
   methods: {
     ...mapActions(useFoodStore, ['setMyProducts', 'clearInput']),
