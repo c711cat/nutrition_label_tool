@@ -165,8 +165,8 @@ export default {
 }
 
 // 使用深層選擇器覆蓋 swiper 內建樣式
-::v-deep .swiper-button-next,
-::v-deep .swiper-button-prev {
+::v-deep(.swiper-button-next),
+::v-deep(.swiper-button-prev) {
   --swiper-navigation-size: 28px;
 }
 
@@ -181,8 +181,8 @@ export default {
 }
 
 // 使用深層選擇器覆蓋 swiper 內建樣式
-::v-deep .swiper-button-next:hover,
-::v-deep .swiper-button-prev:hover {
+::v-deep(.swiper-button-next:hover),
+::v-deep(.swiper-button-prev:hover) {
   color: #00309f !important;
 }
 
