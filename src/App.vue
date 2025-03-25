@@ -3,7 +3,7 @@
 </template>
 
 <style lang="scss">
-@import '@/assets/all.scss';
+@use '@/assets/all.scss';
 
 .btn-primary:hover {
   filter: brightness(1.2);
