@@ -226,6 +226,26 @@
                 {{ calculatePer100g(item, 'total_sugar') }} 公克
               </td>
             </tr>
+            <!-- 膳食纖維 位置改放置於 碳水化合物 下方區塊 並內縮一個字元位置 -->
+            <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
+              <th v-if="nutrient === 'dietary_fiber'" class="fw-normal ps-4">
+                {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
+              </th>
+              <td
+                v-if="nutrient === 'dietary_fiber'"
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculateNutrients(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+              <td
+                v-if="nutrient === 'dietary_fiber'"
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculatePer100g(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+            </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">鈉</th>
               <td class="text-end pe-2 align-middle">
@@ -235,19 +255,23 @@
                 {{ calculatePer100g(item, 'sodium') }} 毫克
               </td>
             </tr>
+            <!-- 酒精 及 膳食纖維 不放在此區塊中 -->
             <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
-              <th v-if="nutrient !== 'alcohol'" class="fw-normal ps-2">
+              <th
+                v-if="nutrient !== 'alcohol' && nutrient !== 'dietary_fiber'"
+                class="fw-normal ps-2"
+              >
                 {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
               <td
-                v-if="nutrient !== 'alcohol'"
+                v-if="nutrient !== 'alcohol' && nutrient !== 'dietary_fiber'"
                 class="text-end pe-2 align-middle"
               >
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
               <td
-                v-if="nutrient !== 'alcohol'"
+                v-if="nutrient !== 'alcohol' && nutrient !== 'dietary_fiber'"
                 class="text-end pe-2 align-middle"
               >
                 {{ calculatePer100g(item, nutrient) }}
