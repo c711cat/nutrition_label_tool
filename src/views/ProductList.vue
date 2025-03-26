@@ -208,6 +208,38 @@
                 {{ calculatePer100g(item, 'trans_fat') }} 公克
               </td>
             </tr>
+            <!-- 單元 及 多元不飽和脂肪酸 放在脂肪區塊中 -->
+            <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
+              <th
+                v-if="
+                  nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+                  nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+                "
+                class="fw-normal ps-4"
+              >
+                {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
+              </th>
+              <td
+                v-if="
+                  nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+                  nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+                "
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculateNutrients(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+              <td
+                v-if="
+                  nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+                  nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+                "
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculatePer100g(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+            </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">碳水化合物</th>
               <td class="text-end pe-2 align-middle">
@@ -255,23 +287,38 @@
                 {{ calculatePer100g(item, 'sodium') }} 毫克
               </td>
             </tr>
-            <!-- 酒精 及 膳食纖維 不放在此區塊中 -->
+            <!-- 酒精 、 膳食纖維、 單元 及 多元不飽和脂肪酸 不放在此區塊中 -->
             <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
               <th
-                v-if="nutrient !== 'alcohol' && nutrient !== 'dietary_fiber'"
+                v-if="
+                  nutrient !== 'alcohol' &&
+                  nutrient !== 'dietary_fiber' &&
+                  nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+                  nutrient !== 'polyunsaturated_fatty_acid(PUFA)'
+                "
                 class="fw-normal ps-2"
               >
                 {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
               <td
-                v-if="nutrient !== 'alcohol' && nutrient !== 'dietary_fiber'"
+                v-if="
+                  nutrient !== 'alcohol' &&
+                  nutrient !== 'dietary_fiber' &&
+                  nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+                  nutrient !== 'polyunsaturated_fatty_acid(PUFA)'
+                "
                 class="text-end pe-2 align-middle"
               >
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
               <td
-                v-if="nutrient !== 'alcohol' && nutrient !== 'dietary_fiber'"
+                v-if="
+                  nutrient !== 'alcohol' &&
+                  nutrient !== 'dietary_fiber' &&
+                  nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+                  nutrient !== 'polyunsaturated_fatty_acid(PUFA)'
+                "
                 class="text-end pe-2 align-middle"
               >
                 {{ calculatePer100g(item, nutrient) }}
