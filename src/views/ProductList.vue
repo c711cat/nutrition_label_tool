@@ -212,7 +212,7 @@
                 公克
               </td>
             </tr>
-            <!-- 單元 及 多元不飽和脂肪酸 放在脂肪區塊中 -->
+            <!-- 單元、多元不飽和脂肪酸 及 P/M/S 放在脂肪區塊中 -->
             <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
               <th
                 v-if="
