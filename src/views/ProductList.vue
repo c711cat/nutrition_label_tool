@@ -202,10 +202,63 @@
             <tr class="lh-1">
               <th class="fw-normal ps-4">反式脂肪</th>
               <td class="text-end pe-2 align-middle">
-                {{ calculateNutrients(item, 'trans_fat') }} 公克
+                {{
+                  (calculateNutrients(item, 'trans_fat') / 1000).toFixed(1)
+                }}
+                公克
               </td>
               <td class="text-end pe-2 align-middle">
-                {{ calculatePer100g(item, 'trans_fat') }} 公克
+                {{ (calculatePer100g(item, 'trans_fat') / 1000).toFixed(1) }}
+                公克
+              </td>
+            </tr>
+            <!-- 單元、多元不飽和脂肪酸 及 P/M/S 放在脂肪區塊中 -->
+            <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
+              <th
+                v-if="
+                  nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+                  nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+                "
+                class="fw-normal ps-4"
+              >
+                {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
+              </th>
+              <td
+                v-if="
+                  nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+                  nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+                "
+                class="text-end pe-2 align-middle"
+              >
+                {{ (calculateNutrients(item, nutrient) / 1000).toFixed(1) }}
+                公克
+              </td>
+              <td
+                v-if="
+                  nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+                  nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+                "
+                class="text-end pe-2 align-middle"
+              >
+                {{ (calculatePer100g(item, nutrient) / 1000).toFixed(1) }}
+                公克
+              </td>
+            </tr>
+            <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
+              <th v-if="nutrient === 'P/M/S'" class="fw-normal ps-4">
+                多元不飽和脂肪酸 /<br />單元不飽和脂肪酸 /<br />飽和脂肪酸
+              </th>
+              <td
+                v-if="nutrient === 'P/M/S'"
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculatePMS(item) }}
+              </td>
+              <td
+                v-if="nutrient === 'P/M/S'"
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculatePMS(item) }}
               </td>
             </tr>
             <tr class="lh-1">
@@ -226,6 +279,26 @@
                 {{ calculatePer100g(item, 'total_sugar') }} 公克
               </td>
             </tr>
+            <!-- 膳食纖維 位置改放置於 碳水化合物 下方區塊 並內縮一個字元位置 -->
+            <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
+              <th v-if="nutrient === 'dietary_fiber'" class="fw-normal ps-4">
+                {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
+              </th>
+              <td
+                v-if="nutrient === 'dietary_fiber'"
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculateNutrients(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+              <td
+                v-if="nutrient === 'dietary_fiber'"
+                class="text-end pe-2 align-middle"
+              >
+                {{ calculatePer100g(item, nutrient) }}
+                {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
+              </td>
+            </tr>
             <tr class="lh-1">
               <th class="fw-normal ps-2">鈉</th>
               <td class="text-end pe-2 align-middle">
@@ -235,19 +308,41 @@
                 {{ calculatePer100g(item, 'sodium') }} 毫克
               </td>
             </tr>
+            <!-- 酒精 、 膳食纖維、 單元 及 多元不飽和脂肪酸 不放在此區塊中 -->
             <tr v-for="nutrient in item.claimNts" :key="nutrient" class="lh-1">
-              <th v-if="nutrient !== 'alcohol'" class="fw-normal ps-2">
+              <th
+                v-if="
+                  nutrient !== 'alcohol' &&
+                  nutrient !== 'dietary_fiber' &&
+                  nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+                  nutrient !== 'polyunsaturated_fatty_acid(PUFA)' &&
+                  nutrient !== 'P/M/S'
+                "
+                class="fw-normal ps-2"
+              >
                 {{ headerChineseAndEnglish[nutrient].replace(/\(.*\)/, '') }}
               </th>
               <td
-                v-if="nutrient !== 'alcohol'"
+                v-if="
+                  nutrient !== 'alcohol' &&
+                  nutrient !== 'dietary_fiber' &&
+                  nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+                  nutrient !== 'polyunsaturated_fatty_acid(PUFA)' &&
+                  nutrient !== 'P/M/S'
+                "
                 class="text-end pe-2 align-middle"
               >
                 {{ calculateNutrients(item, nutrient) }}
                 {{ transUnitText(headerChineseAndEnglish[nutrient]) }}
               </td>
               <td
-                v-if="nutrient !== 'alcohol'"
+                v-if="
+                  nutrient !== 'alcohol' &&
+                  nutrient !== 'dietary_fiber' &&
+                  nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+                  nutrient !== 'polyunsaturated_fatty_acid(PUFA)' &&
+                  nutrient !== 'P/M/S'
+                "
                 class="text-end pe-2 align-middle"
               >
                 {{ calculatePer100g(item, nutrient) }}
@@ -509,6 +604,23 @@ export default {
         .map(itemName => `${itemName.foodName}`)
         .join('、')
     },
+    calculatePMS(item) {
+      const PUFA =
+        parseFloat(
+          this.calculatePer100g(item, 'polyunsaturated_fatty_acid(PUFA)'),
+        ) / 1000
+      const MUFA =
+        parseFloat(
+          this.calculatePer100g(item, 'monounsaturated_fatty_acid(MUFA)'),
+        ) / 1000
+      const SFA =
+        parseFloat(this.calculatePer100g(item, 'total_fatty_acid-S')) / 1000
+      const minFA = Math.min(PUFA, MUFA, SFA)
+      const PUFARatio = (PUFA / minFA).toFixed(1)
+      const MUFARatio = (MUFA / minFA).toFixed(1)
+      const SFARatio = (SFA / minFA).toFixed(1)
+      return `${PUFARatio} / ${MUFARatio} / ${SFARatio}`
+    },
     calculateNutrients(item, nutrient) {
       // 利用『每 100 公克』的數值換算『每份的數值』
       const data = parseFloat(this.calculatePer100g(item, nutrient))
@@ -565,6 +677,7 @@ export default {
         }
       }
     },
+
     calculatePer100gCalories(item) {
       const protein = parseFloat(this.calculatePer100g(item, 'protein')) || 0
       const fat = parseFloat(this.calculatePer100g(item, 'fat')) || 0
