@@ -78,7 +78,8 @@
             </tr>
             <tr class="lh-1">
               <th class="pe-2 ps-4 fw-normal">反式脂肪</th>
-              <td class="text-end px-2">{{ item.trans_fat }} 公克</td>
+              <!-- 資料庫中的單位以『毫克』計算，這裡再換算成『公克』 -->
+              <td class="text-end px-2">{{ item.trans_fat / 1000 }} 公克</td>
             </tr>
             <tr class="lh-1">
               <th class="px-2 fw-normal">碳水化合物</th>
