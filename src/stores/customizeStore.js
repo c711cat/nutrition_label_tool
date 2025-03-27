@@ -57,11 +57,11 @@ export const useCustomizeStore = defineStore('customizeStore', {
       localStorage.setItem('myCustomizeData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
-        msg.title = '更新成功'
+        msg.title = ' 更新成功'
         msg.style = 'success'
         this.pushMsg(msg)
       } else if (this.toDo === 'add') {
-        msg.title = '新增成功'
+        msg.title = ' 新增成功'
         msg.style = 'success'
         this.pushMsg(msg)
       }
