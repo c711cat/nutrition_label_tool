@@ -85,7 +85,14 @@
                     </th>
                     <td class="col-6 col-sm-auto">
                       <input
-                        v-model="customizeData[key]"
+                        :value="
+                          key === 'trans_fat'
+                            ? customizeData[key]
+                              ? customizeData[key] / 1000
+                              : 0
+                            : customizeData[key]
+                        "
+                        @input="updateValue($event, key)"
                         type="number"
                         :name="key"
                         :id="key"
@@ -217,6 +224,12 @@ export default {
       deep: true,
       immediate: true,
     },
+    updateValue(event, key) {
+      const value = parseFloat(event.target.value)
+      if (!isNaN(value)) {
+        this.customizeData[key] = key === 'trans_fat' ? value * 1000 : value
+      }
+    },
   },
   computed: {
     ...mapState(useFoodStore, [
@@ -242,6 +255,16 @@ export default {
     },
   },
   methods: {
+    updateValue(event, key) {
+      let value = parseFloat(event.target.value)
+
+      // 如果輸入無效（空白、非數字），則設為 0，避免 NaN 問題
+      if (isNaN(value)) {
+        value = 0
+      }
+
+      this.customizeData[key] = key === 'trans_fat' ? value * 1000 : value
+    },
     showModal() {
       this.modal.show()
     },
