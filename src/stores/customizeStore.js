@@ -57,11 +57,11 @@ export const useCustomizeStore = defineStore('customizeStore', {
       localStorage.setItem('myCustomizeData', JSON.stringify(data))
       const msg = {}
       if (this.toDo === 'edit') {
-        msg.title = '更新成功'
+        msg.title = ' 更新成功'
         msg.style = 'success'
         this.pushMsg(msg)
       } else if (this.toDo === 'add') {
-        msg.title = '新增成功'
+        msg.title = ' 新增成功'
         msg.style = 'success'
         this.pushMsg(msg)
       }
@@ -102,6 +102,9 @@ export const useCustomizeStore = defineStore('customizeStore', {
         this.toDo = 'add'
         this.customizeData.id = Date.now()
         this.customizeData.category = '自定義'
+        // 食品營養成分資料庫中 反式脂肪 單位為 毫克，通用標示大多標示 公克，
+        // 讓使用者照著標示輸入即可，這裡再進行單位換算
+        this.customizeData.trans_fat = this.customizeData.trans_fat * 1000
         this.customizeDataList.push(this.customizeData)
       } else {
         this.toDo = 'edit'
@@ -262,6 +265,5 @@ export const useCustomizeStore = defineStore('customizeStore', {
       })
       this.customizeDataList = data
     },
-    
   },
 })

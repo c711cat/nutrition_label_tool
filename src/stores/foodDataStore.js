@@ -291,11 +291,11 @@ export const useFoodStore = defineStore('foodDataStore', {
       localStorage.setItem('myFoodData', JSON.stringify(productList))
       const data = {}
       if (this.toDo === 'edit') {
-        data.title = '更新成功'
+        data.title = ' 更新成功'
         data.style = 'success'
         this.pushMsg(data)
       } else if (this.toDo === 'add') {
-        data.title = '新增成功'
+        data.title = ' 新增成功'
         data.style = 'success'
         this.pushMsg(data)
       }
@@ -311,7 +311,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       this.myProductList.splice(index, 1)
       this.setMyProducts(this.myProductList)
       const data = {}
-      data.title = title + '刪除成功'
+      data.title = title + ' 刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
@@ -324,7 +324,7 @@ export const useFoodStore = defineStore('foodDataStore', {
       delete this.onlyNewAddHeader[keyToDel]
       localStorage.setItem('myAddedNts', JSON.stringify(this.onlyNewAddHeader))
       const data = {}
-      data.title = title + '刪除成功'
+      data.title = title + ' 刪除成功'
       data.style = 'success'
       this.pushMsg(data)
     },
