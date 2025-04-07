@@ -84,12 +84,13 @@
                       {{ value }}
                     </th>
                     <td class="col-6 col-sm-auto">
+                      <!-- 如果 key 是 trans_fat，則執行若 (customizeData[key] ? customizeData[key] / 1000 : '')，如果不是，則直接使用 customizeData[key]。 -->
                       <input
                         :value="
                           key === 'trans_fat'
                             ? customizeData[key]
                               ? customizeData[key] / 1000
-                              : 0
+                              : ''
                             : customizeData[key]
                         "
                         @input="updateValue($event, key)"
