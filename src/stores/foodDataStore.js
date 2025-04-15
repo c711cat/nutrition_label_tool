@@ -164,7 +164,7 @@ const nullInput = {
   allergenInformation: { allergenStatus: 'no', allergens: [] },
 }
 
-function getHearder() {
+function getHeader() {
   return foodData.shift()
 }
 
@@ -193,7 +193,7 @@ function getMyProductList() {
   return JSON.parse(localStorage.getItem('myFoodData')) || []
 }
 
-const headerObj = getHearder()
+const headerObj = getHeader()
 
 let baseFoodData = []
 baseFoodData = updateKeyFoodData()
