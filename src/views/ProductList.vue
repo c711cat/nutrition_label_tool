@@ -203,12 +203,20 @@
               <th class="fw-normal ps-4">反式脂肪</th>
               <td class="text-end pe-2 align-middle">
                 {{
-                  (calculateNutrients(item, 'trans_fat') / 1000).toFixed(1)
+                  (calculateNutrients(item, 'trans_fat') / 1000).toFixed(1) ==
+                  '0.0'
+                    ? '0'
+                    : (calculateNutrients(item, 'trans_fat') / 1000).toFixed(1)
                 }}
                 公克
               </td>
               <td class="text-end pe-2 align-middle">
-                {{ (calculatePer100g(item, 'trans_fat') / 1000).toFixed(1) }}
+                {{
+                  (calculatePer100g(item, 'trans_fat') / 1000).toFixed(1) ==
+                  '0.0'
+                    ? '0'
+                    : (calculatePer100g(item, 'trans_fat') / 1000).toFixed(1)
+                }}
                 公克
               </td>
             </tr>
