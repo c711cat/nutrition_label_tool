@@ -169,7 +169,7 @@ function getHeader() {
 }
 // 更新資料庫的 key:
 // 原 key為 column2 這類無意義名稱,
-// 使用上頭的自定義的 headerMap 對應原 key 更改為有意義的 key 
+// 使用上頭的自定義的 headerMap 對應原 key 更改為有意義的 key
 // {id : 'A0100101', category:'穀物類', sample_name:'大麥仁', ...}
 function updateKeyFoodData() {
   return foodData.map(item => {
@@ -227,10 +227,16 @@ export const useFoodStore = defineStore('foodDataStore', {
           details: {},
         },
       ],
-      numberOfCopy: '',
-      perPortionInfomation: { perWeight: '', unit: '公克' },
-      netWeightInformation: { netWeight: '', unit: '公克' },
-      productQty: '',
+      numberOfCopy: '', // 共可製成幾份
+      perPortionInfomation: {
+        perWeight: '', // 每一份量
+        unit: '公克',
+      },
+      netWeightInformation: {
+        netWeight: '', // 淨重
+        unit: '公克',
+      },
+      productQty: '', // 本包裝含幾份
       manufacturer: '',
       manufacturerAddress: '',
       manufacturerPhone: '',
