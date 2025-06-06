@@ -624,11 +624,18 @@ ul.list-group {
   --bs-list-group-action-hover-bg: #f9fafb !important;
 }
 
-.showInfo {
-  cursor: pointer;
+.list-group-item-action {
+  &:hover,
+  &:focus {
+    --bs-list-group-action-hover-bg: #f9fafb !important;
+  }
 }
 
-.showInfo:hover {
-  filter: brightness(1.5);
+.showInfo {
+  cursor: pointer;
+  &:hover {
+    filter: brightness(1.5);
+  }
 }
+
 </style>
