@@ -163,11 +163,14 @@ const nullInput = {
   geneticallyModified: { GMFStatus: '本產品不含有基因改造食品', GMFs: [] },
   allergenInformation: { allergenStatus: 'no', allergens: [] },
 }
-
+// 取出表頭 {*本資料庫...:'整合編號', column2:'食品分類', column3:'樣品名稱',...}
 function getHeader() {
   return foodData.shift()
 }
-
+// 更新資料庫的 key:
+// 原 key為 column2 這類無意義名稱,
+// 使用上頭的自定義的 headerMap 對應原 key 更改為有意義的 key 
+// {id : 'A0100101', category:'穀物類', sample_name:'大麥仁', ...}
 function updateKeyFoodData() {
   return foodData.map(item => {
     const newItem = {}
@@ -179,7 +182,7 @@ function updateKeyFoodData() {
     return newItem
   })
 }
-
+// 先建立表頭中英對照，後續有需要使用
 function createHeaderChineseAndEnglish() {
   const newData = {}
   for (const [originKey, newKey] of Object.entries(headerMap)) {
@@ -188,7 +191,7 @@ function createHeaderChineseAndEnglish() {
   }
   return JSON.parse(localStorage.getItem('myHeader')) || []
 }
-
+// 如果有已經完成的標示，要先 parse 出來顯示於畫面上
 function getMyProductList() {
   return JSON.parse(localStorage.getItem('myFoodData')) || []
 }
