@@ -629,8 +629,8 @@ export default {
       const SFARatio = (SFA / minFA).toFixed(1)
       return `${PUFARatio} / ${MUFARatio} / ${SFARatio}`
     },
+    // 利用算出的『 每 100 公克 』的數值換算『 每份的數值 』
     calculateNutrients(item, nutrient) {
-      // 利用『每 100 公克』的數值換算『每份的數值』
       const data = parseFloat(this.calculatePer100g(item, nutrient))
       const perWeight = item.perPortionInfomation.perWeight
       const perData = (data / 100) * perWeight
@@ -640,7 +640,9 @@ export default {
         return perData.toFixed(1)
       }
     },
+    // 計算每份的熱量
     calculateCalories(item) {
+      // 利用計算出的每 100 公克的熱量，推算每份的熱量
       let data = parseFloat(this.calculatePer100gCalories(item))
       data = (data / 100) * item.perPortionInfomation.perWeight
       if (data === 0) {
@@ -649,6 +651,7 @@ export default {
         return data.toFixed(1)
       }
     },
+    // 計算每 100 公克 營養素的值
     calculatePer100g(item, nutrient) {
       // 若 numberOfCopy = 1  並且 productQty > numberOfCopy 1 份
       // 『 本包裝含的份數 』大於『 可製成的份數 』時
