@@ -650,8 +650,11 @@ export default {
       }
     },
     calculatePer100g(item, nutrient) {
-      // 若 Copy = 1 ， 並且 Qty > Copy：可製成 1 份，並且『本包裝含的份數』大於『可製成的份數』時
-      // 例如：輸入的材料總重量可製成 1 包鹽，本包裝含 1000 份，每一份量為 1 克（ perWeight : 1 )
+      // 若 numberOfCopy = 1  並且 productQty > numberOfCopy 1 份
+      // 『 本包裝含的份數 』大於『 可製成的份數 』時
+      // 例如：輸入的鹽巴總重量可製成 1 包鹽，numberOfCopy : 1
+      // 本包裝含 1000 份，productQty : 1000
+      // 每一份量為 1 克， perWeight : 1
       if (item.numberOfCopy === 1 && item.productQty > item.numberOfCopy) {
         const data = item.ingredients.reduce((total, ingredient) => {
           const gramsRatio = ingredient.grams / 100
@@ -659,6 +662,11 @@ export default {
           const sumValue = total + nutrientValue * gramsRatio
           return sumValue
         }, 0)
+        // 這段 totalWeight 不同下面 else 算法
+        // 因為所有食材只要做一份（Copy=1），本包裝含 1000 份時（Qty=1000），
+        // 每一份量為 1 克，(perWeight=1)
+        // if 算法是 perWeight * productQty ＝ 1*1000
+        // else 算法會是 perWeight * numberOfCopy = 1*1
         const totalWeight =
           item.productQty * item.perPortionInfomation.perWeight
         const per100g = (data / totalWeight) * 100
@@ -669,15 +677,30 @@ export default {
         }
       } else {
         // 除了以上之外的情況
-        // 例如：南瓜豬肉粥，總材料重量可製成 10 份（ Copy:10 )，本包裝含 1 份 ( Qty:1 )，每一份量為 250 克（ perWeight : 250 )
+        // 例如：南瓜豬肉粥，總材料重量可製成 10 份（ numberOfCopy:10 )，本包裝含 1 份 ( productQty:1 )，每一份量為 250 克（ perWeight : 250 )
         const data = item.ingredients.reduce((total, ingredient) => {
+          // gramsRatio：每個食材的總共使用的克數除以 100，
+          // 因為資料庫的數據以食材每 100公克所含的營養素為單位（南瓜共用了 1000 公克 => 1000/100）
           const gramsRatio = ingredient.grams / 100
+          // nutrientValue：每 100 公克食材中所含的該營養素的量
           const nutrientValue = ingredient.details[`${nutrient}`] || 0
+          // sumValue：每個食材的該營養素含量乘以 gramsRatio，然後加總
           const sumValue = total + nutrientValue * gramsRatio
           return sumValue
         }, 0)
-        const totalWt = item.numberOfCopy * item.perPortionInfomation.perWeight
-        const per100g = (data / totalWt) * 100
+        // 下方備備註起來的程式碼，是合計食材總重算法，不採用因素：考慮食物烹調過程會蒸發水分
+        // const totalWeight = item.ingredients.reduce((total, ingredient) => {
+        //   return total + ingredient.grams // ingredient.grams 是每个食材的实际克数
+        // }, 0)
+        //------------------------------------------------------------
+        // totalWeight：計算 每一份重量 × 本包裝含幾份 ＝ 實際成品總重
+        // （不使用食材重量加總方式 ： 是因為烹調過程會有水分蒸發，這種計算方式會不準確）
+        const totalWeight =
+          item.perPortionInfomation.perWeight * item.numberOfCopy
+
+        // 計算每100公克的營養素含量
+        const per100g = (data / totalWeight) * 100
+
         if (per100g === 0) {
           return per100g.toFixed(0)
         } else {
