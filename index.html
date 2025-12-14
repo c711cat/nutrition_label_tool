@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/nutrition_label_tool/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>營養標示工具 Nutrition Label Tool</title>
+    <meta
+      name="description"
+      content="這是一套免費的營養標示工具，依據所輸入的食材及重量等相關數據，自動化生成營養標示。"
+    />
+    <meta
+      name="keywords"
+      content="營養標示，免費工具，營養標示工具, 營養標示產生器"
+    />
+    <meta name="robots" content="index, follow" />
+    <!-- 告訴搜尋引擎可索引此頁面 -->
+    <!-- Open Graph -->
+    <meta property="og:title" content="營養標示工具 Nutrition Label Tool" />
+    <meta
+      property="og:description"
+      content="這是一套免費的營養標示工具，依據所輸入的食材及重量等相關數據，自動化生成營養標示。"
+    />
+    <meta property="og:image" content="https://i.imgur.com/h3UczRi.png" />
+    <meta
+      property="og:url"
+      content="https://c711cat.github.io/nutrition_label_tool/#/"
+    />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:title" content="營養標示工具 Nutrition Label Tool" />
+    <meta
+      name="twitter:description"
+      content="這是一套免費的營養標示工具，依據所輸入的食材及重量等相關數據，自動化生成營養標示。"
+    />
+    <meta name="twitter:image" content="https://i.imgur.com/h3UczRi.png" />
+    <meta name="twitter:card" content="https://i.imgur.com/h3UczRi.png" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-8NE5GHFL0Z"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // 1. 檢查 URL 是否包含 debug_mode=1 參數，表示曾經有過這段網址 /?debug_mode=1 訪問過網頁，
+        // 即使後續沒有這段網址 debug_mode=1 參數，仍會被 GA4 標記為內部流量
+        const urlParams = new URLSearchParams(window.location.search)
+        if (
+          // 檢查當前 URL 查詢參數中，是否有 debug_mode=1 &&
+          // 檢查 localStorage 中，是否 沒有 存在 debug_mode 的值
+          urlParams.get('debug_mode') === '1' &&
+          !localStorage.getItem('debug_mode')
+        ) {
+          // 同時滿足 上述兩個條件（URL 包含 debug_mode=1 且 localStorage 中沒有該值），則將 debug_mode=1 存入 localStorage。
+          localStorage.setItem('debug_mode', '1')
+        }
+
+        // 初始化 GA4 追蹤（一定要先執行）
+        gtag('config', 'G-8NE5GHFL0Z')
+
+        // 如果 localStorage 中 debug_mode 存在 並且 值為 1，則執行內部流量的設定
+        if (localStorage.getItem('debug_mode') === '1') {
+          // 2. 在 GA4 內，設定自訂資料屬性，將測試資料篩選器名稱設為 internal_traffic
+          gtag('set', 'internal_traffic', 'true')
+          // 3. 透過 debug_mode_active 事件，可在 GA4 的事件報表中，確認內部流量是否生效
+          // 送出一個 GA4 事件 debug_mode_active，並包含 { debug_mode: '1' } 作為事件參數
+          // 可在 GA4 的 事件報表 或 探索報表 中查詢這個事件，來確認有哪些使用者被標記為內部流量
+          gtag('event', 'debug_mode_active', { debug_mode: '1' })
+
+          // 設置開發人員流量標記
+          gtag('set', 'internal_user', 'true')
+
+          // 送出開發人員流量事件
+          gtag('event', 'internal_user_active', { internal_user: 'true' })
+        }
+      })
+    </script>
+    <script type="module" crossorigin src="/nutrition_label_tool/assets/index-p188OfOp.js"></script>
+    <link rel="stylesheet" crossorigin href="/nutrition_label_tool/assets/index-BeA65ww8.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
