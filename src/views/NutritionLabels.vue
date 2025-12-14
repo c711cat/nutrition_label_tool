@@ -182,6 +182,7 @@
               v-model="product.numberOfCopy"
               type="number"
               min="1"
+              step="0.1"
               class="form-control"
               id="number_of_copies"
               placeholder="輸入共可製成幾份成品"
@@ -286,6 +287,7 @@
               v-model="product.productQty"
               type="number"
               min="1"
+              step="0.1"
               class="form-control"
               id="product_quantity"
               placeholder="輸入本包裝含幾份成品"
@@ -637,5 +639,4 @@ ul.list-group {
     filter: brightness(1.5);
   }
 }
-
 </style>
