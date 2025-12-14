@@ -665,13 +665,19 @@ export default {
           const sumValue = total + nutrientValue * gramsRatio
           return sumValue
         }, 0)
+        // perPortionInfomation.perWeight : 每一份重量
+        // numberOfCopy : 共可製成幾份
+        // productQty : 本包裝含幾份
         // 這段 totalWeight 不同下面 else 算法
         // 因為所有食材只要做一份（Copy=1），本包裝含 1000 份時（Qty=1000），
         // 每一份量為 1 克，(perWeight=1)
         // if 算法是 perWeight * productQty ＝ 1*1000
         // else 算法會是 perWeight * numberOfCopy = 1*1
+        // totalWeight：計算 本包裝含幾份(ex: 1份) × 每一份重量(ex: 1g) × 共可製成幾份(ex: 1000份) ＝ 實際成品總重
         const totalWeight =
-          item.productQty * item.perPortionInfomation.perWeight
+          item.productQty *
+          item.perPortionInfomation.perWeight *
+          item.numberOfCopy
         const per100g = (data / totalWeight) * 100
         if (per100g === 0) {
           return per100g.toFixed(0)
@@ -696,10 +702,15 @@ export default {
         //   return total + ingredient.grams // ingredient.grams 是每个食材的实际克数
         // }, 0)
         //------------------------------------------------------------
-        // totalWeight：計算 每一份重量 × 本包裝含幾份 ＝ 實際成品總重
+        // perPortionInfomation.perWeight : 每一份重量
+        // numberOfCopy : 共可製成幾份
+        // productQty : 本包裝含幾份
+        // totalWeight：計算 每一份重量(ex:20g or 100g) × 共可製成幾份(ex:4.1份 or 1份) × 本包裝含幾份(ex:10份 or 1份) ＝ 實際成品總重
         // （不使用食材重量加總方式 ： 是因為烹調過程會有水分蒸發，這種計算方式會不準確）
         const totalWeight =
-          item.perPortionInfomation.perWeight * item.numberOfCopy
+          item.perPortionInfomation.perWeight *
+          item.numberOfCopy *
+          item.productQty
 
         // 計算每100公克的營養素含量
         const per100g = (data / totalWeight) * 100
