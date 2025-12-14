@@ -23,10 +23,10 @@ git commit -m 'deploy'
 #以下是兩個選項，要main分支的選擇一，要gh-pages選擇二：
 
 # 選擇一：if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
+# git push -f git@github.com:c711cat/nutrition_label_tool.git main:gh-pages
 
 # 選擇二：if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:c711cat/nutrition_label_tool.git main:gh-pages
+git push -f https://github.com:c711cat/nutrition_label_tool.git main:gh-pages
 
 #這邊的分支跟你當初git push的分支要同一個，如果是master，就寫master:gh-pages
 
