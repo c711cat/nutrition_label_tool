@@ -475,6 +475,15 @@
         >
           增減標示營養素
         </button>
+        <button
+          @click="startCustomNutritionLabel(item.id)"
+          type="button"
+          class="btn btn-outline-primary me-3"
+        >
+          {{
+            item.customNutritionLabel ? '編輯自填營養標示' : '新增自填營養標示'
+          }}
+        </button>
         <router-link
           :to="isPath(item.id)"
           @click="edit(item)"
@@ -491,6 +500,14 @@
           刪除
         </button>
       </div>
+
+      <CustomNutritionLabel
+        :ref="el => setCustomLabelRef(item.id, el)"
+        :product="item"
+        :base-label="customNutritionLabelBase(item)"
+        :show-entry-button="false"
+        @save="saveCustomNutritionLabel"
+      />
 
       <div
         v-if="
@@ -551,6 +568,7 @@ import { useFoodStore } from '@/stores/foodDataStore.js'
 import { mapState, mapActions } from 'pinia'
 import ProductClaimNtsModal from '@/components/ProductClaimNtsModal.vue'
 import DoubleCheckModal from '@/components/DoubleCheckModal.vue'
+import CustomNutritionLabel from '@/components/CustomNutritionLabel.vue'
 import html2canvas from 'html2canvas'
 import { useMsgStore } from '@/stores/messageStore'
 import { useCustomizeStore } from '@/stores/customizeStore'
@@ -559,6 +577,7 @@ export default {
     return {
       claimNts: [],
       productList: [],
+      customLabelRefs: {},
       myAddedNts: [],
       newFiber: [],
       sugarAlcohols: [
@@ -572,7 +591,7 @@ export default {
       organicAcid: [],
     }
   },
-  components: { ProductClaimNtsModal, DoubleCheckModal },
+  components: { ProductClaimNtsModal, DoubleCheckModal, CustomNutritionLabel },
   computed: {
     ...mapState(useFoodStore, [
       'myProductList',
@@ -605,6 +624,151 @@ export default {
     },
     openModal(item) {
       this.$refs.productClaimNtsModal.showModal(item)
+    },
+    setCustomLabelRef(id, element) {
+      if (element) {
+        this.customLabelRefs[id] = element
+      } else {
+        delete this.customLabelRefs[id]
+      }
+    },
+    startCustomNutritionLabel(id) {
+      this.customLabelRefs[id]?.startEditing()
+    },
+    customNutritionLabelBase(item) {
+      return {
+        perWeight: '',
+        productQty: '',
+        unit: item.perPortionInfomation.unit,
+        rows: this.customNutritionRows(item),
+      }
+    },
+    customNutritionRows(item) {
+      const rows = [
+        {
+          key: 'calories',
+          label: '熱量',
+          unit: '大卡',
+          perServing: '',
+          per100: '',
+        },
+        this.createCustomNutritionRow('protein', '蛋白質', '公克'),
+        this.createCustomNutritionRow('fat', '脂肪', '公克'),
+        this.createCustomNutritionRow(
+          'saturated_fat',
+          '飽和脂肪',
+          '公克',
+          true,
+        ),
+        {
+          key: 'trans_fat',
+          label: '反式脂肪',
+          unit: '公克',
+          indent: true,
+          perServing: '',
+          per100: '',
+        },
+      ]
+
+      item.claimNts?.forEach(nutrient => {
+        if (
+          nutrient === 'monounsaturated_fatty_acid(MUFA)' ||
+          nutrient === 'polyunsaturated_fatty_acid(PUFA)'
+        ) {
+          rows.push(
+            this.createCustomNutritionRow(
+              nutrient,
+              this.headerChineseAndEnglish[nutrient].replace(/\(.*\)/, ''),
+              '公克',
+              true,
+            ),
+          )
+        }
+        if (nutrient === 'P/M/S') {
+          rows.push({
+            key: nutrient,
+            label: '多元不飽和脂肪酸 / 單元不飽和脂肪酸 / 飽和脂肪酸',
+            unit: '',
+            indent: true,
+            perServing: '',
+            per100: '',
+            inputType: 'text',
+          })
+        }
+      })
+
+      rows.push(
+        this.createCustomNutritionRow(
+          'total_carbohydrates',
+          '碳水化合物',
+          '公克',
+        ),
+        this.createCustomNutritionRow('total_sugar', '糖', '公克', true),
+      )
+
+      item.claimNts?.forEach(nutrient => {
+        if (nutrient === 'dietary_fiber') {
+          rows.push(
+            this.createCustomNutritionRow(
+              nutrient,
+              this.headerChineseAndEnglish[nutrient].replace(/\(.*\)/, ''),
+              this.transUnitText(this.headerChineseAndEnglish[nutrient]),
+              true,
+            ),
+          )
+        }
+      })
+
+      rows.push(this.createCustomNutritionRow('sodium', '鈉', '毫克'))
+
+      item.claimNts?.forEach(nutrient => {
+        if (
+          nutrient !== 'alcohol' &&
+          nutrient !== 'dietary_fiber' &&
+          nutrient !== 'monounsaturated_fatty_acid(MUFA)' &&
+          nutrient !== 'polyunsaturated_fatty_acid(PUFA)' &&
+          nutrient !== 'P/M/S'
+        ) {
+          rows.push(
+            this.createCustomNutritionRow(
+              nutrient,
+              this.headerChineseAndEnglish[nutrient].replace(/\(.*\)/, ''),
+              this.transUnitText(this.headerChineseAndEnglish[nutrient]),
+            ),
+          )
+        }
+      })
+
+      item.newClaimNts?.forEach(nutrient => {
+        if (!this.organicAcid.includes(nutrient)) {
+          rows.push(
+            this.createCustomNutritionRow(
+              nutrient,
+              this.myAddedNts[nutrient].replace(/\(.*\)/, ''),
+              this.transUnitText(this.myAddedNts[nutrient]),
+            ),
+          )
+        }
+      })
+
+      return rows
+    },
+    createCustomNutritionRow(nutrient, label, unit, indent = false) {
+      return {
+        key: nutrient,
+        label,
+        unit,
+        indent,
+        perServing: '',
+        per100: '',
+      }
+    },
+    saveCustomNutritionLabel(item, label) {
+      const target = this.myProductList.find(product => product.id === item.id)
+      if (target) {
+        target.customNutritionLabel = label
+        localStorage.setItem('myFoodData', JSON.stringify(this.myProductList))
+      }
     },
     sorted(ingredients) {
       return ingredients
