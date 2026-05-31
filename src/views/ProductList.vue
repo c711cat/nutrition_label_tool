@@ -708,9 +708,7 @@ export default {
         // totalWeight：計算 每一份重量(ex:20g or 100g) × 共可製成幾份(ex:4.1份 or 1份) × 本包裝含幾份(ex:10份 or 1份) ＝ 實際成品總重
         // （不使用食材重量加總方式 ： 是因為烹調過程會有水分蒸發，這種計算方式會不準確）
         const totalWeight =
-          item.perPortionInfomation.perWeight *
-          item.numberOfCopy *
-          item.productQty
+          item.perPortionInfomation.perWeight * item.numberOfCopy
 
         // 計算每100公克的營養素含量
         const per100g = (data / totalWeight) * 100
